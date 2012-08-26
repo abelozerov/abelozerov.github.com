@@ -9,7 +9,7 @@
   <meta name="author" content="Alex Belozerov">
 
   
-  <meta name="description" content="Сам по себе переход занял у меня ровно один день с периодическим отвлечением на развлечения. Для начала я решил создать виртуальную машину с Ubuntu и &hellip;">
+  <meta name="description" content="Сам по себе переход занял у меня ровно один день с периодическим отвлечением на развлечения. Для начала я решил создать виртуальную машину с Ubuntu &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -103,7 +103,9 @@
   </header>
 
 
-<div class="entry-content"><p>Сам по себе переход занял у меня ровно один день с периодическим отвлечением на развлечения. Для начала я решил создать виртуальную машину с Ubuntu и делать все на ней, т.к. когда увидел в инструкции по установке RVM под Windows &#8220;Установите Cygwin&#8221;, понял, что быстрее будет поставить систему с нуля, чем пытаться все правильно заставить работать под Винду. Также виртуальная машина мне скоро пригодится в экспериментах с Python&#8217;ом, так что время в любом случае было потрачено не зря.</p>
+<div class="entry-content"><p><img src="/images/2012/08/26/octopress.png" title="Octopress" ></p>
+
+<p>Сам по себе переход занял у меня ровно один день с периодическим отвлечением на развлечения. Для начала я решил создать виртуальную машину с Ubuntu и делать все на ней, т.к. когда увидел в инструкции по установке RVM под Windows &#8220;Установите Cygwin&#8221;, понял, что быстрее будет поставить систему с нуля, чем пытаться все правильно заставить работать под Винду. Также виртуальная машина мне скоро пригодится в экспериментах с Python&#8217;ом, так что время в любом случае было потрачено не зря.</p>
 
 <p>Все мероприятие можно разделить на следующие этапы</p>
 
@@ -120,11 +122,11 @@
 <a href="http://octopress.org/docs/deploying/github/">http://octopress.org/docs/deploying/github/</a>,
 <a href="https://help.github.com/articles/setting-up-a-custom-domain-wi-pages">https://help.github.com/articles/setting-up-a-custom-domain-with-pages</a></p></li>
 <li><p>Настройка редиректов, для людей, пришедших с поисковых систем.
-Т.к. постов у меня было мало, направил старый домен blog.abelozerov.com на свой сервер с IIS7 и сделал там Rewrite Map с явным указанием, какая страница на какую должна переходить. Выкладываю получившийся web.config, может кому пригодится. Обратите внимание на строку с ключом &#8220;/feeds/posts/default&#8221; - это редирект для RSS-ленты, сделано для того чтобы старые подписчики продолжали получить обновления по RSS.</p></li>
+Т.к. постов у меня было мало, направил старый домен blog.abelozerov.com на свой сервер с IIS7 и сделал там Rewrite Map с явным указанием, какая страница на какую должна переходить. Выкладываю получившийся web.config, может кому пригодится. Обратите внимание на строку с ключом &#8220;/feeds/posts/default&#8221; - это редирект для RSS-ленты, сделано для того чтобы старые подписчики продолжали получать обновления по RSS.</p></li>
 </ol>
 
 
-<figure class='code'><figcaption><span> (web.config)</span> <a href='/downloads/code/2012/08/26/kak-ia-pieriekhodil-s-blogger-na-octopress/web.config'>download</a></figcaption>
+<figure class='code'><figcaption><span> (web.config)</span> <a href='/downloads/code/2012/08/26/web.config'>download</a></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
