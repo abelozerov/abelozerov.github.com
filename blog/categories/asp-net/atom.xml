@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: ASP.NET | Alex Belozerov Blog]]></title>
-  <link href="http://abelozerov.github.com/blog/categories/asp-net/atom.xml" rel="self"/>
-  <link href="http://abelozerov.github.com/"/>
-  <updated>2012-08-26T21:43:16+07:00</updated>
-  <id>http://abelozerov.github.com/</id>
+  <link href="http://abelozerov.com/blog/categories/asp-net/atom.xml" rel="self"/>
+  <link href="http://abelozerov.com/"/>
+  <updated>2012-08-26T21:59:30+07:00</updated>
+  <id>http://abelozerov.com/</id>
   <author>
     <name><![CDATA[Alex Belozerov]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[ASP.NET: Redirect с параметром без QueryString]]></title>
-    <link href="http://abelozerov.github.com/blog/2009/09/26/aspnet-redirect-querystring/"/>
+    <link href="http://abelozerov.com/blog/2009/09/26/aspnet-redirect-querystring/"/>
     <updated>2009-09-26T17:38:00+07:00</updated>
-    <id>http://abelozerov.github.com/blog/2009/09/26/aspnet-redirect-querystring</id>
+    <id>http://abelozerov.com/blog/2009/09/26/aspnet-redirect-querystring</id>
     <content type="html"><![CDATA[<div class='post'>
 Столкнулся с ситуацией, когда необходимо сделать Redirect на другую страницу, передав при этом параметр, но так, чтобы не видел пользователь. То есть простая передача через QueryString - Response.Redirect("~/NewPage.aspx?id=5") - не подходит.<br /><div><br /></div><div>Я придумал решение, используя QueryString и Session:<br /></div><div><br /></div><div><b>Пример:</b> <br /></div><div>надо передать параметр id на страницу NewPage.aspx<br /></div><div><br /></div><div>Сам редирект делаем как обычно, параметр передаем через QueryString.<br /></div><pre class="c-sharp" name="code">Response.Redirect("~/NewPage.aspx?id=5")<br /></pre><div><br /></div><div>Но принимающая страница по-особому обрабатывает запрос:<br /></div><pre class="c-sharp" name="code">public partial class NewPage : System.Web.UI.Page<br />{<br />    protected void Page_Init(object sender, EventArgs e)<br />    {<br />        if (Session["NewPage_id"] != null)<br />        {<br />            // Второй запрос приходит сюда<br />            int id = Int32.Parse(Session["NewPage_id"].ToString());<br />            // Используем id<br />            // ...<br /><br />            // Освобождаем память<br />            Session["NewPage_id"] = null;<br />        }<br />        else if (Request["id"] != null)<br />        {<br />            // Первый запрос приходит сюда<br />            Session["NewPage_id"] = Request["id"];<br />            // Редирект без QueryString<br />            Response.Redirect(GetUriWithoutQueryStr(Request.Url), true);<br />        }<br />    }<br /><br />    public string GetUriWithoutQueryStr(Uri url)<br />    {<br />        return url.GetLeftPart(UriPartial.Path);<br />    }<br />}<br /></pre><div>Мы сохраняем пришедший параметр в сессию, и редиректимся на эту же страницу без QueryString. При второй загрузке параметры спокойно извлекаются из сессии и используются. Пользователь, естественно, в строке запроса никаких параметров не видит.<br /></div><div>После извлечения параметра лучше сразу удалить его из сессии, чтобы он не повлиял на последующие запросы.<br /></div><div><br />А как вы решали подобную задачу? :-)<br /></div></div>
 
