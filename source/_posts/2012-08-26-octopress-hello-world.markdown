@@ -15,6 +15,6 @@ categories: [octopress, blog]
 
 3. Просто потому что захотелось попробовать что-то новое! Дико интересно поработать с модными технологиями: Ruby, HTML5, Markdown, Disqus. Мне импонирует сама идея этого блогинг фреймворка и его ориентация на гиков.
 
-{% img /images/2012/08/26/octopress-hello-world/zoidberg.png Why not? %}
+{% img /images/2012/08/26/zoidberg.png Why not? %}
 
 Thank you for your attention!
