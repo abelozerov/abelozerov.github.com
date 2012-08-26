@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: HTML5 | Alex Belozerov Blog]]></title>
-  <link href="http://yoursite.com/blog/categories/html5/atom.xml" rel="self"/>
-  <link href="http://yoursite.com/"/>
-  <updated>2012-08-26T19:24:06+07:00</updated>
-  <id>http://yoursite.com/</id>
+  <link href="http://abelozerov.github.com/blog/categories/html5/atom.xml" rel="self"/>
+  <link href="http://abelozerov.github.com/"/>
+  <updated>2012-08-26T20:39:46+07:00</updated>
+  <id>http://abelozerov.github.com/</id>
   <author>
     <name><![CDATA[Alex Belozerov]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Google Developer Day Challenge 2011]]></title>
-    <link href="http://yoursite.com/blog/2011/08/15/google-developer-day-challenge-2011/"/>
+    <link href="http://abelozerov.github.com/blog/2011/08/15/google-developer-day-challenge-2011/"/>
     <updated>2011-08-15T16:43:00+07:00</updated>
-    <id>http://yoursite.com/blog/2011/08/15/google-developer-day-challenge-2011</id>
+    <id>http://abelozerov.github.com/blog/2011/08/15/google-developer-day-challenge-2011</id>
     <content type="html"><![CDATA[<div class='post'>
 <div dir="ltr" style="text-align: left;" trbidi="on">Компания Google проводила со 2 по 12 августа <a href="https://sites.google.com/site/opencallforgdd/the-challenge-1">конкурс </a>на лучший дудл на тему будущего Google Developer Day, который будет проходить 10 октября в Москве.<br /><br />Критерии оценки работ: техническое совершенство, использование современных web-технологий, креативность и соответствие национальным особенностям. Победителям обещают попадание их работ в Chrome Experiments и, возможно, приглашение на GDD.<br /><br />Я сделал и отправил на конкурс небольшую рисовалку с использованием HTML5 Canvas:<br /><br /><a href="http://renderedsource.com/alex/">http://renderedsource.com/alex/</a><br /><br />Работает под последними версиями Firefox, Chrome, Safari, в том числе под Safari for iOS<br /><br /><b>UPDATE:</b>&nbsp;Я в финале! Класс!&nbsp;<a href="https://sites.google.com/site/opencallxhtml5/home/russia">https://sites.google.com/site/opencallxhtml5/home/russia</a></div></div>
 

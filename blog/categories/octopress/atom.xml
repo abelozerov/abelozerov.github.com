@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: octopress | Alex Belozerov Blog]]></title>
-  <link href="http://yoursite.com/blog/categories/octopress/atom.xml" rel="self"/>
-  <link href="http://yoursite.com/"/>
-  <updated>2012-08-26T19:24:06+07:00</updated>
-  <id>http://yoursite.com/</id>
+  <link href="http://abelozerov.github.com/blog/categories/octopress/atom.xml" rel="self"/>
+  <link href="http://abelozerov.github.com/"/>
+  <updated>2012-08-26T20:39:46+07:00</updated>
+  <id>http://abelozerov.github.com/</id>
   <author>
     <name><![CDATA[Alex Belozerov]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Octopress hello world!]]></title>
-    <link href="http://yoursite.com/blog/2012/08/26/octopress-hello-world/"/>
+    <link href="http://abelozerov.github.com/blog/2012/08/26/octopress-hello-world/"/>
     <updated>2012-08-26T15:21:00+07:00</updated>
-    <id>http://yoursite.com/blog/2012/08/26/octopress-hello-world</id>
+    <id>http://abelozerov.github.com/blog/2012/08/26/octopress-hello-world</id>
     <content type="html"><![CDATA[<p>Я перевел свой блог с Blogger'а на движок <a href="http://octopress.org/">Octopress</a>.</p>
 
 <p>Почему? Ну, на это было несколько причин:</p>

@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: C# | Alex Belozerov Blog]]></title>
-  <link href="http://yoursite.com/blog/categories/c-/atom.xml" rel="self"/>
-  <link href="http://yoursite.com/"/>
-  <updated>2012-08-26T19:24:06+07:00</updated>
-  <id>http://yoursite.com/</id>
+  <link href="http://abelozerov.github.com/blog/categories/c-/atom.xml" rel="self"/>
+  <link href="http://abelozerov.github.com/"/>
+  <updated>2012-08-26T20:39:46+07:00</updated>
+  <id>http://abelozerov.github.com/</id>
   <author>
     <name><![CDATA[Alex Belozerov]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Фигурные скобки внутри String.Format()]]></title>
-    <link href="http://yoursite.com/blog/2009/12/19/stringformat/"/>
+    <link href="http://abelozerov.github.com/blog/2009/12/19/stringformat/"/>
     <updated>2009-12-19T15:52:00+06:00</updated>
-    <id>http://yoursite.com/blog/2009/12/19/stringformat</id>
+    <id>http://abelozerov.github.com/blog/2009/12/19/stringformat</id>
     <content type="html"><![CDATA[<div class='post'>
 Метод String.Format() позволяет вставлять значения переменных внутрь строки в места, помеченные с помощью фигурных скобок и индекса, например:<br /><br /><pre class="c-sharp" name="code">string.Format("My name is {0}", name);</pre><br />Но если в строке есть фигурные скобки, не относящиеся к местам подстановки переменных, вы получите Exception при компиляции, т.к. компилятор думает что всё что стоит между открывающей и закрывающей скобками является индексом.<br /><br /><pre class="c-sharp" name="code">string.Format("{name}={0}", name); // Exception</pre><br />Существует простое решение, как вставить в строку фигурную скобку: нужно написать ее 2 раза: <br /><br /><pre class="c-sharp" name="code">string name = "Alex";<br />string formattedStr = string.Format("={0}", name); // no exception<br /></pre><br />В итоге в примере formattedStr будет равно "{name}=Alex"</div>
 
