@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: blog | Alex Belozerov Blog]]></title>
+  <link href="http://yoursite.com/blog/categories/blog/atom.xml" rel="self"/>
+  <link href="http://yoursite.com/"/>
+  <updated>2012-08-26T19:24:06+07:00</updated>
+  <id>http://yoursite.com/</id>
+  <author>
+    <name><![CDATA[Alex Belozerov]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Octopress hello world!]]></title>
+    <link href="http://yoursite.com/blog/2012/08/26/octopress-hello-world/"/>
+    <updated>2012-08-26T15:21:00+07:00</updated>
+    <id>http://yoursite.com/blog/2012/08/26/octopress-hello-world</id>
+    <content type="html"><![CDATA[<p>Я перевел свой блог с Blogger'а на движок <a href="http://octopress.org/">Octopress</a>.</p>
+
+<p>Почему? Ну, на это было несколько причин:</p>
+
+<ol>
+<li><p>Внешний вид. Я так и не смог найти более-менее подходящий скин для Блоггера, который бы выглядел прилично, не тормозил и нормально отображался одновременно на десктопах и мобильных устройствах.</p></li>
+<li><p>Свобода. Всегда лучше иметь доступ к исходникам и хостить блог там, где я сам посчитаю нужным, не зависеть от каких-либо ограничений и новых гениальных идей Гугла по смене дизайна либо закрытию не приносящих прибыль подразделений.</p></li>
+<li><p>Просто потому что захотелось попробовать что-то новое! Дико интересно поработать с модными технологиями: Ruby, HTML5, Markdown, Disqus. Мне импонирует сама идея этого блогинг фреймворка и его ориентация на гиков.</p></li>
+</ol>
+
+
+<p><img src="/images/2012/08/26/octopress-hello-world/zoidberg.png" title="Why not?" ></p>
+
+<p>Thank you for your attention!</p>
+]]></content>
+  </entry>
+  
+</feed>

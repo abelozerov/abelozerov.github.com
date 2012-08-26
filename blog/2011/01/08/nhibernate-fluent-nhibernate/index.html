@@ -1,0 +1,308 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>NHibernate и Fluent NHibernate - Alex Belozerov Blog</title>
+  <meta name="author" content="Alex Belozerov">
+
+  
+  <meta name="description" content="Сейчас работаю на проекте, где активно юзается NHibernate и библиотека Fluent NHibernate для реализации data access layer. До этого никогда с &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://yoursite.com/blog/2011/01/08/nhibernate-fluent-nhibernate/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Alex Belozerov Blog" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-34351042-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Alex Belozerov Blog</a></h1>
+  
+    <h2>Interesting Inside.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:yoursite.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">NHibernate и Fluent NHibernate</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-01-08T02:26:00+06:00" pubdate data-updated="true">Jan 8<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><div class='post'>
+Сейчас работаю на проекте, где активно юзается NHibernate и библиотека Fluent NHibernate для реализации data access layer. До этого никогда с Hibernate не работал, незначительное количество времени применял ADO.NET, и начиная с 2008 все проекты шли на LINQ-to-SQL и немного Entity Framework. Было очень интересно пощупать альтернативу вездесущим ORM от Microsoft, узнать ее плюсы, минусы, наиболее подходящие области применения.<br /><div><br /></div><div>По порядку.<br /><br /></div><div><b>Что такое NHibernate?</b> Это ORM-система, позволяющая создавать абстрагированный от конкретной базы данных объектно-ориентированный data access layer. Связи между data objects и таблицами базы данных определяются через mappings, прописываемые программистом в XML-файле.</div><div><br /></div><div><b>Fluent NHibernate</b> - надстройка над NHibernate, позволяющая прописывать&nbsp;mappings&nbsp;вместо XML через .NET-классы посредством лямбда-выражений, т.е. более удобным и защищенным от ошибок способом.</div><div><br /></div><div>Далее везде буду описывать именно NHibernate в сочетании с Fluent NHibernate.</div><div><br /><b>Как описать data object?</b><br /><br /></div><div>Первое что бросается в глаза после LINQ-to-SQL и EF - отсутствие &#8220;из коробки&#8221; автоматической генерации классов, каждую сущность программисту необходимо создавать вручную. С другой стороны, объем кода, приходящийся на каждый из классов, где-то на порядок меньше кода, сгенерированного майкрософтовскими генераторами. Если к примеру в data object поля называются так же, как столбцы в таблице в базе данных и нет внешних ключей, то&nbsp;mappings&nbsp;вообще не нужны, достаточно описать класс вот так:</div><br /><pre class="c-sharp" name="code">public class Address<br />    {<br />        public virtual int Id { get; set; }<br /><br />        [NotNull, NotEmpty]<br />        public virtual string AddressType { get; set; }<br />        <br />        [NotNull, NotEmpty]<br />        public virtual string Address1 { get; set; }<br />        public virtual string Address2 { get; set; }<br /><br />        [NotNull, NotEmpty]<br />        public virtual string City { get; set; }<br /><br />        [NotNull, NotEmpty]<br />        public virtual string State { get; set; }<br /><br />        [NotNull, NotEmpty, Pattern(@"^((\d{5}-\d{4})|(\d{5})|([A-Z]\d[A-Z]\s\d[A-Z]\d))$")]<br />        public virtual string PostalCode { get; set; }<br /><br />        [NotNull, NotEmpty, Pattern(@"USA|Canada")]<br />        public virtual string Country { get; set; }<br />        public virtual float Latitude { get; set; }<br />        public virtual float Longitude { get; set; }<br /><br />        public virtual double Distance { get; set; }<br />    }<br /></pre><br />Тут же можно настроить и валидацию, например для поля PostalCode.<br /><br /><b>Что если есть связи с другими объектами? Как выглядят mappings?</b><br /><br />Пример:<br /><pre class="c-sharp" name="code">public class RetailerMaps : IAutoMappingOverride&lt;Retailer&gt;<br />    {<br />        public void Override(AutoMapping&lt;Retailer&gt; mapping)<br />        {<br />            mapping.Table("Retailers");<br />            mapping.References(x =&gt; x.Store, "StoreId");<br />            mapping.References(x =&gt; x.Type, "RetailerTypeId");<br />            mapping.HasMany(x =&gt; x.Alerts).Table("RetailerAlerts").KeyColumn("RetailerId").Cascade.All();<br />        }<br />    }<br /></pre><br />Класс Retailer имеет поля Store и Type, являющиеся ссылками на объекты из другой таблицы (связь один-ко-многим), а также коллекцию Alerts (много-к-одному)<br /><br /><b>Как вытащить объекты из базы данных?</b><br /><br />Я использовал библиотеку SharpArch, позволяющая организовать доступ к данным посредством паттерна Repository: например, для того чтобы поработать с объектами типа Address, нужно использовать AddressRepository, для других объектов соответственно будут другие репозитории: StoreRepository, EmployeeRepository&#8230;&nbsp;Repository предоставляет базовые операции для получения и сохранения объектов: GetAll(), GetById(), Update() и так далее.<br /><br />Ок, с единичными объектами всё понятно - работаем через Repository, но как быть если нам необходимо сделать выборку по каким-нибудь критериям?<br /><br />Вот здесь NHibernate мне понравился множеством вариантов реализации данной задачи, разной степени простоты, гибкости и скорости :-) Отсортировано от более высокоуровневых вещей к более низкоуровневым:<br /><ol><li>LINQ to NHibernate<br /></li><p><pre class="c-sharp" name="code">var result = from x in Session.Linq&lt;Product&gt;()<br />                    where x.ShouldDisplay == visibility &amp;&amp; x.Alignments.Any(z =&gt; alignmentIds.Contains(z.Id))<br />                    orderby x.SortOrder<br />                    select x<br /></pre>Теоретически самый простой и удобный способ, но возникают проблемы: в версии NHibernate 2.x транслятор с LINQ реализован не полностью, многие операции тупо не работают, в версии 3.0, вышедшей буквально месяц назад, вроде доделали, но у меня не было возможности потестировать, на проекте используется версия 2.1.2; И та же бодяга, что и с LINQ-to-SQL - при сложных запросах генерится большой и медленно работающий SQL, для критичных к скорости частей приложения LINQ to NHibernate не подходит.</p><li>HQL</li><p>Hibernate Query Language - универсальный независимый от базы данных язык запросов   <pre class="c-sharp" name="code">var result = sess.CreateQuery("select cust<br />from Product prod,<br />    Store store<br />    inner join store.Customers cust<br />where prod.Name = 'widget'<br />    and store.Location.Name in ( 'Melbourne', 'Sydney' )<br />    and prod = all elements(cust.CurrentOrder.LineItems)");<br /></pre>Очень похож на SQL, но удобнее, запросы получаются короче, плюс независимость от базы данных, плюс генерит неплохой SQL-код.    Недостатки: ошибки в запросах обнаруживаются только во время выполнения </p><li>ICriteria API</li><p><pre class="c-sharp" name="code">IList cats = sess.CreateCriteria(typeof(Cat))<br />    .Add( Expression.In( "Name", new String[] { "Fritz", "Izi", "Pk" } ) )<br />    .Add( Expression.Disjunction()<br />        .Add( Expression.IsNull("Age") )<br />     .Add( Expression.Eq("Age", 0 ) )<br />     .Add( Expression.Eq("Age", 1 ) )<br />     .Add( Expression.Eq("Age", 2 ) )<br />    ) )<br />    .List();<br /></pre>Более низкоуровневая вещь, позволяет поэтапное построение выражений, менее подвержен ошибкам, чем HQL, независимость от базы данных.    Недостатки: Сложнее HQL и менее гибкий, есть непонятные ограничения. К примеру, мне не удалось сделать банальную проекцию так, как я хотел: выбрать определенные поля с одной таблицы и соединить с коллекцией элементов из другой. </p><li>Native SQL</li><p>Самый низкий уровень, но всё равно выше чем чистый SQL.    <pre class="c-sharp" name="code">var result = sess.CreateSQLQuery("SELECT c.ID, NAME, BIRTHDATE, DOG_ID, D_ID, D_NAME FROM CATS c, DOGS d WHERE c.DOG_ID = d.D_ID")<br /> .AddEntity("cat", typeof(Cat))<br /> .AddJoin("cat.Dog");<br /></pre>Преимущества: максимальный уровень контроля над получающимся SQL кодом, максимально развязаны руки для оптимизации, возможность преобразования полученных строк из базы в data objects, в том числе сложные преобразования с коллекциями и связями (всё как у более высокоуровневых методов).    Недостатки: сложно, отлов ошибок только во время выполнения, здесь уже имеем зависимость от конкретной базы данных.  Я наиболее плотно работал именно с Native SQL, там много интересных возможностей, в ближайшее время планирую написать отдельную статью про него. </p></ol><br />Если что-то хотите узнать подробнее, пишите в комментариях в блоге!</div>
+<h2>Archived comments</h2>
+<div class='comments'>
+<div class='comment'>
+<div class='author'><em>alex</em></div>
+<div class='content'>
+to Corba<br />1) Репозиторий не пишется, он генерится<br />2) Он-то как раз к сожалению не все команды LINQ поддерживает, поэтому часто приходится переходить на более низкий уровень<br />3) Да, проблем нет, просто такая особенность. Собственно в LINQ-to-SQL довольно сложно менять/писать свой mapping, если возникла необходимость отойти от автоматически сгенерированного кода, а в NHibernate код классов аккурантый и понятный, это понравилось</div>
+</div>
+<div class='comment'>
+<div class='author'><em>Roman2311</em></div>
+<div class='content'>
+У меня основной вопрос - чем же лучше NHibernate по сравнению с EntityFramework or LINQ ?</div>
+</div>
+<div class='comment'>
+<div class='author'><em>Corba</em></div>
+<div class='content'>
+1) Паттерн репозиторий. Я обычно пишу такой класс:<br />Repository&lt;\T&gt; where T :new()<br />{<br />public IList&lt;\T&gt; GetAll()<br />public T GetById();<br />public Update(T entity);<br />etc.<br />}<br />что избавляет от написания репозитория на каждую сущность<br />2) Для организации запросов есть еще Linq2Nhibernate, зависший в первом релизе и кажется больше не развивающийся, но в принципе он со своими обязанностями справляется<br />3) Отсутствие генератора data objects конечно неприятно, особенно когда таблиц в БД дохрена, но в принципе можно сгенерить в студии классы для EF и выкинуть из них ненужные фиксапы и т.п.</div>
+</div>
+<div class='comment'>
+<div class='author'><em>Corba</em></div>
+<div class='content'>
+Этот комментарий был удален автором.</div>
+</div>
+<div class='comment'>
+<div class='author'><em>Corba</em></div>
+<div class='content'>
+Этот комментарий был удален автором.</div>
+</div>
+</div>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Alex Belozerov</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-01-08T02:26:00+06:00" pubdate data-updated="true">Jan 8<span>th</span>, 2011</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/-net/'>.NET</a>, <a class='category' href='/blog/categories/fluent-nhibernate/'>Fluent NHibernate</a>, <a class='category' href='/blog/categories/nhibernate/'>NHibernate</a>, <a class='category' href='/blog/categories/Программирование/'>Программирование</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://yoursite.com/blog/2011/01/08/nhibernate-fluent-nhibernate/" data-via="abelozerov" data-counturl="http://yoursite.com/blog/2011/01/08/nhibernate-fluent-nhibernate/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2010/07/03/sennheiser/" title="Previous Post: Ковыряем наушники Sennheiser">&laquo; Ковыряем наушники Sennheiser</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2011/04/18/ufo-two-sides/" title="Next Post: UFO The Two Sides">UFO The Two Sides &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/08/26/octopress-hello-world/">Octopress hello world!</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2011/10/21/gdd-2011-gtugs-day-2011/">GDD 2011 и GTUGs Day 2011</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2011/08/15/google-developer-day-challenge-2011/">Google Developer Day Challenge 2011</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2011/04/18/ufo-two-sides/">UFO The Two Sides</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2011/01/08/nhibernate-fluent-nhibernate/">NHibernate и Fluent NHibernate</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+<section>
+  <h1>Latest Tweets</h1>
+  <ul id="tweets">
+    <li class="loading">Status updating...</li>
+  </ul>
+  <script type="text/javascript">
+    $.domReady(function(){
+      getTwitterFeed("abelozerov", 4, false);
+    });
+  </script>
+  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
+  
+    <a href="http://twitter.com/abelozerov" class="twitter-follow-button" data-show-count="false">Follow @abelozerov</a>
+  
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - Alex Belozerov -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'abelozerov';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://yoursite.com/blog/2011/01/08/nhibernate-fluent-nhibernate/';
+        var disqus_url = 'http://yoursite.com/blog/2011/01/08/nhibernate-fluent-nhibernate/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>
