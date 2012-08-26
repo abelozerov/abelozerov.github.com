@@ -1,0 +1,9 @@
+---
+layout: post
+title: "Автоматическое сохранение паролей в Firefox"
+date: 2010-05-16T23:16:00+07:00
+comments: true
+---
+
+<div class='post'>
+Все вы наверняка не раз видели как Firefox предлагает сохранить имя и пароль. Мне стало интересно, каким образом он находит на странице нужные элементы, когда происходит сохранение и как он потом определяет, куда вставить сохраненные значения на вновь открытой странице.<br /><br /><div class="separator" style="clear: both; text-align: center;"><a href="http://2.bp.blogspot.com/_Y-VHRlKoRnE/S_AZ93dM2OI/AAAAAAAAAjg/doiopVd2RCc/s1600/firefox-remember-never-for-this-site-not-now.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" src="http://2.bp.blogspot.com/_Y-VHRlKoRnE/S_AZ93dM2OI/AAAAAAAAAjg/doiopVd2RCc/s320/firefox-remember-never-for-this-site-not-now.png" /></a></div><br /><b><span class="Apple-style-span" style="font-weight: normal;"><b>Всё оказалось очень просто:</b></span></b><br />Когда происходит submit формы, запускается процесс, который ищет на форме непустой input с type=password, отсюда и берется пароль. Очень интересно обстоят дела с username: тупо начинается просмотр дерева элементов в обратном порядке от найденного input'а с паролем, и берется первый попавшийся input с type=text.<br /><br />Восстановление значений при загрузке происходит тем же способом, для поиска вызывается тот же самый метод.<br /><br />Так что веб-разработчику надо быть аккуратным с вставкой элементов между полем для ввода логина и полем для ввода пароля, даже невидимых, если он хочет, чтобы в браузерах нормально работало автосохранение.<br /><br />Если кто заинтересовался, исходники можно посмотреть в \Program Files\Mozilla Firefox\components\nsLoginManager.js. Метод называется&nbsp;_getFormFields.</div>
