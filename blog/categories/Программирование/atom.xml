@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Программирование | Alex Belozerov Blog]]></title>
+  <link href="http://abelozerov.com/blog/categories/Программирование/atom.xml" rel="self"/>
+  <link href="http://abelozerov.com/"/>
+  <updated>2012-08-26T22:52:09+07:00</updated>
+  <id>http://abelozerov.com/</id>
+  <author>
+    <name><![CDATA[Alex Belozerov]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[NHibernate и Fluent NHibernate]]></title>
+    <link href="http://abelozerov.com/blog/2011/01/08/nhibernate-fluent-nhibernate/"/>
+    <updated>2011-01-08T02:26:00+06:00</updated>
+    <id>http://abelozerov.com/blog/2011/01/08/nhibernate-fluent-nhibernate</id>
+    <content type="html"><![CDATA[<div class='post'>
+Сейчас работаю на проекте, где активно юзается NHibernate и библиотека Fluent NHibernate для реализации data access layer. До этого никогда с Hibernate не работал, незначительное количество времени применял ADO.NET, и начиная с 2008 все проекты шли на LINQ-to-SQL и немного Entity Framework. Было очень интересно пощупать альтернативу вездесущим ORM от Microsoft, узнать ее плюсы, минусы, наиболее подходящие области применения.<br /><div><br /></div><div>По порядку.<br /><br /></div><div><b>Что такое NHibernate?</b> Это ORM-система, позволяющая создавать абстрагированный от конкретной базы данных объектно-ориентированный data access layer. Связи между data objects и таблицами базы данных определяются через mappings, прописываемые программистом в XML-файле.</div><div><br /></div><div><b>Fluent NHibernate</b> - надстройка над NHibernate, позволяющая прописывать&nbsp;mappings&nbsp;вместо XML через .NET-классы посредством лямбда-выражений, т.е. более удобным и защищенным от ошибок способом.</div><div><br /></div><div>Далее везде буду описывать именно NHibernate в сочетании с Fluent NHibernate.</div><div><br /><b>Как описать data object?</b><br /><br /></div><div>Первое что бросается в глаза после LINQ-to-SQL и EF - отсутствие "из коробки" автоматической генерации классов, каждую сущность программисту необходимо создавать вручную. С другой стороны, объем кода, приходящийся на каждый из классов, где-то на порядок меньше кода, сгенерированного майкрософтовскими генераторами. Если к примеру в data object поля называются так же, как столбцы в таблице в базе данных и нет внешних ключей, то&nbsp;mappings&nbsp;вообще не нужны, достаточно описать класс вот так:</div><br /><pre class="c-sharp" name="code">public class Address<br />    {<br />        public virtual int Id { get; set; }<br /><br />        [NotNull, NotEmpty]<br />        public virtual string AddressType { get; set; }<br />        <br />        [NotNull, NotEmpty]<br />        public virtual string Address1 { get; set; }<br />        public virtual string Address2 { get; set; }<br /><br />        [NotNull, NotEmpty]<br />        public virtual string City { get; set; }<br /><br />        [NotNull, NotEmpty]<br />        public virtual string State { get; set; }<br /><br />        [NotNull, NotEmpty, Pattern(@"^((\d{5}-\d{4})|(\d{5})|([A-Z]\d[A-Z]\s\d[A-Z]\d))$")]<br />        public virtual string PostalCode { get; set; }<br /><br />        [NotNull, NotEmpty, Pattern(@"USA|Canada")]<br />        public virtual string Country { get; set; }<br />        public virtual float Latitude { get; set; }<br />        public virtual float Longitude { get; set; }<br /><br />        public virtual double Distance { get; set; }<br />    }<br /></pre><br />Тут же можно настроить и валидацию, например для поля PostalCode.<br /><br /><b>Что если есть связи с другими объектами? Как выглядят mappings?</b><br /><br />Пример:<br /><pre class="c-sharp" name="code">public class RetailerMaps : IAutoMappingOverride&lt;Retailer&gt;<br />    {<br />        public void Override(AutoMapping&lt;Retailer&gt; mapping)<br />        {<br />            mapping.Table("Retailers");<br />            mapping.References(x =&gt; x.Store, "StoreId");<br />            mapping.References(x =&gt; x.Type, "RetailerTypeId");<br />            mapping.HasMany(x =&gt; x.Alerts).Table("RetailerAlerts").KeyColumn("RetailerId").Cascade.All();<br />        }<br />    }<br /></pre><br />Класс Retailer имеет поля Store и Type, являющиеся ссылками на объекты из другой таблицы (связь один-ко-многим), а также коллекцию Alerts (много-к-одному)<br /><br /><b>Как вытащить объекты из базы данных?</b><br /><br />Я использовал библиотеку SharpArch, позволяющая организовать доступ к данным посредством паттерна Repository: например, для того чтобы поработать с объектами типа Address, нужно использовать AddressRepository, для других объектов соответственно будут другие репозитории: StoreRepository, EmployeeRepository...&nbsp;Repository предоставляет базовые операции для получения и сохранения объектов: GetAll(), GetById(), Update() и так далее.<br /><br />Ок, с единичными объектами всё понятно - работаем через Repository, но как быть если нам необходимо сделать выборку по каким-нибудь критериям?<br /><br />Вот здесь NHibernate мне понравился множеством вариантов реализации данной задачи, разной степени простоты, гибкости и скорости :-) Отсортировано от более высокоуровневых вещей к более низкоуровневым:<br /><ol><li>LINQ to NHibernate<br /></li><p><pre class="c-sharp" name="code">var result = from x in Session.Linq&lt;Product&gt;()<br />                    where x.ShouldDisplay == visibility &amp;&amp; x.Alignments.Any(z =&gt; alignmentIds.Contains(z.Id))<br />                    orderby x.SortOrder<br />                    select x<br /></pre>Теоретически самый простой и удобный способ, но возникают проблемы: в версии NHibernate 2.x транслятор с LINQ реализован не полностью, многие операции тупо не работают, в версии 3.0, вышедшей буквально месяц назад, вроде доделали, но у меня не было возможности потестировать, на проекте используется версия 2.1.2; И та же бодяга, что и с LINQ-to-SQL - при сложных запросах генерится большой и медленно работающий SQL, для критичных к скорости частей приложения LINQ to NHibernate не подходит.</p><li>HQL</li><p>Hibernate Query Language - универсальный независимый от базы данных язык запросов   <pre class="c-sharp" name="code">var result = sess.CreateQuery("select cust<br />from Product prod,<br />    Store store<br />    inner join store.Customers cust<br />where prod.Name = 'widget'<br />    and store.Location.Name in ( 'Melbourne', 'Sydney' )<br />    and prod = all elements(cust.CurrentOrder.LineItems)");<br /></pre>Очень похож на SQL, но удобнее, запросы получаются короче, плюс независимость от базы данных, плюс генерит неплохой SQL-код.    Недостатки: ошибки в запросах обнаруживаются только во время выполнения </p><li>ICriteria API</li><p><pre class="c-sharp" name="code">IList cats = sess.CreateCriteria(typeof(Cat))<br />    .Add( Expression.In( "Name", new String[] { "Fritz", "Izi", "Pk" } ) )<br />    .Add( Expression.Disjunction()<br />        .Add( Expression.IsNull("Age") )<br />     .Add( Expression.Eq("Age", 0 ) )<br />     .Add( Expression.Eq("Age", 1 ) )<br />     .Add( Expression.Eq("Age", 2 ) )<br />    ) )<br />    .List();<br /></pre>Более низкоуровневая вещь, позволяет поэтапное построение выражений, менее подвержен ошибкам, чем HQL, независимость от базы данных.    Недостатки: Сложнее HQL и менее гибкий, есть непонятные ограничения. К примеру, мне не удалось сделать банальную проекцию так, как я хотел: выбрать определенные поля с одной таблицы и соединить с коллекцией элементов из другой. </p><li>Native SQL</li><p>Самый низкий уровень, но всё равно выше чем чистый SQL.    <pre class="c-sharp" name="code">var result = sess.CreateSQLQuery("SELECT c.ID, NAME, BIRTHDATE, DOG_ID, D_ID, D_NAME FROM CATS c, DOGS d WHERE c.DOG_ID = d.D_ID")<br /> .AddEntity("cat", typeof(Cat))<br /> .AddJoin("cat.Dog");<br /></pre>Преимущества: максимальный уровень контроля над получающимся SQL кодом, максимально развязаны руки для оптимизации, возможность преобразования полученных строк из базы в data objects, в том числе сложные преобразования с коллекциями и связями (всё как у более высокоуровневых методов).    Недостатки: сложно, отлов ошибок только во время выполнения, здесь уже имеем зависимость от конкретной базы данных.  Я наиболее плотно работал именно с Native SQL, там много интересных возможностей, в ближайшее время планирую написать отдельную статью про него. </p></ol><br />Если что-то хотите узнать подробнее, пишите в комментариях в блоге!</div>
+
+
+<h2>Archived comments</h2>
+
+
+<div class='comments'>
+<div class='comment'>
+<div class='author'><em>alex</em></div>
+<div class='content'>
+to Corba<br />1) Репозиторий не пишется, он генерится<br />2) Он-то как раз к сожалению не все команды LINQ поддерживает, поэтому часто приходится переходить на более низкий уровень<br />3) Да, проблем нет, просто такая особенность. Собственно в LINQ-to-SQL довольно сложно менять/писать свой mapping, если возникла необходимость отойти от автоматически сгенерированного кода, а в NHibernate код классов аккурантый и понятный, это понравилось</div>
+</div>
+<div class='comment'>
+<div class='author'><em>Roman2311</em></div>
+<div class='content'>
+У меня основной вопрос - чем же лучше NHibernate по сравнению с EntityFramework or LINQ ?</div>
+</div>
+<div class='comment'>
+<div class='author'><em>Corba</em></div>
+<div class='content'>
+1) Паттерн репозиторий. Я обычно пишу такой класс:<br />Repository&lt;\T&gt; where T :new()<br />{<br />public IList&lt;\T&gt; GetAll()<br />public T GetById();<br />public Update(T entity);<br />etc.<br />}<br />что избавляет от написания репозитория на каждую сущность<br />2) Для организации запросов есть еще Linq2Nhibernate, зависший в первом релизе и кажется больше не развивающийся, но в принципе он со своими обязанностями справляется<br />3) Отсутствие генератора data objects конечно неприятно, особенно когда таблиц в БД дохрена, но в принципе можно сгенерить в студии классы для EF и выкинуть из них ненужные фиксапы и т.п.</div>
+</div>
+<div class='comment'>
+<div class='author'><em>Corba</em></div>
+<div class='content'>
+Этот комментарий был удален автором.</div>
+</div>
+<div class='comment'>
+<div class='author'><em>Corba</em></div>
+<div class='content'>
+Этот комментарий был удален автором.</div>
+</div>
+</div>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Фигурные скобки внутри String.Format()]]></title>
+    <link href="http://abelozerov.com/blog/2009/12/19/stringformat/"/>
+    <updated>2009-12-19T15:52:00+06:00</updated>
+    <id>http://abelozerov.com/blog/2009/12/19/stringformat</id>
+    <content type="html"><![CDATA[<div class='post'>
+Метод String.Format() позволяет вставлять значения переменных внутрь строки в места, помеченные с помощью фигурных скобок и индекса, например:<br /><br /><pre class="c-sharp" name="code">string.Format("My name is {0}", name);</pre><br />Но если в строке есть фигурные скобки, не относящиеся к местам подстановки переменных, вы получите Exception при компиляции, т.к. компилятор думает что всё что стоит между открывающей и закрывающей скобками является индексом.<br /><br /><pre class="c-sharp" name="code">string.Format("{name}={0}", name); // Exception</pre><br />Существует простое решение, как вставить в строку фигурную скобку: нужно написать ее 2 раза: <br /><br /><pre class="c-sharp" name="code">string name = "Alex";<br />string formattedStr = string.Format("={0}", name); // no exception<br /></pre><br />В итоге в примере formattedStr будет равно "{name}=Alex"</div>
+
+
+<h2>Archived comments</h2>
+
+
+<div class='comments'>
+<div class='comment'>
+<div class='author'><em>alex</em></div>
+<div class='content'>
+Спасибо! Да, пожалуйста, с указанием источника</div>
+</div>
+<div class='comment'>
+<div class='author'><em>Anonymous</em></div>
+<div class='content'>
+Очень интересная статья. Скажите, а могу ли я ее повесить на один из своих сайтов? Соотвественно с гиперсылкой на вас.</div>
+</div>
+</div>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[ASP.NET: Redirect с параметром без QueryString]]></title>
+    <link href="http://abelozerov.com/blog/2009/09/26/aspnet-redirect-querystring/"/>
+    <updated>2009-09-26T17:38:00+07:00</updated>
+    <id>http://abelozerov.com/blog/2009/09/26/aspnet-redirect-querystring</id>
+    <content type="html"><![CDATA[<div class='post'>
+Столкнулся с ситуацией, когда необходимо сделать Redirect на другую страницу, передав при этом параметр, но так, чтобы не видел пользователь. То есть простая передача через QueryString - Response.Redirect("~/NewPage.aspx?id=5") - не подходит.<br /><div><br /></div><div>Я придумал решение, используя QueryString и Session:<br /></div><div><br /></div><div><b>Пример:</b> <br /></div><div>надо передать параметр id на страницу NewPage.aspx<br /></div><div><br /></div><div>Сам редирект делаем как обычно, параметр передаем через QueryString.<br /></div><pre class="c-sharp" name="code">Response.Redirect("~/NewPage.aspx?id=5")<br /></pre><div><br /></div><div>Но принимающая страница по-особому обрабатывает запрос:<br /></div><pre class="c-sharp" name="code">public partial class NewPage : System.Web.UI.Page<br />{<br />    protected void Page_Init(object sender, EventArgs e)<br />    {<br />        if (Session["NewPage_id"] != null)<br />        {<br />            // Второй запрос приходит сюда<br />            int id = Int32.Parse(Session["NewPage_id"].ToString());<br />            // Используем id<br />            // ...<br /><br />            // Освобождаем память<br />            Session["NewPage_id"] = null;<br />        }<br />        else if (Request["id"] != null)<br />        {<br />            // Первый запрос приходит сюда<br />            Session["NewPage_id"] = Request["id"];<br />            // Редирект без QueryString<br />            Response.Redirect(GetUriWithoutQueryStr(Request.Url), true);<br />        }<br />    }<br /><br />    public string GetUriWithoutQueryStr(Uri url)<br />    {<br />        return url.GetLeftPart(UriPartial.Path);<br />    }<br />}<br /></pre><div>Мы сохраняем пришедший параметр в сессию, и редиректимся на эту же страницу без QueryString. При второй загрузке параметры спокойно извлекаются из сессии и используются. Пользователь, естественно, в строке запроса никаких параметров не видит.<br /></div><div>После извлечения параметра лучше сразу удалить его из сессии, чтобы он не повлиял на последующие запросы.<br /></div><div><br />А как вы решали подобную задачу? :-)<br /></div></div>
+
+
+<h2>Archived comments</h2>
+
+
+<div class='comments'>
+<div class='comment'>
+<div class='author'><em>alex</em></div>
+<div class='content'>
+Вы правы, в рамках одного веб-приложения хранение в Session и Server.Transfer покрывают все возможные ситуации<br /><br />Однако представьте, что нужно отправить форму удаленному серверу, и ответом должен быть редирект на другую страницу с необходимыми параметрами. И мы хотим, чтобы ползователь параметров не увидел. Вот тут-то и пригодится способ, описанный в этой статье.</div>
+</div>
+<div class='comment'>
+<div class='author'><em>Руслан</em></div>
+<div class='content'>
+А еще лучше Server.Transfer() использовать - так меньше ресурсов жрем. Но опять же в рамках одного приложения</div>
+</div>
+<div class='comment'>
+<div class='author'><em>Roman2311</em></div>
+<div class='content'>
+Понятно.<br /><br />Ну может тогда через твиттер передавать параметры :)</div>
+</div>
+<div class='comment'>
+<div class='author'><em>alex</em></div>
+<div class='content'>
+Важное замечание, Роман!<br /><br />Действительно, нет смысла так извращаться, если редирект происходит на страницу, находящуюся в том же web-приложении (т.е. обе страницы имеют доступ одной и той же Session).<br /><br />Мой способ может пригодиться, если редирект приходит с другого сервера</div>
+</div>
+<div class='comment'>
+<div class='author'><em>Roman2311</em></div>
+<div class='content'>
+Может я что-то не так понял, но почему бы просто не сделать:<br /><br /><i><br />Session[&quot;NewPage_id&quot;] = 5;<br />Response.Redirect(&quot;~/NewPage.aspx&quot;);<br /></i><br /><br />Я нутром чувствую, что все на так просто... но все же</div>
+</div>
+</div>
+
+]]></content>
+  </entry>
+  
+</feed>
