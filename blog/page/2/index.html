@@ -9,7 +9,7 @@
   <meta name="author" content="Alex Belozerov">
 
   
-  <meta name="description" content="Данный пост является переводом статьи The UpdatePanel opened: what happens behind the scenes? с сайта dotnetslackers.com.UpdatePanel - одна из самых &hellip;">
+  <meta name="description" content="Все вы наверняка не раз видели как Firefox предлагает сохранить имя и пароль. Мне стало интересно, каким образом он находит на странице нужные &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -77,6 +77,43 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2010/05/16/firefox/">Автоматическое сохранение паролей в Firefox</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-05-16T23:16:00+07:00" pubdate data-updated="true">May 16<span>th</span>, 2010</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><div class='post'>
+Все вы наверняка не раз видели как Firefox предлагает сохранить имя и пароль. Мне стало интересно, каким образом он находит на странице нужные элементы, когда происходит сохранение и как он потом определяет, куда вставить сохраненные значения на вновь открытой странице.<br /><br /><div class="separator" style="clear: both; text-align: center;"><a href="http://2.bp.blogspot.com/_Y-VHRlKoRnE/S_AZ93dM2OI/AAAAAAAAAjg/doiopVd2RCc/s1600/firefox-remember-never-for-this-site-not-now.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" src="http://2.bp.blogspot.com/_Y-VHRlKoRnE/S_AZ93dM2OI/AAAAAAAAAjg/doiopVd2RCc/s320/firefox-remember-never-for-this-site-not-now.png" /></a></div><br /><b><span class="Apple-style-span" style="font-weight: normal;"><b>Всё оказалось очень просто:</b></span></b><br />Когда происходит submit формы, запускается процесс, который ищет на форме непустой input с type=password, отсюда и берется пароль. Очень интересно обстоят дела с username: тупо начинается просмотр дерева элементов в обратном порядке от найденного input&#8217;а с паролем, и берется первый попавшийся input с type=text.<br /><br />Восстановление значений при загрузке происходит тем же способом, для поиска вызывается тот же самый метод.<br /><br />Так что веб-разработчику надо быть аккуратным с вставкой элементов между полем для ввода логина и полем для ввода пароля, даже невидимых, если он хочет, чтобы в браузерах нормально работало автосохранение.<br /><br />Если кто заинтересовался, исходники можно посмотреть в \Program Files\Mozilla Firefox\components\nsLoginManager.js. Метод называется&nbsp;_getFormFields.</div>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -383,6 +420,10 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2012/09/08/biznies-plan-sdacha-kvartiry-v-ariendu/">Бизнес-план &#8220;Сдача квартиры в аренду&#8221;</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2012/09/08/rieshieniie-probliemy-s-google-i-dom-dot-ru/">Решение проблемы с Google и Дом.Ру</a>
       </li>
     
@@ -396,10 +437,6 @@
     
       <li class="post">
         <a href="/blog/2011/10/21/gdd-2011-gtugs-day-2011/">GDD 2011 и GTUGs Day 2011</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2011/08/15/google-developer-day-challenge-2011/">Google Developer Day Challenge 2011</a>
       </li>
     
   </ul>
