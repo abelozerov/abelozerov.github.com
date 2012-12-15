@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Google | Alex Belozerov Blog]]></title>
   <link href="http://abelozerov.com/blog/categories/google/atom.xml" rel="self"/>
   <link href="http://abelozerov.com/"/>
-  <updated>2012-08-26T22:52:09+07:00</updated>
+  <updated>2012-09-08T19:41:03+07:00</updated>
   <id>http://abelozerov.com/</id>
   <author>
     <name><![CDATA[Alex Belozerov]]></name>
@@ -12,6 +12,34 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Решение проблемы с Google и Дом.Ру]]></title>
+    <link href="http://abelozerov.com/blog/2012/09/08/rieshieniie-probliemy-s-google-i-dom-dot-ru/"/>
+    <updated>2012-09-08T00:20:00+07:00</updated>
+    <id>http://abelozerov.com/blog/2012/09/08/rieshieniie-probliemy-s-google-i-dom-dot-ru</id>
+    <content type="html"><![CDATA[<p>Со вчерашнего вечера через провайдера Дом.Ру у меня, практически всех моих знакомых, и, главное, в офисе, перестали работать сервисы Google: Google.com, Gmail, Google Docs, Youtube,... Браузер выдает следующую ошибку:</p>
+
+<pre><code>Ошибка 126 (net::ERR_SSL_BAD_RECORD_MAC_ALERT)
+</code></pre>
+
+<p>Очень неприятно, особенно учитывая что через Билайновский 3G могу пользоваться гугловскими сайтами без проблем.</p>
+
+<p>Проблема явно на стороне провайдера. Примерно полчаса разговоров с саппортом и день ожидания ни к чему не привели. HttpFox показывал в response NS_ERROR_ABORT, что натолкнуло на мысль о неисправности DNS-серверов.</p>
+
+<p><strong>К счастью, нашел решение:</strong></p>
+
+<ol>
+<li>Почистить весь кэш и куки в браузере</li>
+<li>Явно прописать в DNS вашего соединения на компьютере или в роутере следующие DNS-сервера: 8.8.8.8, 8.8.4.4</li>
+</ol>
+
+
+<p><img src="/images/2012/09/08/dhcp.png" title="Настройки роутера для победы над Ошибкой 126 ERR_SSL_BAD_RECORD_MAC_ALERT" ></p>
+
+<p>Попробуйте, надеюсь вам тоже поможет!</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[GDD 2011 и GTUGs Day 2011]]></title>

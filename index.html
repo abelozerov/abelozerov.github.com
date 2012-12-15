@@ -9,7 +9,7 @@
   <meta name="author" content="Alex Belozerov">
 
   
-  <meta name="description" content="Сам по себе переход занял у меня ровно один день с периодическим отвлечением на развлечения. Для начала я решил создать виртуальную машину с Ubuntu &hellip;">
+  <meta name="description" content="Меня заинтересовал вопрос, выгодно ли купить квартиру в кредит с целью последующей ее сдачи в аренду. Цель в том, чтобы потратив как можно меньше &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -77,6 +77,112 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/09/08/biznies-plan-sdacha-kvartiry-v-ariendu/">Бизнес-план &#8220;Сдача квартиры в аренду&#8221;</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-09-08T18:37:00+07:00" pubdate data-updated="true">Sep 8<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><img src="/images/2012/09/08/house.jpg"></p>
+
+<p>Меня заинтересовал вопрос, выгодно ли купить квартиру в кредит с целью последующей ее сдачи в аренду. Цель в том, чтобы потратив как можно меньше денег сейчас, получить в будущем через 10 лет актив в виде квартиры.</p>
+
+<p>Предполагаем, что покупаем и сдаем 1-комнатную квартиру в центре г. Омска, изначально имея примерно 30% от стоимости и деньги на ремонт и наполнение квартиры, остальное берем в кредит у банка. Предполагаем, что стоимость аренды со временем не меняется.</p>
+
+<p>Сделал в Google Docs Spreadsheet с нужными параметрами и вычислениями:</p>
+
+<iframe width='405' height='580' frameborder='0' src='https://docs.google.com/spreadsheet/pub?key=0Ao3qRR96-PXRdEFTY1Yxc1c5eEpmUmtZQzN4bEVOaXc&single=true&gid=0&range=A1%3AB29&output=html'></iframe>
+
+
+<p>Я добавил в документ амортизационные расходы. Что это? Мебель, бытовая техника и ремонт со временем приходят в негодность, поэтому хорошо бы также закладывать расходы на обновление этих компонентов, я исходил из расчета что все это придется купить заново через 100 месяцев пользования. Это и есть амортизационные расходы.</p>
+
+<p>Из расчетов выходит, что все вполне реально, даже если не учитывать рост стоимости аренды. А с ростом стоимость аренды на 3 т.р. покроются и амортизационные расходы.</p>
+
+<p>Документ лежит в свободном доступе <a href="https://docs.google.com/spreadsheet/ccc?key=0Ao3qRR96-PXRdEFTY1Yxc1c5eEpmUmtZQzN4bEVOaXc">здесь</a>. Можете его копировать и использовать в своих целях. Буду очень рад любым отзывам, поправкам и замечаниям по цифрам и формулам, вашим бизнес-планам. Также интересно будет узнать, был ли у кого-нибудь из читателей подобный опыт инвестиций в недвижимость в прошлом, и что из этого вышло.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/09/08/rieshieniie-probliemy-s-google-i-dom-dot-ru/">Решение проблемы с Google и Дом.Ру</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-09-08T00:20:00+07:00" pubdate data-updated="true">Sep 8<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Со вчерашнего вечера через провайдера Дом.Ру у меня, практически всех моих знакомых, и, главное, в офисе, перестали работать сервисы Google: Google.com, Gmail, Google Docs, Youtube,&#8230; Браузер выдает следующую ошибку:</p>
+
+<pre><code>Ошибка 126 (net::ERR_SSL_BAD_RECORD_MAC_ALERT)
+</code></pre>
+
+<p>Очень неприятно, особенно учитывая что через Билайновский 3G могу пользоваться гугловскими сайтами без проблем.</p>
+
+<p>Проблема явно на стороне провайдера. Примерно полчаса разговоров с саппортом и день ожидания ни к чему не привели. HttpFox показывал в response NS_ERROR_ABORT, что натолкнуло на мысль о неисправности DNS-серверов.</p>
+
+<p><strong>К счастью, нашел решение:</strong></p>
+
+<ol>
+<li>Почистить весь кэш и куки в браузере</li>
+<li>Явно прописать в DNS вашего соединения на компьютере или в роутере следующие DNS-сервера: 8.8.8.8, 8.8.4.4</li>
+</ol>
+
+
+<p><img src="/images/2012/09/08/dhcp.png" title="Настройки роутера для победы над Ошибкой 126 ERR_SSL_BAD_RECORD_MAC_ALERT" ></p>
+
+<p>Попробуйте, надеюсь вам тоже поможет!</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -537,88 +643,6 @@ to Corba<br />1) Репозиторий не пишется, он генерит
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2010/05/16/firefox/">Автоматическое сохранение паролей в Firefox</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2010-05-16T23:16:00+07:00" pubdate data-updated="true">May 16<span>th</span>, 2010</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><div class='post'>
-Все вы наверняка не раз видели как Firefox предлагает сохранить имя и пароль. Мне стало интересно, каким образом он находит на странице нужные элементы, когда происходит сохранение и как он потом определяет, куда вставить сохраненные значения на вновь открытой странице.<br /><br /><div class="separator" style="clear: both; text-align: center;"><a href="http://2.bp.blogspot.com/_Y-VHRlKoRnE/S_AZ93dM2OI/AAAAAAAAAjg/doiopVd2RCc/s1600/firefox-remember-never-for-this-site-not-now.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" src="http://2.bp.blogspot.com/_Y-VHRlKoRnE/S_AZ93dM2OI/AAAAAAAAAjg/doiopVd2RCc/s320/firefox-remember-never-for-this-site-not-now.png" /></a></div><br /><b><span class="Apple-style-span" style="font-weight: normal;"><b>Всё оказалось очень просто:</b></span></b><br />Когда происходит submit формы, запускается процесс, который ищет на форме непустой input с type=password, отсюда и берется пароль. Очень интересно обстоят дела с username: тупо начинается просмотр дерева элементов в обратном порядке от найденного input&#8217;а с паролем, и берется первый попавшийся input с type=text.<br /><br />Восстановление значений при загрузке происходит тем же способом, для поиска вызывается тот же самый метод.<br /><br />Так что веб-разработчику надо быть аккуратным с вставкой элементов между полем для ввода логина и полем для ввода пароля, даже невидимых, если он хочет, чтобы в браузерах нормально работало автосохранение.<br /><br />Если кто заинтересовался, исходники можно посмотреть в \Program Files\Mozilla Firefox\components\nsLoginManager.js. Метод называется&nbsp;_getFormFields.</div>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2010/04/01/updatepanel/">UpdatePanel: что происходит за кулисами?</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2010-04-01T23:57:00+07:00" pubdate data-updated="true">Apr 1<span>st</span>, 2010</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><div class='post'>
-Данный пост является переводом статьи <a href="http://dotnetslackers.com/articles/ajax/The_UpdatePanel_opened_what_happens_behind_the_scenes.aspx">The UpdatePanel opened: what happens behind the scenes?</a> с сайта dotnetslackers.com.<br /><br />UpdatePanel - одна из самых главных и интересных фич ASP.NET AJAX. Она волшебным способом позволяет добавить на сайт прелести AJAX, при этом не требуя практически никаких дополнительных усилий от вас как от разработчика. Вы почувствуете лишь толику неудобства, перетащив UpdatePanel на вашу веб форму, и позволив ей делать всю работу. Как же она работает?<br /><br /><b>Введение</b><br /><br />В статье я шаг за шагом проведу вас через то, что происходит в браузере во время обновления UpdatePanel. Вы увидите какие events запускаются, в каких точках можно перехватывать обработку, и в общем почувствуете последовательность событий.<br /><br />Возьмем простейший пример. Я создал <b>UpdatePanel</b> с двумя контролами внутри: <b>Button</b> и <b>Label</b>.<br /><br /><div class="separator" style="clear: both; text-align: left;"><a href="http://1.bp.blogspot.com/_Y-VHRlKoRnE/Sz8GaxX8qGI/AAAAAAAAAUE/MwHugyQxxK4/s1600-h/picture01.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" src="http://1.bp.blogspot.com/_Y-VHRlKoRnE/Sz8GaxX8qGI/AAAAAAAAAUE/MwHugyQxxK4/s320/picture01.png" /></a></div><br />Пусть при нажатии на кнопку в label записывается текущее время:<br /><br /><pre class="c-sharp" name="code">using System;<br />public partial class _Default : System.Web.UI.Page <br />{<br />    protected void Button1_Click(object sender, EventArgs e)<br />    {<br />        Label1.Text = DateTime.Now.ToString();<br />    }<br />}<br /></pre><br />Существует 3 основных события, происходящих в браузере, и все три затрагивают объект PageRequestManager, центральный объект в архитектуре ASP.NET AJAX. Первое событие запускается потому что мы нажали кнопку. Второе - потому что происходит submit формы. Последнее событие запускается после того как получен ответ с сервера.<br /><br />Перед запуском событий PageRequestManger&#8217;а, происходит множество более низкоуровневых внутренних событий, которые запускают PageRequestManager. Эти &nbsp;низкоуровневые обработчики выполняют такие функции как оборачивание браузерного event object в Sys.UI.DomEvent. Но не будем вдаваться в детали в этом месте.<br /><br /><b>Обработчик&nbsp;<span class="Apple-style-span" style="font-weight: normal;"><b>PageRequestManager&nbsp;<span class="Apple-style-span" style="font-weight: normal;"><b>_onFormElementClick</b></span></b></span></b><br /><br />Этот обработчик вызывается когда вы нажимаете кнопку внутри <b>UpdatePanel</b>, и делает следующие вещи:<br /><br />Во-первых, устанавливает свойство _postBackSettings PageRequestManager&#8217;а:<br /><br /><pre class="js" name="code">this._postBackSettings = this._getPostBackSettings(element, element.name);<br /></pre><br /><b>postBackSettings</b> содержит 3 элемента:<br /><ul><li>Булевую переменную обозначающую должен ли запрос быть асинхронным</li><li>ID UpdatePanel&#8217;и и элемента, вызвавшего postback</li><li>Ссылку на элемент вызвавшего postback</li></ul><br />Метод _getPostBackSettings проходит по дереву контролов вверх начиная с элемента, вызвавшего событие (в данном случае button) в поисках UpdatePanel. Если он найдет UpdatePanel, что в нашем случае обязательно произойдет, то установит свойство postBackSettings таким образом, чтобы произошел асинхронный запрос:<br /><br /><pre class="js" name="code">var indexOfPanel = Array.indexOf(this._updatePanelClientIDs, element.id);<br />if (indexOfPanel !== -1) <br />{<br />  if (this._updatePanelHasChildrenAsTriggers[indexOfPanel]) <br />  {<br />    return this._createPostBackSettings(true, <br />           this._updatePanelIDs[indexOfPanel] + '|' + <br />           elementUniqueID, originalElement);<br />  }<br /></pre><br />Вторая вещь, которую делает обработчик onFormElementClick - записывает в свойство additionalInput имя (name) и значение (value) нажатой кнопки. Данная процедура выполняется потому, что процесс, который собирает данные с формы когда форма готовится к submit&#8217;у, игнорирует кнопки, а value нажатой кнопки должно быть отправлено на сервер.<br /><br /><pre class="js" name="code">else if ((element.tagName === 'BUTTON') &amp;&amp; <br />        (element.name.length !== 0) &amp;&amp; <br />        (element.type === 'submit')) <br />     {<br />          this._additionalInput = element.name + '=' + <br />          encodeURIComponent(element.value);<br />     }<br /></pre><br /><b>Обработчик&nbsp;<span class="Apple-style-span" style="font-weight: normal;"><b>PageRequestManager&nbsp;<span class="Apple-style-span" style="font-weight: normal;"><b>_onFormSubmit</b></span></b></span></b><br /><br />Этот метод вызывается после того как обработчик <b>_onFormElementClick </b>заканчивает свою работу, и выполняет упаковку данных формы и отправку асинхронного запроса на сервер. Но он делает это только если требуется асинхронный запрос, что определяется значением соответствующего булевого флага в свойстве <b>_postBackSettings</b>, которое было установлено в методе <b>onFormElementClick</b>.<br /><br />В нашем случае требуется асинхронный запрос. Метод проходит по детям формы, упаковывая их значения в переменную <b>formBody</b> типа <b>StringBuilder</b>, если они являются элементами типа INPUT (text, password, hidden, checkbox and radio types), SELECT или TEXTAREA.<br /><br />Отходя от темы, небольшая оптимизация может быть выполнена для обработки <b>SELECT&#8217;ов</b>, текущая реализация просматривает каждый элемент <b>OPTION</b> для определения выбран он или нет, тогда как если свойство <b>multiple</b> <b>SELECT&#8217;а</b> равно false, можно использовать свойство selectedIndex. Если у вас 1000 опций, необязательно просматривать все 1000 если <b>SELECT</b> не <b>multiple</b>:<br /><br /><pre class="js" name="code">else if (tagName === 'SELECT') <br />{<br />  var optionCount = element.options.length;<br />  for (var j = 0; j &lt; optionCount; j++) <br />  {<br />    var option = element.options[j];<br />    if (option.selected) <br />    {<br />      formBody.append(name);<br />      formBody.append('=');<br />      formBody.append(encodeURIComponent(option.value));<br />      formBody.append('&amp;');<br />    }<br />  }<br />}<br /></pre><br />Обратите внимания что значения скрытых полей также отправляются, что означает что содержимое скрытого элемента __VIEWSTATE отправляется на сервер каждый раз. То что вы используете <b>UpdatePanel</b> не означает что вы не передаете viewstate на сервер и обратно во время асинхронного апдейта.<br /><br />Далее для того чтобы отправить запрос метод создает объект&nbsp;<b>Sys.Net.WebRequest</b> и устанавливает в его поле URL значение form action URL, устанавливает значение заголовка&nbsp;<b>x-microsoft-ajax</b> в <b>delta=true</b>, что сигнализирует о том что это запрос для получения дельт/delta (изменений) документа. Также он отключает кэширование и устанавливает timeout в значение,&nbsp;определенное&nbsp;в ScriptManager серверной части.<br /><br /><pre class="js" name="code">var request = new Sys.Net.WebRequest();<br />request.set_url(form.action);<br />request.get_headers()['X-MicrosoftAjax'] = 'Delta=true';<br />request.get_headers()['Cache-Control'] = 'no-cache';<br />request.set_timeout(this._asyncPostBackTimeout);<br /></pre><br />Очевидно что&nbsp;<b>PageRequestManager </b>должен быть оповещен о пришествии ответа с сервера, и это осуществляется за счет создания делегата на его метод&nbsp;<b>_onFormSubmitCompleted </b>и добавления этого <b>делегата </b>к списку делегатов которые вызываются после завершения запроса:<br /><br /><pre class="js" name="code">request.add_completed(<br />    Function.createDelegate(this, <br />             this._onFormSubmitCompleted));<br /></pre><br />Можно подумать, что&nbsp;<b>PageRequestManager&nbsp;&nbsp;</b>уже готов отправить запрос, однако есть еще несколько вещей, которые он должен сделать.<br /><br />Одна из фич, которые мне нравятся больше всего в дизайне ASP.NET и ASP.NET AJAX - это то, что существует множество точек, где разработчик может перехватить выполнение стандартной обработки и добавить свою функциональность. И это здорово, потому что позволяет нам добавлять фичи о которых Microsoft не могла даже мечтать, и лично для меня показывает открытость, которую Microsoft не демонстрировала долгие годы.<br /><br />Итак, перед тем как запрос будет отправлен,&nbsp;<b>PageRequestManager &nbsp;</b>запускает событие&nbsp;<b>InitializeRequest</b>, для каждого, кто подписан на него, на этой стадии отправка формы может быть отменена подписчиками на событие путем установки флага cancel аргумента события:<br /><br /><pre class="js" name="code">var handler = this._get_eventHandlerList().getHandler("initializeRequest");<br />if (handler) {<br />    var eventArgs = new Sys.WebForms.InitializeRequestEventArgs(<br />       request, this._postBackSettings.sourceElement);<br />    handler(this, eventArgs);<br />    continueSubmit = !eventArgs.get_cancel();<br />}<br /></pre><br />Пример того, как код пользователя может подписаться на это событие:<br /><br /><pre class="js" name="code">var prm = Sys.WebForms.PageRequestManager.getInstance();<br />prm.add_initializeRequest(InitializeRequestHandler);<br /><br />function InitializeRequestHandler(sender, initializeRequestEventArgs) {<br />    var cancel = !confirm('Initialize request occurring.');<br />    initializeRequestEventArgs.set_cancel(cancel);<br />}<br /></pre><br />После того, как прошло событие&nbsp;<b>InitializeRequest,&nbsp;</b>и если отправка не была отменена,&nbsp;<b>PageRequestManager &nbsp;</b>запускает событие&nbsp;<b>BeginRequest </b>для каждого, кто на него подписан. Разница в том, что на этой стадии отправка уже не может быть отменена.<br /><br />В конце, записав текущую scroll position документа в свойство&nbsp;<b>_scrollPosition</b>, он просит&nbsp;<b>Sys.Net.WebRequest</b> отправить запрос, и отменяет обработку события кнопки по умолчанию, чтобы ничего более не произошло до того как вернется&nbsp;<b>WebRequest</b>:<br /><br /><pre class="js" name="code">request.invoke();<br /><br />if (evt) {<br />    evt.preventDefault();<br />}<br /></pre><br /><b>Обработчик&nbsp;<span class="Apple-style-span" style="font-weight: normal;"><b>PageRequestManager&nbsp;<span class="Apple-style-span" style="font-weight: normal;"><b>_onFormSubmitCompleted</b></span></b></span></b><br /><br />Этот метод вызывается после того как получен ответ с сервера, либо что-то пошло не так<br /><br />Первая вещь которую он делает - проверяет всё, что могло пойти не так, такие вещи как таймаут, был ли запрос прерван, или пришел ответ на какой-то другой (левый) запрос, произошла какая-то ошибка и т.д., ну вы поняли. В большинстве случаев он вызывает внутренний метод&nbsp;<b>_endPostBack</b>, который запускает событие <b>EndRequest&nbsp;</b>для каждого кто на него подписан.<br /><br />После того как выполнены проверки, метод пробегает по response buffer, полученному с сервера, извлекая <b>delta nodes</b>, каждая из которых содержит <b>type</b>, <b>id</b> и <b>content<span class="Apple-style-span" style="font-weight: normal;">.</span></b><br /><br />После получения массива <b>deltas</b>, метод пробегает по каждому из них. Существует около 20 различных типов delta nodes, некоторые из которых обрабатываются немедленно, например document title:<br /><br /><pre class="js" name="code">for (var i = 0; i &lt; delta.length; i++) {<br />    var deltaNode = delta[i];<br />    switch (deltaNode.type) {<br />        ...<br />        case "pageTitle":<br />            document.title = deltaNode.content;<br />            break;<br /></pre><br />Остальные сохраняются для дальнейшей обработки:  <br /><br /><pre class="js" name="code">case "updatePanel":<br />            Array.add(updatePanelNodes, deltaNode);<br />            break;<br />        case "hiddenField":<br />            Array.add(hiddenFieldNodes, deltaNode);<br />            break;<br /></pre><br />После группировки <b>delta nodes</b> по соответствующим типам, происходит обработка каждого типа&nbsp;<b>delta node</b>, но не перел тем как запустится событие <b>PageLoadingEvent </b>для каждого кто на него подписан.<br /><br />Обработка <b>updatePanelNodes</b> заключается в уничтожении существующего содержимого панели и заменой его содерджимым поля content delta node.<br /><br />В конце все скрипты которые должны&nbsp;загрузиться, загружаются, и в методе <b>_scriptsLoadComplete</b> запускаются события <b>PageLoadedEvent</b> и <b>EndRequestEvents</b>, окно документа прокручивается до соответствующей позиции, фокус устанавливается на соответствующий <b>контрол</b>, и на этом история завершается.<br /><br />Вы можете быть склонны думать, что всё это предельно просто и понятно, и для представленного элементарного случая это действительно так. Но если вы задумаетесь о сложности того, что можно сделать на сервере, тогда вы поймете что тут еще много всего. К примеру что если вы зарегистрируете новые script blocks на сервере, или установите фокус на другой контрол? Именно поэтому существует около 20 типов <b>delta node</b>, каждый для обработки своего специфического сценария.<br /><br /><b>Заключение</b><br /><br />В этой статье мы шаг за шагом разобрали что же происходит в браузере во время обновления UpdatePanel, никакой магии конечно, просто довольно много кода обрабатывающего специфические ситуации, и куча мест, где программист может перехватить стандартную обработку и добавить немного своей магии<br /><br /><b>Что дала мне эта статья (от переводчика):</b><br /><br />Теперь понятно почему перед отправкой асинхронного запроса на сервер невозможно понять какие именно UpdatePanelи будут обновляться, клиент такую информацию вообще не передает, сервер по желанию может в response прислать обновление для каждой UpdatePanel на странице. С одной стороны, удобно, с другой, не получится красиво реализовать Progress bar, закрывающий одну единственную панель при ее обновлении.<br /><br /><b>P.S.</b> Отправил статью на хабр в <a href="http://habrahabr.ru/sandbox/12113/">песочницу</a>. Буду рад получить приглашение, если статья вам понравилась и вы считаете что я его заслужил.</div>
-<h2>Archived comments</h2>
-<div class='comments'>
-<div class='comment'>
-<div class='author'><em>Даша Шулеко</em></div>
-<div class='content'>
-Спасибо большое! Очень пригодилось.</div>
-</div>
-</div>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -634,6 +658,14 @@ to Corba<br />1) Репозиторий не пишется, он генерит
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2012/09/08/biznies-plan-sdacha-kvartiry-v-ariendu/">Бизнес-план &#8220;Сдача квартиры в аренду&#8221;</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/09/08/rieshieniie-probliemy-s-google-i-dom-dot-ru/">Решение проблемы с Google и Дом.Ру</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2012/08/26/kak-ia-pieriekhodil-s-blogger-na-octopress/">Как я переходил с Blogger на Octopress</a>
       </li>
     
@@ -643,14 +675,6 @@ to Corba<br />1) Репозиторий не пишется, он генерит
     
       <li class="post">
         <a href="/blog/2011/10/21/gdd-2011-gtugs-day-2011/">GDD 2011 и GTUGs Day 2011</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2011/08/15/google-developer-day-challenge-2011/">Google Developer Day Challenge 2011</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2011/04/18/ufo-two-sides/">UFO The Two Sides</a>
       </li>
     
   </ul>

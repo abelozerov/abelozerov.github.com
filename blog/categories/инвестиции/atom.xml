@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: инвестиции | Alex Belozerov Blog]]></title>
+  <link href="http://abelozerov.com/blog/categories/инвестиции/atom.xml" rel="self"/>
+  <link href="http://abelozerov.com/"/>
+  <updated>2012-09-08T19:41:03+07:00</updated>
+  <id>http://abelozerov.com/</id>
+  <author>
+    <name><![CDATA[Alex Belozerov]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Бизнес-план "Сдача квартиры в аренду"]]></title>
+    <link href="http://abelozerov.com/blog/2012/09/08/biznies-plan-sdacha-kvartiry-v-ariendu/"/>
+    <updated>2012-09-08T18:37:00+07:00</updated>
+    <id>http://abelozerov.com/blog/2012/09/08/biznies-plan-sdacha-kvartiry-v-ariendu</id>
+    <content type="html"><![CDATA[<p><img src="/images/2012/09/08/house.jpg"></p>
+
+<p>Меня заинтересовал вопрос, выгодно ли купить квартиру в кредит с целью последующей ее сдачи в аренду. Цель в том, чтобы потратив как можно меньше денег сейчас, получить в будущем через 10 лет актив в виде квартиры.</p>
+
+<p>Предполагаем, что покупаем и сдаем 1-комнатную квартиру в центре г. Омска, изначально имея примерно 30% от стоимости и деньги на ремонт и наполнение квартиры, остальное берем в кредит у банка. Предполагаем, что стоимость аренды со временем не меняется.</p>
+
+<p>Сделал в Google Docs Spreadsheet с нужными параметрами и вычислениями:</p>
+
+<iframe width='405' height='580' frameborder='0' src='https://docs.google.com/spreadsheet/pub?key=0Ao3qRR96-PXRdEFTY1Yxc1c5eEpmUmtZQzN4bEVOaXc&single=true&gid=0&range=A1%3AB29&output=html'></iframe>
+
+
+<p>Я добавил в документ амортизационные расходы. Что это? Мебель, бытовая техника и ремонт со временем приходят в негодность, поэтому хорошо бы также закладывать расходы на обновление этих компонентов, я исходил из расчета что все это придется купить заново через 100 месяцев пользования. Это и есть амортизационные расходы.</p>
+
+<p>Из расчетов выходит, что все вполне реально, даже если не учитывать рост стоимости аренды. А с ростом стоимость аренды на 3 т.р. покроются и амортизационные расходы.</p>
+
+<p>Документ лежит в свободном доступе <a href="https://docs.google.com/spreadsheet/ccc?key=0Ao3qRR96-PXRdEFTY1Yxc1c5eEpmUmtZQzN4bEVOaXc">здесь</a>. Можете его копировать и использовать в своих целях. Буду очень рад любым отзывам, поправкам и замечаниям по цифрам и формулам, вашим бизнес-планам. Также интересно будет узнать, был ли у кого-нибудь из читателей подобный опыт инвестиций в недвижимость в прошлом, и что из этого вышло.</p>
+]]></content>
+  </entry>
+  
+</feed>
