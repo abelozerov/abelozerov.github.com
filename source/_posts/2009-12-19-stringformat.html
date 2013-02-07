@@ -11,7 +11,7 @@ categories:
 
 <div class='post'>
 Метод String.Format() позволяет вставлять значения переменных внутрь строки в места, помеченные с помощью фигурных скобок и индекса, например:<br /><br /><pre class="c-sharp" name="code">string.Format("My name is {0}", name);</pre><br />Но если в строке есть фигурные скобки, не относящиеся к местам подстановки переменных, вы получите Exception при компиляции, т.к. компилятор думает что всё что стоит между открывающей и закрывающей скобками является индексом.<br /><br /><pre class="c-sharp" name="code">string.Format("{name}={0}", name); // Exception</pre><br />Существует простое решение, как вставить в строку фигурную скобку: нужно написать ее 2 раза: {{ или }}<br /><br /><pre class="c-sharp" name="code">string name = "Alex";<br />string formattedStr = string.Format("{{name}}={0}", name); // no exception<br /></pre><br />В итоге в примере formattedStr будет равно "{name}=Alex"</div>
-<h2>Archived comments</h2>
+<!-- more --><h2>Archived comments</h2>
 <div class='comments'>
 <div class='comment'>
 <div class='author'><em>alex</em></div>
