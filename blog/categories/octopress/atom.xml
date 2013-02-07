@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: octopress | Alex Belozerov Blog]]></title>
-  <link href="http://abelozerov.github.com/blog/categories/octopress/atom.xml" rel="self"/>
-  <link href="http://abelozerov.github.com/"/>
-  <updated>2013-02-08T01:21:11+07:00</updated>
-  <id>http://abelozerov.github.com/</id>
+  <link href="http://abelozerov.com/blog/categories/octopress/atom.xml" rel="self"/>
+  <link href="http://abelozerov.com/"/>
+  <updated>2013-02-08T01:26:25+07:00</updated>
+  <id>http://abelozerov.com/</id>
   <author>
     <name><![CDATA[Alex Belozerov]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Как я переходил с Blogger на Octopress]]></title>
-    <link href="http://abelozerov.github.com/blog/2012/08/26/kak-ia-pieriekhodil-s-blogger-na-octopress/"/>
+    <link href="http://abelozerov.com/blog/2012/08/26/kak-ia-pieriekhodil-s-blogger-na-octopress/"/>
     <updated>2012-08-26T22:02:00+07:00</updated>
-    <id>http://abelozerov.github.com/blog/2012/08/26/kak-ia-pieriekhodil-s-blogger-na-octopress</id>
+    <id>http://abelozerov.com/blog/2012/08/26/kak-ia-pieriekhodil-s-blogger-na-octopress</id>
     <content type="html"><![CDATA[<p><img src="/images/2012/08/26/octopress.png" title="Octopress" ></p>
 
 <p>Сам по себе переход занял у меня ровно один день с периодическим отвлечением на развлечения. Для начала я решил создать виртуальную машину с Ubuntu и делать все на ней, т.к. когда увидел в инструкции по установке RVM под Windows "Установите Cygwin", понял, что быстрее будет поставить систему с нуля, чем пытаться все правильно заставить работать под Винду. Также виртуальная машина мне скоро пригодится в экспериментах с Python'ом, так что время в любом случае было потрачено не зря.</p>
@@ -119,9 +119,9 @@
   
   <entry>
     <title type="html"><![CDATA[Octopress hello world!]]></title>
-    <link href="http://abelozerov.github.com/blog/2012/08/26/octopress-hello-world/"/>
+    <link href="http://abelozerov.com/blog/2012/08/26/octopress-hello-world/"/>
     <updated>2012-08-26T15:21:00+07:00</updated>
-    <id>http://abelozerov.github.com/blog/2012/08/26/octopress-hello-world</id>
+    <id>http://abelozerov.com/blog/2012/08/26/octopress-hello-world</id>
     <content type="html"><![CDATA[<p>Я перевел свой блог с Blogger'а на движок <a href="http://octopress.org/">Octopress</a>.</p>
 
 <p>Почему? Ну, на это было несколько причин:</p>

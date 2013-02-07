@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: инвестиции | Alex Belozerov Blog]]></title>
-  <link href="http://abelozerov.github.com/blog/categories/инвестиции/atom.xml" rel="self"/>
-  <link href="http://abelozerov.github.com/"/>
-  <updated>2013-02-08T01:21:11+07:00</updated>
-  <id>http://abelozerov.github.com/</id>
+  <link href="http://abelozerov.com/blog/categories/инвестиции/atom.xml" rel="self"/>
+  <link href="http://abelozerov.com/"/>
+  <updated>2013-02-08T01:26:25+07:00</updated>
+  <id>http://abelozerov.com/</id>
   <author>
     <name><![CDATA[Alex Belozerov]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Бизнес-план "Сдача квартиры в аренду"]]></title>
-    <link href="http://abelozerov.github.com/blog/2012/09/08/biznies-plan-sdacha-kvartiry-v-ariendu/"/>
+    <link href="http://abelozerov.com/blog/2012/09/08/biznies-plan-sdacha-kvartiry-v-ariendu/"/>
     <updated>2012-09-08T18:37:00+07:00</updated>
-    <id>http://abelozerov.github.com/blog/2012/09/08/biznies-plan-sdacha-kvartiry-v-ariendu</id>
+    <id>http://abelozerov.com/blog/2012/09/08/biznies-plan-sdacha-kvartiry-v-ariendu</id>
     <content type="html"><![CDATA[<p><img src="/images/2012/09/08/house.jpg"></p>
 
 <p>Меня заинтересовал вопрос, выгодно ли купить квартиру в кредит с целью последующей ее сдачи в аренду. Цель в том, чтобы потратив как можно меньше денег сейчас, получить в будущем через 10 лет актив в виде квартиры.</p>
