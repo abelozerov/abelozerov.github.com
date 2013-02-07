@@ -1,0 +1,387 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Как я переходил с Blogger на Octopress - Alex Belozerov Blog</title>
+  <meta name="author" content="Alex Belozerov">
+
+  
+  <meta name="description" content="Сам по себе переход занял у меня ровно один день с периодическим отвлечением на развлечения. Для начала я решил создать виртуальную машину с Ubuntu &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://abelozerov.github.com/blog/2012/08/26/kak-ia-pieriekhodil-s-blogger-na-octopress/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="http://feeds.feedburner.com/abelozerov" rel="alternate" title="Alex Belozerov Blog" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-34351042-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Alex Belozerov Blog</a></h1>
+  
+    <h2>напугай природу гамма-всплесков</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="http://feeds.feedburner.com/abelozerov" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:abelozerov.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Блог</a></li>
+  <li><a href="/blog/archives">Архив</a></li>
+  <li><a href="http://www.welldonecode.com/perfectpixel.html" target="_blank">PerfectPixel</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Как я переходил с Blogger на Octopress</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-08-26T22:02:00+07:00" pubdate data-updated="true">Aug 26<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p><img src="/images/2012/08/26/octopress.png" title="Octopress" ></p>
+
+<p>Сам по себе переход занял у меня ровно один день с периодическим отвлечением на развлечения. Для начала я решил создать виртуальную машину с Ubuntu и делать все на ней, т.к. когда увидел в инструкции по установке RVM под Windows &#8220;Установите Cygwin&#8221;, понял, что быстрее будет поставить систему с нуля, чем пытаться все правильно заставить работать под Винду. Также виртуальная машина мне скоро пригодится в экспериментах с Python&#8217;ом, так что время в любом случае было потрачено не зря.</p>
+
+<!-- more -->
+
+
+<p>Все мероприятие можно разделить на следующие этапы</p>
+
+<ol>
+<li><p>Установка environment&#8217;а для Octopress и самого Octopress.
+Тут все просто, выполняем шаги, следуя иструкциям:
+<a href="http://octopress.org/docs/setup/">http://octopress.org/docs/setup/</a>
+Пришлось немного повозиться с зависимостями, но гуглилось все очень быстро, так что проблем не возникло.</p></li>
+<li><p>Настройка Octopress, написание hello world поста и генерация блога.
+<a href="http://octopress.org/docs/configuring/">http://octopress.org/docs/configuring/</a>,
+<a href="http://octopress.org/docs/blogging/">http://octopress.org/docs/blogging/</a></p></li>
+<li><p>Импорт записей из Blogger. Воспользовался готовым скриптом <a href="https://gist.github.com/2928871">https://gist.github.com/2928871</a></p></li>
+<li><p>Использование GitHub в качестве хостинга, заливка на него, настройка DNS.
+<a href="http://octopress.org/docs/deploying/github/">http://octopress.org/docs/deploying/github/</a>,
+<a href="https://help.github.com/articles/setting-up-a-custom-domain-wi-pages">https://help.github.com/articles/setting-up-a-custom-domain-with-pages</a></p></li>
+<li><p>Настройка редиректов, для людей, пришедших с поисковых систем.
+Т.к. постов у меня было мало, направил старый домен blog.abelozerov.com на свой сервер с IIS7 и сделал там Rewrite Map с явным указанием, какая страница на какую должна переходить. Выкладываю получившийся web.config, может кому пригодится. Обратите внимание на строку с ключом &#8220;/feeds/posts/default&#8221; - это редирект для RSS-ленты, сделано для того чтобы старые подписчики продолжали получать обновления по RSS.</p></li>
+</ol>
+
+
+<figure class='code'><figcaption><span> (web.config)</span> <a href='/downloads/code/2012/08/26/web.config'>download</a></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+</pre></td><td class='code'><pre><code class='xml'><span class='line'><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+</span><span class='line'><span class="nt">&lt;configuration&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;system.webServer&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;rewrite&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;rewriteMaps&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;rewriteMap</span> <span class="na">name=</span><span class="s">&quot;Posts&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>                    <span class="nt">&lt;add</span> <span class="na">key=</span><span class="s">&quot;/2011/10/gdd-2011-gtugs-day-2011.html&quot;</span> <span class="na">value=</span><span class="s">&quot;http://abelozerov.com/blog/2011/10/21/gdd-2011-gtugs-day-2011/&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'>                    <span class="nt">&lt;add</span> <span class="na">key=</span><span class="s">&quot;/2011/08/google-developer-day-challenge-2011.html&quot;</span> <span class="na">value=</span><span class="s">&quot;http://abelozerov.com/blog/2011/08/15/google-developer-day-challenge-2011/&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'>                    <span class="nt">&lt;add</span> <span class="na">key=</span><span class="s">&quot;/2011/04/ufo-two-sides.html&quot;</span> <span class="na">value=</span><span class="s">&quot;http://abelozerov.com/blog/2011/04/18/ufo-two-sides/&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'>                    <span class="nt">&lt;add</span> <span class="na">key=</span><span class="s">&quot;/2011/01/nhibernate-fluent-nhibernate.html&quot;</span> <span class="na">value=</span><span class="s">&quot;http://abelozerov.com/blog/2011/01/08/nhibernate-fluent-nhibernate/&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'>                    <span class="nt">&lt;add</span> <span class="na">key=</span><span class="s">&quot;/2010/07/sennheiser.html&quot;</span> <span class="na">value=</span><span class="s">&quot;http://abelozerov.com/blog/2010/07/03/sennheiser/&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'>                    <span class="nt">&lt;add</span> <span class="na">key=</span><span class="s">&quot;/2010/06/macos-x.html&quot;</span> <span class="na">value=</span><span class="s">&quot;http://abelozerov.com/blog/2010/06/01/macos-x/&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'>                    <span class="nt">&lt;add</span> <span class="na">key=</span><span class="s">&quot;/2010/05/firefox.html&quot;</span> <span class="na">value=</span><span class="s">&quot;http://abelozerov.com/blog/2010/05/16/firefox/&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'>                    <span class="nt">&lt;add</span> <span class="na">key=</span><span class="s">&quot;/2010/01/updatepanel.html&quot;</span> <span class="na">value=</span><span class="s">&quot;http://abelozerov.com/blog/2010/04/01/updatepanel/&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'>                    <span class="nt">&lt;add</span> <span class="na">key=</span><span class="s">&quot;/2009/12/stringformat.html&quot;</span> <span class="na">value=</span><span class="s">&quot;http://abelozerov.com/blog/2009/12/19/stringformat/&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'>                    <span class="nt">&lt;add</span> <span class="na">key=</span><span class="s">&quot;/2009/10/iphone.html&quot;</span> <span class="na">value=</span><span class="s">&quot;http://abelozerov.com/blog/2009/10/20/iphone/&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'>                    <span class="nt">&lt;add</span> <span class="na">key=</span><span class="s">&quot;/2009/09/aspnet-redirect-querystring.html&quot;</span> <span class="na">value=</span><span class="s">&quot;http://abelozerov.com/blog/2009/09/26/aspnet-redirect-querystring/&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'>                    <span class="nt">&lt;add</span> <span class="na">key=</span><span class="s">&quot;/2009/05/blog-post.html&quot;</span> <span class="na">value=</span><span class="s">&quot;http://abelozerov.com/blog/2009/05/30/blog-post/&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'>                    <span class="nt">&lt;add</span> <span class="na">key=</span><span class="s">&quot;/&quot;</span> <span class="na">value=</span><span class="s">&quot;http://abelozerov.com&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'>                  <span class="nt">&lt;add</span> <span class="na">key=</span><span class="s">&quot;/feeds/posts/default&quot;</span> <span class="na">value=</span><span class="s">&quot;http://feeds.feedburner.com/abelozerov&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;/rewriteMap&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;/rewriteMaps&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;rules&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;rule</span> <span class="na">name=</span><span class="s">&quot;Redirect rule1 for Posts&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>                    <span class="nt">&lt;match</span> <span class="na">url=</span><span class="s">&quot;(.*)&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'>                    <span class="nt">&lt;conditions&gt;</span>
+</span><span class='line'>                        <span class="nt">&lt;add</span> <span class="na">input=</span><span class="s">&quot;{Posts:{REQUEST_URI}}&quot;</span> <span class="na">pattern=</span><span class="s">&quot;(.+)&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'>                    <span class="nt">&lt;/conditions&gt;</span>
+</span><span class='line'>                    <span class="nt">&lt;action</span> <span class="na">type=</span><span class="s">&quot;Redirect&quot;</span> <span class="na">url=</span><span class="s">&quot;{C:1}&quot;</span> <span class="na">appendQueryString=</span><span class="s">&quot;false&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;/rule&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;/rules&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;/rewrite&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;/system.webServer&gt;</span>
+</span><span class='line'><span class="nt">&lt;/configuration&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Alex Belozerov</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-08-26T22:02:00+07:00" pubdate data-updated="true">Aug 26<span>th</span>, 2012</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/octopress/'>octopress</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://abelozerov.github.com/blog/2012/08/26/kak-ia-pieriekhodil-s-blogger-na-octopress/" data-via="abelozerov" data-counturl="http://abelozerov.github.com/blog/2012/08/26/kak-ia-pieriekhodil-s-blogger-na-octopress/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2012/08/26/octopress-hello-world/" title="Previous Post: Octopress hello world!">&laquo; Octopress hello world!</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2012/09/08/rieshieniie-probliemy-s-google-i-dom-dot-ru/" title="Next Post: Решение проблемы с Google и Дом.Ру">Решение проблемы с Google и Дом.Ру &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/12/15/citrix-xenserver-hints/">Citrix XenServer and XenCenter hints</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/09/08/biznies-plan-sdacha-kvartiry-v-ariendu/">Бизнес-план "Сдача квартиры в аренду"</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/09/08/rieshieniie-probliemy-s-google-i-dom-dot-ru/">Решение проблемы с Google и Дом.Ру</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/08/26/kak-ia-pieriekhodil-s-blogger-na-octopress/">Как я переходил с Blogger на Octopress</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/08/26/octopress-hello-world/">Octopress hello world!</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+<section>
+  <h1>Latest Tweets</h1>
+  <ul id="tweets">
+    <li class="loading">Status updating...</li>
+  </ul>
+  <script type="text/javascript">
+    $.domReady(function(){
+      getTwitterFeed("abelozerov", 4, false);
+    });
+  </script>
+  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
+  
+    <a href="http://twitter.com/abelozerov" class="twitter-follow-button" data-show-count="false">Follow @abelozerov</a>
+  
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - Alex Belozerov -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'abelozerov';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://abelozerov.github.com/blog/2012/08/26/kak-ia-pieriekhodil-s-blogger-na-octopress/';
+        var disqus_url = 'http://abelozerov.github.com/blog/2012/08/26/kak-ia-pieriekhodil-s-blogger-na-octopress/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

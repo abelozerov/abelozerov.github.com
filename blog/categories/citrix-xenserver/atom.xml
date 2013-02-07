@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: citrix xenserver | Alex Belozerov Blog]]></title>
+  <link href="http://abelozerov.github.com/blog/categories/citrix-xenserver/atom.xml" rel="self"/>
+  <link href="http://abelozerov.github.com/"/>
+  <updated>2013-02-08T01:21:11+07:00</updated>
+  <id>http://abelozerov.github.com/</id>
+  <author>
+    <name><![CDATA[Alex Belozerov]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Citrix XenServer and XenCenter hints]]></title>
+    <link href="http://abelozerov.github.com/blog/2012/12/15/citrix-xenserver-hints/"/>
+    <updated>2012-12-15T19:44:00+07:00</updated>
+    <id>http://abelozerov.github.com/blog/2012/12/15/citrix-xenserver-hints</id>
+    <content type="html"><![CDATA[<p>Настраивал дома Citrix XenServer 6.1 через Citrix XenCenter и столкнулся с парой проблем. Пишу пост для того, чтобы самому второй раз долго не искать решения, и может помогу еще кому-нибудь сэкономить время.</p>
+
+<!-- more -->
+
+
+<h3>Как настроить автозапуск виртуальных машин при старте сервера?</h3>
+
+<p>Рекомендую сначала объединить виртуальные машины в vApp, чтобы было проще потом рулить автозапуском путем простого добавления или удаления виртуальной машины из соответствующего vApp.</p>
+
+<p>После создания vApp необходимо узнать его UUID. Сделать это можно в консоли XenServer с помощью команды:</p>
+
+<pre><code>xe appliance-list
+</code></pre>
+
+<p>Потом редактируете файл <code>/etc/rc.local</code>, добавляете в конец:</p>
+
+<pre><code>sleep 30
+/opt/xensource/bin/xe appliance-start uuid=YOUR_UUID
+</code></pre>
+
+<p>Все. Теперь после запуска XenServer через 30 секунд стартуют виртуальные машины из вашего vApp.
+(величину sleep подобрать опытным путем, если сделаете слишком мало, vApp не будет стартовать)</p>
+
+<h3>Как приаттичить физический жесткий диск к виртуальной машине?</h3>
+
+<p>Из XenCenter очень легко присоединить к виртуальной машине removable накопители через меню Storage, к сожалению это не относится к внутренним жестким дискам. Но можно сделать так, чтобы внутренние HDD также оказались в списке removable накопителей :)</p>
+
+<p>Редактируем файл <code>/etc/udev/rules.d/50-udev.rules</code>, добавляем строки:</p>
+
+<pre><code>ACTION=="add", KERNEL=="sdb", SYMLINK+="xapi/block/%k", RUN+="/bin/sh -c '/opt/xensource/libexec/local-device-change %k 2&gt;&amp;1 &gt;/dev/null&amp;'"
+ACTION=="remove", KERNEL=="sdb", RUN+="/bin/sh -c '/opt/xensource/libexec/local-device-change %k 2&gt;&amp;1 &gt;/dev/null&amp;'"
+</code></pre>
+
+<p>Теперь внутренние HDD отображаются как removable SCSI диски, можно их присоединять к виртуальным машинам.</p>
+]]></content>
+  </entry>
+  
+</feed>

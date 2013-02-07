@@ -1,0 +1,530 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Alex Belozerov Blog]]></title>
+  <link href="http://abelozerov.github.com/atom.xml" rel="self"/>
+  <link href="http://abelozerov.github.com/"/>
+  <updated>2013-02-08T01:21:11+07:00</updated>
+  <id>http://abelozerov.github.com/</id>
+  <author>
+    <name><![CDATA[Alex Belozerov]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Citrix XenServer and XenCenter hints]]></title>
+    <link href="http://abelozerov.github.com/blog/2012/12/15/citrix-xenserver-hints/"/>
+    <updated>2012-12-15T19:44:00+07:00</updated>
+    <id>http://abelozerov.github.com/blog/2012/12/15/citrix-xenserver-hints</id>
+    <content type="html"><![CDATA[<p>Настраивал дома Citrix XenServer 6.1 через Citrix XenCenter и столкнулся с парой проблем. Пишу пост для того, чтобы самому второй раз долго не искать решения, и может помогу еще кому-нибудь сэкономить время.</p>
+
+<!-- more -->
+
+
+<h3>Как настроить автозапуск виртуальных машин при старте сервера?</h3>
+
+<p>Рекомендую сначала объединить виртуальные машины в vApp, чтобы было проще потом рулить автозапуском путем простого добавления или удаления виртуальной машины из соответствующего vApp.</p>
+
+<p>После создания vApp необходимо узнать его UUID. Сделать это можно в консоли XenServer с помощью команды:</p>
+
+<pre><code>xe appliance-list
+</code></pre>
+
+<p>Потом редактируете файл <code>/etc/rc.local</code>, добавляете в конец:</p>
+
+<pre><code>sleep 30
+/opt/xensource/bin/xe appliance-start uuid=YOUR_UUID
+</code></pre>
+
+<p>Все. Теперь после запуска XenServer через 30 секунд стартуют виртуальные машины из вашего vApp.
+(величину sleep подобрать опытным путем, если сделаете слишком мало, vApp не будет стартовать)</p>
+
+<h3>Как приаттичить физический жесткий диск к виртуальной машине?</h3>
+
+<p>Из XenCenter очень легко присоединить к виртуальной машине removable накопители через меню Storage, к сожалению это не относится к внутренним жестким дискам. Но можно сделать так, чтобы внутренние HDD также оказались в списке removable накопителей :)</p>
+
+<p>Редактируем файл <code>/etc/udev/rules.d/50-udev.rules</code>, добавляем строки:</p>
+
+<pre><code>ACTION=="add", KERNEL=="sdb", SYMLINK+="xapi/block/%k", RUN+="/bin/sh -c '/opt/xensource/libexec/local-device-change %k 2&gt;&amp;1 &gt;/dev/null&amp;'"
+ACTION=="remove", KERNEL=="sdb", RUN+="/bin/sh -c '/opt/xensource/libexec/local-device-change %k 2&gt;&amp;1 &gt;/dev/null&amp;'"
+</code></pre>
+
+<p>Теперь внутренние HDD отображаются как removable SCSI диски, можно их присоединять к виртуальным машинам.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Бизнес-план "Сдача квартиры в аренду"]]></title>
+    <link href="http://abelozerov.github.com/blog/2012/09/08/biznies-plan-sdacha-kvartiry-v-ariendu/"/>
+    <updated>2012-09-08T18:37:00+07:00</updated>
+    <id>http://abelozerov.github.com/blog/2012/09/08/biznies-plan-sdacha-kvartiry-v-ariendu</id>
+    <content type="html"><![CDATA[<p><img src="http://abelozerov.github.com/images/2012/09/08/house.jpg"></p>
+
+<p>Меня заинтересовал вопрос, выгодно ли купить квартиру в кредит с целью последующей ее сдачи в аренду. Цель в том, чтобы потратив как можно меньше денег сейчас, получить в будущем через 10 лет актив в виде квартиры.</p>
+
+<!-- more -->
+
+
+<p>Предполагаем, что покупаем и сдаем 1-комнатную квартиру в центре г. Омска, изначально имея примерно 30% от стоимости и деньги на ремонт и наполнение квартиры, остальное берем в кредит у банка. Предполагаем, что стоимость аренды со временем не меняется.</p>
+
+<p>Сделал в Google Docs Spreadsheet с нужными параметрами и вычислениями:</p>
+
+<iframe width='405' height='580' frameborder='0' src='https://docs.google.com/spreadsheet/pub?key=0Ao3qRR96-PXRdEFTY1Yxc1c5eEpmUmtZQzN4bEVOaXc&single=true&gid=0&range=A1%3AB29&output=html'></iframe>
+
+
+<p>Я добавил в документ амортизационные расходы. Что это? Мебель, бытовая техника и ремонт со временем приходят в негодность, поэтому хорошо бы также закладывать расходы на обновление этих компонентов, я исходил из расчета что все это придется купить заново через 100 месяцев пользования. Это и есть амортизационные расходы.</p>
+
+<p>Из расчетов выходит, что все вполне реально, даже если не учитывать рост стоимости аренды. А с ростом стоимость аренды на 3 т.р. покроются и амортизационные расходы.</p>
+
+<p>Документ лежит в свободном доступе <a href="https://docs.google.com/spreadsheet/ccc?key=0Ao3qRR96-PXRdEFTY1Yxc1c5eEpmUmtZQzN4bEVOaXc">здесь</a>. Можете его копировать и использовать в своих целях. Буду очень рад любым отзывам, поправкам и замечаниям по цифрам и формулам, вашим бизнес-планам. Также интересно будет узнать, был ли у кого-нибудь из читателей подобный опыт инвестиций в недвижимость в прошлом, и что из этого вышло.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Решение проблемы с Google и Дом.Ру]]></title>
+    <link href="http://abelozerov.github.com/blog/2012/09/08/rieshieniie-probliemy-s-google-i-dom-dot-ru/"/>
+    <updated>2012-09-08T00:20:00+07:00</updated>
+    <id>http://abelozerov.github.com/blog/2012/09/08/rieshieniie-probliemy-s-google-i-dom-dot-ru</id>
+    <content type="html"><![CDATA[<p>Со вчерашнего вечера через провайдера Дом.Ру у меня, практически всех моих знакомых, и, главное, в офисе, перестали работать сервисы Google: Google.com, Gmail, Google Docs, Youtube,&#8230; Браузер выдает следующую ошибку:</p>
+
+<pre><code>Ошибка 126 (net::ERR_SSL_BAD_RECORD_MAC_ALERT)
+</code></pre>
+
+<p>Очень неприятно, особенно учитывая что через Билайновский 3G могу пользоваться гугловскими сайтами без проблем.</p>
+
+<!-- more -->
+
+
+<p>Проблема явно на стороне провайдера. Примерно полчаса разговоров с саппортом и день ожидания ни к чему не привели. HttpFox показывал в response NS_ERROR_ABORT, что натолкнуло на мысль о неисправности DNS-серверов.</p>
+
+<p><strong>К счастью, нашел решение:</strong></p>
+
+<ol>
+<li>Почистить весь кэш и куки в браузере</li>
+<li>Явно прописать в DNS вашего соединения на компьютере или в роутере следующие DNS-сервера: 8.8.8.8, 8.8.4.4</li>
+</ol>
+
+
+<p><img src="http://abelozerov.github.com/images/2012/09/08/dhcp.png" title="Настройки роутера для победы над Ошибкой 126 ERR_SSL_BAD_RECORD_MAC_ALERT" ></p>
+
+<p>Попробуйте, надеюсь вам тоже поможет!</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Как я переходил с Blogger на Octopress]]></title>
+    <link href="http://abelozerov.github.com/blog/2012/08/26/kak-ia-pieriekhodil-s-blogger-na-octopress/"/>
+    <updated>2012-08-26T22:02:00+07:00</updated>
+    <id>http://abelozerov.github.com/blog/2012/08/26/kak-ia-pieriekhodil-s-blogger-na-octopress</id>
+    <content type="html"><![CDATA[<p><img src="http://abelozerov.github.com/images/2012/08/26/octopress.png" title="Octopress" ></p>
+
+<p>Сам по себе переход занял у меня ровно один день с периодическим отвлечением на развлечения. Для начала я решил создать виртуальную машину с Ubuntu и делать все на ней, т.к. когда увидел в инструкции по установке RVM под Windows &#8220;Установите Cygwin&#8221;, понял, что быстрее будет поставить систему с нуля, чем пытаться все правильно заставить работать под Винду. Также виртуальная машина мне скоро пригодится в экспериментах с Python&#8217;ом, так что время в любом случае было потрачено не зря.</p>
+
+<!-- more -->
+
+
+<p>Все мероприятие можно разделить на следующие этапы</p>
+
+<ol>
+<li><p>Установка environment&#8217;а для Octopress и самого Octopress.
+Тут все просто, выполняем шаги, следуя иструкциям:
+<a href="http://octopress.org/docs/setup/">http://octopress.org/docs/setup/</a>
+Пришлось немного повозиться с зависимостями, но гуглилось все очень быстро, так что проблем не возникло.</p></li>
+<li><p>Настройка Octopress, написание hello world поста и генерация блога.
+<a href="http://octopress.org/docs/configuring/">http://octopress.org/docs/configuring/</a>,
+<a href="http://octopress.org/docs/blogging/">http://octopress.org/docs/blogging/</a></p></li>
+<li><p>Импорт записей из Blogger. Воспользовался готовым скриптом <a href="https://gist.github.com/2928871">https://gist.github.com/2928871</a></p></li>
+<li><p>Использование GitHub в качестве хостинга, заливка на него, настройка DNS.
+<a href="http://octopress.org/docs/deploying/github/">http://octopress.org/docs/deploying/github/</a>,
+<a href="https://help.github.com/articles/setting-up-a-custom-domain-wi-pages">https://help.github.com/articles/setting-up-a-custom-domain-with-pages</a></p></li>
+<li><p>Настройка редиректов, для людей, пришедших с поисковых систем.
+Т.к. постов у меня было мало, направил старый домен blog.abelozerov.com на свой сервер с IIS7 и сделал там Rewrite Map с явным указанием, какая страница на какую должна переходить. Выкладываю получившийся web.config, может кому пригодится. Обратите внимание на строку с ключом &#8220;/feeds/posts/default&#8221; - это редирект для RSS-ленты, сделано для того чтобы старые подписчики продолжали получать обновления по RSS.</p></li>
+</ol>
+
+
+<figure class='code'><figcaption><span> (web.config)</span> <a href='http://abelozerov.github.com/downloads/code/2012/08/26/web.config'>download</a></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+</pre></td><td class='code'><pre><code class='xml'><span class='line'><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+</span><span class='line'><span class="nt">&lt;configuration&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;system.webServer&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;rewrite&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;rewriteMaps&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;rewriteMap</span> <span class="na">name=</span><span class="s">&quot;Posts&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>                    <span class="nt">&lt;add</span> <span class="na">key=</span><span class="s">&quot;/2011/10/gdd-2011-gtugs-day-2011.html&quot;</span> <span class="na">value=</span><span class="s">&quot;http://abelozerov.com/blog/2011/10/21/gdd-2011-gtugs-day-2011/&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'>                    <span class="nt">&lt;add</span> <span class="na">key=</span><span class="s">&quot;/2011/08/google-developer-day-challenge-2011.html&quot;</span> <span class="na">value=</span><span class="s">&quot;http://abelozerov.com/blog/2011/08/15/google-developer-day-challenge-2011/&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'>                    <span class="nt">&lt;add</span> <span class="na">key=</span><span class="s">&quot;/2011/04/ufo-two-sides.html&quot;</span> <span class="na">value=</span><span class="s">&quot;http://abelozerov.com/blog/2011/04/18/ufo-two-sides/&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'>                    <span class="nt">&lt;add</span> <span class="na">key=</span><span class="s">&quot;/2011/01/nhibernate-fluent-nhibernate.html&quot;</span> <span class="na">value=</span><span class="s">&quot;http://abelozerov.com/blog/2011/01/08/nhibernate-fluent-nhibernate/&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'>                    <span class="nt">&lt;add</span> <span class="na">key=</span><span class="s">&quot;/2010/07/sennheiser.html&quot;</span> <span class="na">value=</span><span class="s">&quot;http://abelozerov.com/blog/2010/07/03/sennheiser/&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'>                    <span class="nt">&lt;add</span> <span class="na">key=</span><span class="s">&quot;/2010/06/macos-x.html&quot;</span> <span class="na">value=</span><span class="s">&quot;http://abelozerov.com/blog/2010/06/01/macos-x/&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'>                    <span class="nt">&lt;add</span> <span class="na">key=</span><span class="s">&quot;/2010/05/firefox.html&quot;</span> <span class="na">value=</span><span class="s">&quot;http://abelozerov.com/blog/2010/05/16/firefox/&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'>                    <span class="nt">&lt;add</span> <span class="na">key=</span><span class="s">&quot;/2010/01/updatepanel.html&quot;</span> <span class="na">value=</span><span class="s">&quot;http://abelozerov.com/blog/2010/04/01/updatepanel/&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'>                    <span class="nt">&lt;add</span> <span class="na">key=</span><span class="s">&quot;/2009/12/stringformat.html&quot;</span> <span class="na">value=</span><span class="s">&quot;http://abelozerov.com/blog/2009/12/19/stringformat/&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'>                    <span class="nt">&lt;add</span> <span class="na">key=</span><span class="s">&quot;/2009/10/iphone.html&quot;</span> <span class="na">value=</span><span class="s">&quot;http://abelozerov.com/blog/2009/10/20/iphone/&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'>                    <span class="nt">&lt;add</span> <span class="na">key=</span><span class="s">&quot;/2009/09/aspnet-redirect-querystring.html&quot;</span> <span class="na">value=</span><span class="s">&quot;http://abelozerov.com/blog/2009/09/26/aspnet-redirect-querystring/&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'>                    <span class="nt">&lt;add</span> <span class="na">key=</span><span class="s">&quot;/2009/05/blog-post.html&quot;</span> <span class="na">value=</span><span class="s">&quot;http://abelozerov.com/blog/2009/05/30/blog-post/&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'>                    <span class="nt">&lt;add</span> <span class="na">key=</span><span class="s">&quot;/&quot;</span> <span class="na">value=</span><span class="s">&quot;http://abelozerov.com&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'>                  <span class="nt">&lt;add</span> <span class="na">key=</span><span class="s">&quot;/feeds/posts/default&quot;</span> <span class="na">value=</span><span class="s">&quot;http://feeds.feedburner.com/abelozerov&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;/rewriteMap&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;/rewriteMaps&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;rules&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;rule</span> <span class="na">name=</span><span class="s">&quot;Redirect rule1 for Posts&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>                    <span class="nt">&lt;match</span> <span class="na">url=</span><span class="s">&quot;(.*)&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'>                    <span class="nt">&lt;conditions&gt;</span>
+</span><span class='line'>                        <span class="nt">&lt;add</span> <span class="na">input=</span><span class="s">&quot;{Posts:{REQUEST_URI}}&quot;</span> <span class="na">pattern=</span><span class="s">&quot;(.+)&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'>                    <span class="nt">&lt;/conditions&gt;</span>
+</span><span class='line'>                    <span class="nt">&lt;action</span> <span class="na">type=</span><span class="s">&quot;Redirect&quot;</span> <span class="na">url=</span><span class="s">&quot;{C:1}&quot;</span> <span class="na">appendQueryString=</span><span class="s">&quot;false&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;/rule&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;/rules&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;/rewrite&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;/system.webServer&gt;</span>
+</span><span class='line'><span class="nt">&lt;/configuration&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Octopress hello world!]]></title>
+    <link href="http://abelozerov.github.com/blog/2012/08/26/octopress-hello-world/"/>
+    <updated>2012-08-26T15:21:00+07:00</updated>
+    <id>http://abelozerov.github.com/blog/2012/08/26/octopress-hello-world</id>
+    <content type="html"><![CDATA[<p>Я перевел свой блог с Blogger&#8217;а на движок <a href="http://octopress.org/">Octopress</a>.</p>
+
+<p>Почему? Ну, на это было несколько причин:</p>
+
+<!-- more -->
+
+
+<ol>
+<li><p>Внешний вид. Я так и не смог найти более-менее подходящий скин для Блоггера, который бы выглядел прилично, не тормозил и нормально отображался одновременно на десктопах и мобильных устройствах.</p></li>
+<li><p>Свобода. Всегда лучше иметь доступ к исходникам и хостить блог там, где я сам посчитаю нужным, не зависеть от каких-либо ограничений и новых гениальных идей Гугла по смене дизайна либо закрытию не приносящих прибыль подразделений.</p></li>
+<li><p>Просто потому что захотелось попробовать что-то новое! Дико интересно поработать с модными технологиями: Ruby, HTML5, Markdown, Disqus. Мне импонирует сама идея этого блогинг фреймворка и его ориентация на гиков.</p></li>
+</ol>
+
+
+<p><img src="http://abelozerov.github.com/images/2012/08/26/zoidberg.png" title="Why not?" ></p>
+
+<p>Thank you for your attention!</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[GDD 2011 и GTUGs Day 2011]]></title>
+    <link href="http://abelozerov.github.com/blog/2011/10/21/gdd-2011-gtugs-day-2011/"/>
+    <updated>2011-10-21T01:52:00+07:00</updated>
+    <id>http://abelozerov.github.com/blog/2011/10/21/gdd-2011-gtugs-day-2011</id>
+    <content type="html"><![CDATA[<div class='post'>
+<div dir="ltr" style="text-align: left;" trbidi="on">9, 10 октября мне посчастливилось побывать в Москве на двух мероприятиях, организованных Google: GTUGs Day и Google Developer Day 2011.<br /><table align="center" cellpadding="0" cellspacing="0" class="tr-caption-container" style="margin-left: auto; margin-right: auto; text-align: center;"><tbody><tr><td style="text-align: center;"><a href="http://4.bp.blogspot.com/-9cAQU47oLac/TqBkr9S5FfI/AAAAAAAAB8s/2KPGFSV2k1M/s1600/IMG_1376.JPG" imageanchor="1" style="margin-left: auto; margin-right: auto;"><img border="0" height="213" src="http://4.bp.blogspot.com/-9cAQU47oLac/TqBkr9S5FfI/AAAAAAAAB8s/2KPGFSV2k1M/s320/IMG_1376.JPG" width="320" /></a></td></tr><tr><td class="tr-caption" style="text-align: center;">Омский GTUG</td></tr></tbody></table><!-- more -->GTUGs Day проходил в офисе Google, в рамках этого дня состоялся финал конкурса расширений для Google Chrome, в котором участвовали мы с <a href="http://www.blogger.com/profile/04271900245609508040">Ильей</a>&nbsp;с проектом <a href="https://chrome.google.com/webstore/detail/dkaagdgjmgdmbnecmcefdhjekcoceebi">PerfectPixel</a>. Напишу о проекте подробнее в следующем посте. Народу было немного, не больше сотни человек, были приглашены участники региональных Google Technology User Group, а также финалисты Chrome Contest. Очень положительные впечатления от офиса, организации мероприятия сотрудниками Google и от гостей, съехавшихся с разных городов страны. Из Омска прилетела делегация из 8 человек, все очень классные ребята!<br /><br />Общались, играли в настольный футбол, теннис и бильярд, вкушали вкусности в столовой Google Самобранке, слушали интересные доклады от сотрудников Google, нам провели экскурсию по офису. Приятно удивило качество проектов, представленных на финале Chrome Contest, все 16 были очень высокого уровня, и было интересно соревноваться со столь продвинутыми конкурентами.<br /><br /><table align="center" cellpadding="0" cellspacing="0" class="tr-caption-container" style="margin-left: auto; margin-right: auto; text-align: center;"><tbody><tr><td style="text-align: center;"><a href="http://1.bp.blogspot.com/-jXeu85vPqU0/TqBmbY1goXI/AAAAAAAAB9w/qhD-uHDXv2g/s1600/DSC_5205.JPG" imageanchor="1" style="margin-left: auto; margin-right: auto;"><img border="0" height="213" src="http://1.bp.blogspot.com/-jXeu85vPqU0/TqBmbY1goXI/AAAAAAAAB9w/qhD-uHDXv2g/s320/DSC_5205.JPG" width="320" /></a></td></tr><tr><td class="tr-caption" style="text-align: center;">Выступления на Chrome Contest</td></tr></tbody></table><table align="center" cellpadding="0" cellspacing="0" class="tr-caption-container" style="margin-left: auto; margin-right: auto; text-align: center;"><tbody><tr><td style="text-align: center;"><a href="http://3.bp.blogspot.com/-KubsMbppE60/TqBmezDsflI/AAAAAAAAB94/Ap42z-p57O0/s1600/DSC_5414.JPG" imageanchor="1" style="margin-left: auto; margin-right: auto;"><img border="0" height="213" src="http://3.bp.blogspot.com/-KubsMbppE60/TqBmezDsflI/AAAAAAAAB94/Ap42z-p57O0/s320/DSC_5414.JPG" width="320" /></a></td></tr><tr><td class="tr-caption" style="text-align: center;">Гуглофутбол объединяет программистов!</td></tr></tbody></table><table align="center" cellpadding="0" cellspacing="0" class="tr-caption-container" style="margin-left: auto; margin-right: auto; text-align: center;"><tbody><tr><td style="text-align: center;"><a href="http://2.bp.blogspot.com/-Ve_mkSNJolw/TqBmbRl71II/AAAAAAAAB9g/Akm61gxyu1g/s1600/DSC_5520.JPG" imageanchor="1" style="margin-left: auto; margin-right: auto;"><img border="0" height="213" src="http://2.bp.blogspot.com/-Ve_mkSNJolw/TqBmbRl71II/AAAAAAAAB9g/Akm61gxyu1g/s320/DSC_5520.JPG" width="320" /></a></td></tr><tr><td class="tr-caption" style="text-align: center;">Омский GTUG</td></tr></tbody></table>Google Developer Day 2011 - мероприятие гораздно большего масштаба, это конференция для разработчиков, использующих технологии Google, ее посетило почти 2000 человек. В течение дня на 5 сценах сотрудники Google читали на английском языке доклады, разбитые по темам Chrome/HTML5, Android, Google+, Cloud, Tech. В это время на главной сцене и около нее можно было представить свои проекты, также там проходили награждения победителей конкурсов.<br /><br /><div class="separator" style="clear: both; text-align: center;"><a href="http://3.bp.blogspot.com/-taS9TxC6-N0/TqBqnLlnzFI/AAAAAAAAB-Y/lKy6mAxD47Q/s1600/LSV_1442.JPG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" height="213" src="http://3.bp.blogspot.com/-taS9TxC6-N0/TqBqnLlnzFI/AAAAAAAAB-Y/lKy6mAxD47Q/s320/LSV_1442.JPG" width="320" /></a></div><br />Впечатлений масса! Впервые я оказался на техническом мероприятии такого размера. На открытии с главной сцены выступали менеджер проекта Google+ и авторы игры Cut The Rope, классно было живьем увидеть столь интересных личностей. Сами доклады мне довольно быстро наскучили,&nbsp;никаких новинок представлено не было,&nbsp;все то же самое можно легко найти в интернете, поэтому практически все время я провел в главном зале, наблюдая за презентациями стартапов :)<br /><br />Также на GDD проходили награждения победителей Open Call for GDD и подведение итогов Chrome Contest. Было очень волнительно ввиду высокого качества всех проектов, участвовавших в конкурсе. В итоге проект PerfectPixel получил 5 место с призом - конструктором Adruino Матрешка Z. Йохуу!!!! Я доволен вдвойне, т.к. также я был награжден как финалист Open Call for GDD xHTML с моим <a href="http://blog.abelozerov.com/2011/08/google-developer-day-challenge-2011.html">Drawing Doodle</a> ;)<br /><br /><table align="center" cellpadding="0" cellspacing="0" class="tr-caption-container" style="margin-left: auto; margin-right: auto; text-align: center;"><tbody><tr><td style="text-align: center;"><a href="http://3.bp.blogspot.com/-UoSAn9-3Yus/TqBk58FZeTI/AAAAAAAAB9M/EaJvu7BkZEg/s1600/LSV_1672.JPG" imageanchor="1" style="margin-left: auto; margin-right: auto;"><img border="0" height="213" src="http://3.bp.blogspot.com/-UoSAn9-3Yus/TqBk58FZeTI/AAAAAAAAB9M/EaJvu7BkZEg/s320/LSV_1672.JPG" width="320" /></a></td></tr><tr><td class="tr-caption" style="text-align: center;">OpenCall for GDD финалисты</td></tr></tbody></table><table align="center" cellpadding="0" cellspacing="0" class="tr-caption-container" style="margin-left: auto; margin-right: auto; text-align: center;"><tbody><tr><td style="text-align: center;"><a href="http://3.bp.blogspot.com/-X6L5XM7HPBA/TqBk0fuSiyI/AAAAAAAAB88/9QYJsIvcTjs/s1600/IMG_1572.JPG" imageanchor="1" style="margin-left: auto; margin-right: auto;"><img border="0" height="213" src="http://3.bp.blogspot.com/-X6L5XM7HPBA/TqBk0fuSiyI/AAAAAAAAB88/9QYJsIvcTjs/s320/IMG_1572.JPG" width="320" /></a></td></tr><tr><td class="tr-caption" style="text-align: center;">Призеры Chrome Contest</td></tr></tbody></table>Что еще запомнилось:<br /><br />Было интересно наблюдать за организацией питания такого количества народа. Проблему решили с помощью огромного числа мини-столиков и почти столь же огромного числа официантов, оперативно убиравших посуду и мусор со столов.<br /><br />Очень понравились пуфики, думаю над тем чтобы купить себе такой в офис:<br /><br /><div class="separator" style="clear: both; text-align: center;"><a href="http://3.bp.blogspot.com/-al09mckjFJI/TqBocnj_mPI/AAAAAAAAB-A/tj8IllUgzKo/s1600/IMG_1562.JPG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" height="319" src="http://3.bp.blogspot.com/-al09mckjFJI/TqBocnj_mPI/AAAAAAAAB-A/tj8IllUgzKo/s320/IMG_1562.JPG" width="320" /></a></div><div class="separator" style="clear: both; text-align: center;"><br /></div><div class="separator" style="clear: both; text-align: left;">Я отлично провел выходные! Вам тоже желаю почаще бывать на интересных мероприятиях в других городах</div><div class="separator" style="clear: both; text-align: left;"><br /></div><table align="center" cellpadding="0" cellspacing="0" class="tr-caption-container" style="margin-left: auto; margin-right: auto; text-align: center;"><tbody><tr><td style="text-align: center;"><a href="http://1.bp.blogspot.com/-721u97HIkiw/TqBqdffDwqI/AAAAAAAAB-Q/FHLWOvQpRek/s1600/IMG_1589.JPG" imageanchor="1" style="margin-left: auto; margin-right: auto;"><img border="0" height="213" src="http://1.bp.blogspot.com/-721u97HIkiw/TqBqdffDwqI/AAAAAAAAB-Q/FHLWOvQpRek/s320/IMG_1589.JPG" width="320" /></a></td></tr><tr><td class="tr-caption" style="text-align: center;">Гугл рулит!</td></tr></tbody></table><a href="https://picasaweb.google.com/110005717597976218140/GTUGsDayGoogleMoscow">Фоточки c GTUGs Day</a><br /><a href="https://picasaweb.google.com/110005717597976218140/GDDMoscow2011">Фоточки с GDD 2011</a><br /><br /><a href="https://picasaweb.google.com/mgpropub/Google20111009">Еще фоточки с GTUGs Day</a><br /><a href="https://picasaweb.google.com/mgpropub/GDD11">Еще фоточки с GDD 2011</a></div></div>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Google Developer Day Challenge 2011]]></title>
+    <link href="http://abelozerov.github.com/blog/2011/08/15/google-developer-day-challenge-2011/"/>
+    <updated>2011-08-15T16:43:00+07:00</updated>
+    <id>http://abelozerov.github.com/blog/2011/08/15/google-developer-day-challenge-2011</id>
+    <content type="html"><![CDATA[<div class='post'>
+<div dir="ltr" style="text-align: left;" trbidi="on">Компания Google проводила со 2 по 12 августа <a href="https://sites.google.com/site/opencallforgdd/the-challenge-1">конкурс </a>на лучший дудл на тему будущего Google Developer Day, который будет проходить 10 октября в Москве.<br /><br />Критерии оценки работ: техническое совершенство, использование современных web-технологий, креативность и соответствие национальным особенностям. Победителям обещают попадание их работ в Chrome Experiments и, возможно, приглашение на GDD.<br /><br />Я сделал и отправил на конкурс небольшую рисовалку с использованием HTML5 Canvas:<br /><br /><a href="http://renderedsource.com/alex/">http://renderedsource.com/alex/</a><br /><br />Работает под последними версиями Firefox, Chrome, Safari, в том числе под Safari for iOS<br /><br /><b>UPDATE:</b>&nbsp;Я в финале! Класс!&nbsp;<a href="https://sites.google.com/site/opencallxhtml5/home/russia">https://sites.google.com/site/opencallxhtml5/home/russia</a></div></div>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[UFO The Two Sides]]></title>
+    <link href="http://abelozerov.github.com/blog/2011/04/18/ufo-two-sides/"/>
+    <updated>2011-04-18T04:42:00+07:00</updated>
+    <id>http://abelozerov.github.com/blog/2011/04/18/ufo-two-sides</id>
+    <content type="html"><![CDATA[<div class='post'>
+<div dir="ltr" style="text-align: left;" trbidi="on"><div class="separator" style="clear: both; text-align: left;">Привет, любители самых лучших в мире игр!</div><br />Я сегодня очень доволен, т.к. обнаружил, что какие-то люди делают ремейк&nbsp;моей&nbsp;самой любимой компьютерной игры, да не просто переписывают старое доброе под новую операционную систему (чему я уже был бы несказанно рад), а делают то, о чем я и мечтать не мог!<br /><br />Речь об игре X-COM Ufo Defense/UFO Enemy Unknown, а новый проект называется UFO The Two Sides:&nbsp;<a href="http://ufotts.ninex.info/">http://ufotts.ninex.info</a><!-- more --><br /><br /><br /><div style="text-align: center;"><object class="BLOGGER-youtube-video" classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,40,0" data-thumbnail-src="http://2.gvt0.com/vi/dZ3d09D_Wko/0.jpg" height="266" width="320"><param name="movie" value="http://www.youtube.com/v/dZ3d09D_Wko&fs=1&source=uds" /><param name="bgcolor" value="#FFFFFF" /><embed width="320" height="266" src="http://www.youtube.com/v/dZ3d09D_Wko&fs=1&source=uds" type="application/x-shockwave-flash"></embed></object></div><br /><br />Основные фишки UFO TTS:<br /><br /><ol style="text-align: left;"><li>По игровой механике это тот же самый первый X-COM, без всяких изменений и нововведений (слава богу), лишь чуть подправили баланс</li><li>Но с поддержкой современного железа и ОС: работает под Win7 x64, поддержка разрешений до 1920x1200 и выше</li><li>С перерисованными спрайтами (разрешение стало в 4 раза выше) и перезаписанными музыкой и звуками, но если очень хочется можно использовать и ресурсы оригинальной игры</li><li>С позитивными изменениями в интерфейсе. К примеру, теперь можно заранее узнать, сколько &#8220;очков хода&#8221; займет путь до определенной точке на карте</li></ol><br /><table align="center" cellpadding="0" cellspacing="0" class="tr-caption-container" style="margin-left: auto; margin-right: auto; text-align: center;"><tbody><tr><td style="text-align: center;"><a href="http://3.bp.blogspot.com/-RZUeecRFStg/TatckJasW7I/AAAAAAAAB1Y/z08ARxk1Exw/s1600/fire_o.jpg" imageanchor="1" style="margin-left: auto; margin-right: auto;"><img border="0" height="203" src="http://3.bp.blogspot.com/-RZUeecRFStg/TatckJasW7I/AAAAAAAAB1Y/z08ARxk1Exw/s320/fire_o.jpg" width="320" /></a></td></tr><tr><td class="tr-caption" style="text-align: center;">Сравнение графики: оригинальный X-COM</td></tr></tbody></table><table align="center" cellpadding="0" cellspacing="0" class="tr-caption-container" style="margin-left: auto; margin-right: auto; text-align: center;"><tbody><tr><td style="text-align: center;"><a href="http://1.bp.blogspot.com/-mIxMmZ1HLAc/Tatcleg9_RI/AAAAAAAAB1c/2TDeNULCD90/s1600/fire_n.jpg" imageanchor="1" style="margin-left: auto; margin-right: auto;"><img border="0" height="203" src="http://1.bp.blogspot.com/-mIxMmZ1HLAc/Tatcleg9_RI/AAAAAAAAB1c/2TDeNULCD90/s320/fire_n.jpg" width="320" /></a></td></tr><tr><td class="tr-caption" style="text-align: center;">Сравнение графики: UFO The Two Sides</td></tr></tbody></table><table align="center" cellpadding="0" cellspacing="0" class="tr-caption-container" style="margin-left: auto; margin-right: auto; text-align: center;"><tbody><tr><td style="text-align: center;"><a href="http://2.bp.blogspot.com/-FKNju4RLYKA/TatcnY9SbJI/AAAAAAAAB1g/L3w-EWGJazE/s1600/xcombase.jpg" imageanchor="1" style="margin-left: auto; margin-right: auto;"><img border="0" height="240" src="http://2.bp.blogspot.com/-FKNju4RLYKA/TatcnY9SbJI/AAAAAAAAB1g/L3w-EWGJazE/s320/xcombase.jpg" width="320" /></a></td></tr><tr><td class="tr-caption" style="text-align: center;">Управление базой X-COM</td></tr></tbody></table><table align="center" cellpadding="0" cellspacing="0" class="tr-caption-container" style="margin-left: auto; margin-right: auto; text-align: center;"><tbody><tr><td style="text-align: center;"><a href="http://2.bp.blogspot.com/-h9Zx8NLUcyk/TatcnslT_QI/AAAAAAAAB1k/AqEEfm_d3SY/s1600/newgui.jpg" imageanchor="1" style="margin-left: auto; margin-right: auto;"><img border="0" height="240" src="http://2.bp.blogspot.com/-h9Zx8NLUcyk/TatcnslT_QI/AAAAAAAAB1k/AqEEfm_d3SY/s320/newgui.jpg" width="320" /></a></td></tr><tr><td class="tr-caption" style="text-align: center;">Геоскейп</td></tr></tbody></table><div class="separator" style="clear: both; text-align: center;"></div>За одно это уже респект, уважуха и вечная благодарность разработчикам! Но самое интересное впереди :)<br /><br />Те, кто играл в оригинал: согласитесь, вам всегда было интересно, как же функционируют базы пришельцев, в чем смысл постоянных полетов тарелок, в общем хотелось поиграть за инопланетян. Так вот, у вас есть такая возможность, они это реализовали!!!<br /><br /><b>Epic Win #1 - Игра за пришельцев</b><br /><br />Можно начать новую игру не только за X-COM, но и за пришельцев. У алиенов своя, совершенно непохожая на людскую, экономическая и производственная система, поведение инопланетян, которое мы видели в оригинальном X-COM - исследования местности,&nbsp;похищение животных и людей,&nbsp;терроры, подкуп правительств - обоснованно и логично!<br /><br /><table align="center" cellpadding="0" cellspacing="0" class="tr-caption-container" style="margin-left: auto; margin-right: auto; text-align: center;"><tbody><tr><td style="text-align: center;"><a href="http://1.bp.blogspot.com/-J8DOeOJcnOs/TatcoU1gwfI/AAAAAAAAB1o/ziLBH4WuaZY/s1600/highresufobase2.jpg" imageanchor="1" style="margin-left: auto; margin-right: auto;"><img border="0" height="240" src="http://1.bp.blogspot.com/-J8DOeOJcnOs/TatcoU1gwfI/AAAAAAAAB1o/ziLBH4WuaZY/s320/highresufobase2.jpg" width="320" /></a></td></tr><tr><td class="tr-caption" style="text-align: center;">Управление базой пришельцев</td></tr></tbody></table>Текущая версия носит номер 0.99, и некоторые вещи не реализованы, к сожалению сюда попал AI X-COM&#8217;овцев, который нужен при игре за пришельцев, так что в Single Player за них особо не поиграешь&#8230;<br /><br />Но тут на помощь приходит вторая главная фишка!<br /><br /><b>Epic Win #2 - МУЛЬТИПЛЕЕР</b><br /><br />Да-да! Причем полноценный, а не какие-нибудь одиночные тактические сражения!&nbsp;Т.е. натурально садятся 2 человека&nbsp;за 2 компа, у одного как обычно на экране геоскейп, он строит базы X-COM, делает исследования, посылает корабли на миссии, сражается в тактическом режиме; а второй в это время делает то же самое, но за пришельцев! Win!<br /><br />В версии 0.99 всё работает, вдвоем играть удобно - интерфейс на это рассчитан, есть anytime save - поиграли и можете продолжить позже, баланс сторон выверен, играть с живым человеком куда интереснее и сложнее, чем с AI, ощущения потрясающие! Сегодня с братом часов 5 подряд в UFO TTS играли, и играли бы дальше, если б не обнаружили, что уже 4 часа ночи :) Мультиплеер адски хорош.<br /><br />Всем ценителям первого UFO от души рекомендую, особенно мультиплеер! Серьезно: кто в теме, не пропустите, мать вашу, это единственный ремейк X-COM за всё время, который мне понравился, а ведь претендентов было&#8230; и с неслабыми бюджетами.<br /><br /></div></div>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[NHibernate и Fluent NHibernate]]></title>
+    <link href="http://abelozerov.github.com/blog/2011/01/08/nhibernate-fluent-nhibernate/"/>
+    <updated>2011-01-08T03:26:00+07:00</updated>
+    <id>http://abelozerov.github.com/blog/2011/01/08/nhibernate-fluent-nhibernate</id>
+    <content type="html"><![CDATA[<div class='post'>
+Сейчас работаю на проекте, где активно юзается NHibernate и библиотека Fluent NHibernate для реализации data access layer. До этого никогда с Hibernate не работал, незначительное количество времени применял ADO.NET, и начиная с 2008 все проекты шли на LINQ-to-SQL и немного Entity Framework. Было очень интересно пощупать альтернативу вездесущим ORM от Microsoft, узнать ее плюсы, минусы, наиболее подходящие области применения.<!-- more --><br /><div><br /></div><div>По порядку.<br /><br /></div><div><b>Что такое NHibernate?</b> Это ORM-система, позволяющая создавать абстрагированный от конкретной базы данных объектно-ориентированный data access layer. Связи между data objects и таблицами базы данных определяются через mappings, прописываемые программистом в XML-файле.</div><div><br /></div><div><b>Fluent NHibernate</b> - надстройка над NHibernate, позволяющая прописывать&nbsp;mappings&nbsp;вместо XML через .NET-классы посредством лямбда-выражений, т.е. более удобным и защищенным от ошибок способом.</div><div><br /></div><div>Далее везде буду описывать именно NHibernate в сочетании с Fluent NHibernate.</div><div><br /><b>Как описать data object?</b><br /><br /></div><div>Первое что бросается в глаза после LINQ-to-SQL и EF - отсутствие &#8220;из коробки&#8221; автоматической генерации классов, каждую сущность программисту необходимо создавать вручную. С другой стороны, объем кода, приходящийся на каждый из классов, где-то на порядок меньше кода, сгенерированного майкрософтовскими генераторами. Если к примеру в data object поля называются так же, как столбцы в таблице в базе данных и нет внешних ключей, то&nbsp;mappings&nbsp;вообще не нужны, достаточно описать класс вот так:</div><br /><pre class="c-sharp" name="code">public class Address<br />    {<br />        public virtual int Id { get; set; }<br /><br />        [NotNull, NotEmpty]<br />        public virtual string AddressType { get; set; }<br />        <br />        [NotNull, NotEmpty]<br />        public virtual string Address1 { get; set; }<br />        public virtual string Address2 { get; set; }<br /><br />        [NotNull, NotEmpty]<br />        public virtual string City { get; set; }<br /><br />        [NotNull, NotEmpty]<br />        public virtual string State { get; set; }<br /><br />        [NotNull, NotEmpty, Pattern(@"^((\d{5}-\d{4})|(\d{5})|([A-Z]\d[A-Z]\s\d[A-Z]\d))$")]<br />        public virtual string PostalCode { get; set; }<br /><br />        [NotNull, NotEmpty, Pattern(@"USA|Canada")]<br />        public virtual string Country { get; set; }<br />        public virtual float Latitude { get; set; }<br />        public virtual float Longitude { get; set; }<br /><br />        public virtual double Distance { get; set; }<br />    }<br /></pre><br />Тут же можно настроить и валидацию, например для поля PostalCode.<br /><br /><b>Что если есть связи с другими объектами? Как выглядят mappings?</b><br /><br />Пример:<br /><pre class="c-sharp" name="code">public class RetailerMaps : IAutoMappingOverride&lt;Retailer&gt;<br />    {<br />        public void Override(AutoMapping&lt;Retailer&gt; mapping)<br />        {<br />            mapping.Table("Retailers");<br />            mapping.References(x =&gt; x.Store, "StoreId");<br />            mapping.References(x =&gt; x.Type, "RetailerTypeId");<br />            mapping.HasMany(x =&gt; x.Alerts).Table("RetailerAlerts").KeyColumn("RetailerId").Cascade.All();<br />        }<br />    }<br /></pre><br />Класс Retailer имеет поля Store и Type, являющиеся ссылками на объекты из другой таблицы (связь один-ко-многим), а также коллекцию Alerts (много-к-одному)<br /><br /><b>Как вытащить объекты из базы данных?</b><br /><br />Я использовал библиотеку SharpArch, позволяющая организовать доступ к данным посредством паттерна Repository: например, для того чтобы поработать с объектами типа Address, нужно использовать AddressRepository, для других объектов соответственно будут другие репозитории: StoreRepository, EmployeeRepository&#8230;&nbsp;Repository предоставляет базовые операции для получения и сохранения объектов: GetAll(), GetById(), Update() и так далее.<br /><br />Ок, с единичными объектами всё понятно - работаем через Repository, но как быть если нам необходимо сделать выборку по каким-нибудь критериям?<br /><br />Вот здесь NHibernate мне понравился множеством вариантов реализации данной задачи, разной степени простоты, гибкости и скорости :-) Отсортировано от более высокоуровневых вещей к более низкоуровневым:<br /><ol><li>LINQ to NHibernate<br /></li><p><pre class="c-sharp" name="code">var result = from x in Session.Linq&lt;Product&gt;()<br />                    where x.ShouldDisplay == visibility &amp;&amp; x.Alignments.Any(z =&gt; alignmentIds.Contains(z.Id))<br />                    orderby x.SortOrder<br />                    select x<br /></pre>Теоретически самый простой и удобный способ, но возникают проблемы: в версии NHibernate 2.x транслятор с LINQ реализован не полностью, многие операции тупо не работают, в версии 3.0, вышедшей буквально месяц назад, вроде доделали, но у меня не было возможности потестировать, на проекте используется версия 2.1.2; И та же бодяга, что и с LINQ-to-SQL - при сложных запросах генерится большой и медленно работающий SQL, для критичных к скорости частей приложения LINQ to NHibernate не подходит.</p><li>HQL</li><p>Hibernate Query Language - универсальный независимый от базы данных язык запросов   <pre class="c-sharp" name="code">var result = sess.CreateQuery("select cust<br />from Product prod,<br />    Store store<br />    inner join store.Customers cust<br />where prod.Name = 'widget'<br />    and store.Location.Name in ( 'Melbourne', 'Sydney' )<br />    and prod = all elements(cust.CurrentOrder.LineItems)");<br /></pre>Очень похож на SQL, но удобнее, запросы получаются короче, плюс независимость от базы данных, плюс генерит неплохой SQL-код.    Недостатки: ошибки в запросах обнаруживаются только во время выполнения </p><li>ICriteria API</li><p><pre class="c-sharp" name="code">IList cats = sess.CreateCriteria(typeof(Cat))<br />    .Add( Expression.In( "Name", new String[] { "Fritz", "Izi", "Pk" } ) )<br />    .Add( Expression.Disjunction()<br />        .Add( Expression.IsNull("Age") )<br />     .Add( Expression.Eq("Age", 0 ) )<br />     .Add( Expression.Eq("Age", 1 ) )<br />     .Add( Expression.Eq("Age", 2 ) )<br />    ) )<br />    .List();<br /></pre>Более низкоуровневая вещь, позволяет поэтапное построение выражений, менее подвержен ошибкам, чем HQL, независимость от базы данных.    Недостатки: Сложнее HQL и менее гибкий, есть непонятные ограничения. К примеру, мне не удалось сделать банальную проекцию так, как я хотел: выбрать определенные поля с одной таблицы и соединить с коллекцией элементов из другой. </p><li>Native SQL</li><p>Самый низкий уровень, но всё равно выше чем чистый SQL.    <pre class="c-sharp" name="code">var result = sess.CreateSQLQuery("SELECT c.ID, NAME, BIRTHDATE, DOG_ID, D_ID, D_NAME FROM CATS c, DOGS d WHERE c.DOG_ID = d.D_ID")<br /> .AddEntity("cat", typeof(Cat))<br /> .AddJoin("cat.Dog");<br /></pre>Преимущества: максимальный уровень контроля над получающимся SQL кодом, максимально развязаны руки для оптимизации, возможность преобразования полученных строк из базы в data objects, в том числе сложные преобразования с коллекциями и связями (всё как у более высокоуровневых методов).    Недостатки: сложно, отлов ошибок только во время выполнения, здесь уже имеем зависимость от конкретной базы данных.  Я наиболее плотно работал именно с Native SQL, там много интересных возможностей, в ближайшее время планирую написать отдельную статью про него. </p></ol><br />Если что-то хотите узнать подробнее, пишите в комментариях в блоге!</div>
+<h2>Archived comments</h2>
+<div class='comments'>
+<div class='comment'>
+<div class='author'><em>alex</em></div>
+<div class='content'>
+to Corba<br />1) Репозиторий не пишется, он генерится<br />2) Он-то как раз к сожалению не все команды LINQ поддерживает, поэтому часто приходится переходить на более низкий уровень<br />3) Да, проблем нет, просто такая особенность. Собственно в LINQ-to-SQL довольно сложно менять/писать свой mapping, если возникла необходимость отойти от автоматически сгенерированного кода, а в NHibernate код классов аккурантый и понятный, это понравилось</div>
+</div>
+<div class='comment'>
+<div class='author'><em>Roman2311</em></div>
+<div class='content'>
+У меня основной вопрос - чем же лучше NHibernate по сравнению с EntityFramework or LINQ ?</div>
+</div>
+<div class='comment'>
+<div class='author'><em>Corba</em></div>
+<div class='content'>
+1) Паттерн репозиторий. Я обычно пишу такой класс:<br />Repository&lt;\T&gt; where T :new()<br />{<br />public IList&lt;\T&gt; GetAll()<br />public T GetById();<br />public Update(T entity);<br />etc.<br />}<br />что избавляет от написания репозитория на каждую сущность<br />2) Для организации запросов есть еще Linq2Nhibernate, зависший в первом релизе и кажется больше не развивающийся, но в принципе он со своими обязанностями справляется<br />3) Отсутствие генератора data objects конечно неприятно, особенно когда таблиц в БД дохрена, но в принципе можно сгенерить в студии классы для EF и выкинуть из них ненужные фиксапы и т.п.</div>
+</div>
+<div class='comment'>
+<div class='author'><em>Corba</em></div>
+<div class='content'>
+Этот комментарий был удален автором.</div>
+</div>
+<div class='comment'>
+<div class='author'><em>Corba</em></div>
+<div class='content'>
+Этот комментарий был удален автором.</div>
+</div>
+</div>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Ковыряем наушники Sennheiser]]></title>
+    <link href="http://abelozerov.github.com/blog/2010/07/03/sennheiser/"/>
+    <updated>2010-07-03T22:57:00+07:00</updated>
+    <id>http://abelozerov.github.com/blog/2010/07/03/sennheiser</id>
+    <content type="html"><![CDATA[<div class='post'>
+Всем привет!<br /><br />Мне всегда было интересно, как устроены те или иные вещи, чем дешевая вещь отличается от такой же, но дорогой. Дома у меня побывали наушники различных ценовых категорий, я их разбирал и смотрел что внутри, какие технологические решения используются.<br /><br />Сразу скажу, что цена всегда оправдана, по крайней мере более дорогая модель одного производителя будет играть лучше более дешевой того же производителя, при наличии качественного источника и усилителя.<br /><br />За счет чего же достигается улучшение качества звучания?<br />В обзоре принимают участие:<br />Sennheiser HD555 (3000 рублей)<br />Sennheiser HD595 (6000 рублей)<br />Sennheiser HD650 (12000 рублей)<!-- more --><br /><br /><b>HD555</b><br /><div class="separator" style="clear: both; text-align: center;"><a href="http://4.bp.blogspot.com/_Y-VHRlKoRnE/TC9Zd-d75_I/AAAAAAAAA8Q/F1kfdQxag5s/s1600/HD555_hires.jpg" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" src="http://4.bp.blogspot.com/_Y-VHRlKoRnE/TC9Zd-d75_I/AAAAAAAAA8Q/F1kfdQxag5s/s320/HD555_hires.jpg" /></a></div><div class="separator" style="clear: both; text-align: center;"><br /></div>Внутри видим динамический капсуль, вокруг него панели акустического сопротивления из белого бумагообразного материала.<br /><br /><div class="separator" style="clear: both; text-align: center;"><a href="http://1.bp.blogspot.com/_Y-VHRlKoRnE/TC9Z7SKaZzI/AAAAAAAAA8Y/BhtQ5p4XwwM/s1600/hd555-vs-hd595-driversfront.jpg" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" src="http://1.bp.blogspot.com/_Y-VHRlKoRnE/TC9Z7SKaZzI/AAAAAAAAA8Y/BhtQ5p4XwwM/s320/hd555-vs-hd595-driversfront.jpg" /></a></div><div class="separator" style="clear: both; text-align: center;"><br /></div>Также замечаем треугольный выступ, служащий, по заверениям производителя, для минимизации стоячих волн в чашке. Со стороны уха конструкция закрыта тонкой шелковой тканью во избежание попадания пыли и волос на капсуль (на фото снята чтобы было видно динамик).<br />С задней стороны капсуля располагается пластмассовая часть чашки с отверстиями, с наклеенной по центру полоской резиноподобного материала.<br /><br /><div class="separator" style="clear: both; text-align: center;"><a href="http://4.bp.blogspot.com/_Y-VHRlKoRnE/TC9YDqQ4GaI/AAAAAAAAA74/OqAra-Ai3UU/s1600/P4060016.JPG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" src="http://4.bp.blogspot.com/_Y-VHRlKoRnE/TC9YDqQ4GaI/AAAAAAAAA74/OqAra-Ai3UU/s320/P4060016.JPG" /></a></div><div class="separator" style="clear: both; text-align: center;"><br /></div>В целом конструкция производит впечатление высокотехнологичной вещи, где всё продумано и каждая деталь на своём месте<br /><br /><b>HD595</b><br /><div class="separator" style="clear: both; text-align: center;"><a href="http://3.bp.blogspot.com/_Y-VHRlKoRnE/TC9YqRxQsMI/AAAAAAAAA8I/pOnr2_xM-qE/s1600/hd595.jpg" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" src="http://3.bp.blogspot.com/_Y-VHRlKoRnE/TC9YqRxQsMI/AAAAAAAAA8I/pOnr2_xM-qE/s320/hd595.jpg" /></a></div><div class="separator" style="clear: both; text-align: center;"><br /></div>595 внутри является точной копией 555, используются те же самые капсули. Отличие - отсутствие полосок из резины напротив задней стороны капсуля. То есть более дорогая модель отличается от более дешевой отсутствием лишней детали. То есть можно спокойно купить 555, отодрать резинку и получить 595!<br /><br /><div class="separator" style="clear: both; text-align: center;"><a href="http://3.bp.blogspot.com/_Y-VHRlKoRnE/TC9Yf2xmyCI/AAAAAAAAA8A/NdNBPS0xQuk/s1600/hd595-inside.jpeg" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" src="http://3.bp.blogspot.com/_Y-VHRlKoRnE/TC9Yf2xmyCI/AAAAAAAAA8A/NdNBPS0xQuk/s320/hd595-inside.jpeg" /></a></div><div class="separator" style="clear: both; text-align: center;"><br /></div>В звучании разница, естественно, есть, в пользу 595 модели, 555 имеют резонансы на средних частотах (отражения от той самой резинки) и недостаточное количество высоких частот.<br /><br /><b>HD650</b><br /><div class="separator" style="clear: both; text-align: center;"><a href="http://1.bp.blogspot.com/_Y-VHRlKoRnE/TC9bFpe9G8I/AAAAAAAAA8g/fD-H-swJtK8/s1600/sennheiser-hd-650.jpg" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" src="http://1.bp.blogspot.com/_Y-VHRlKoRnE/TC9bFpe9G8I/AAAAAAAAA8g/fD-H-swJtK8/s320/sennheiser-hd-650.jpg" /></a></div><div class="separator" style="clear: both; text-align: center;"><br /></div>Конструкция максимально простая - капсуль (кстати меньшего размера чем в 555/595), панели акустического сопротивления, сзади - почти ничего, тонкая металлическая сеточка, свободный выход воздуха в окружающее пространство. Спереди - паролоновая прокладка для защиты от пыли и волос. Кстати сами ПАС очень интересные - вместо бумаги или шелка используется тонкая металлическая сетка.<br /><br /><div class="separator" style="clear: both; text-align: center;"><a href="http://1.bp.blogspot.com/_Y-VHRlKoRnE/TC9bmKKbVzI/AAAAAAAAA84/R-WSElXGv30/s1600/P1010560.JPG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" src="http://1.bp.blogspot.com/_Y-VHRlKoRnE/TC9bmKKbVzI/AAAAAAAAA84/R-WSElXGv30/s320/P1010560.JPG" /></a></div><div class="separator" style="clear: both; text-align: center;"><a href="http://4.bp.blogspot.com/_Y-VHRlKoRnE/TC9bOmvMCOI/AAAAAAAAA8o/frk5H-1LjOE/s1600/P1010561.JPG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" src="http://4.bp.blogspot.com/_Y-VHRlKoRnE/TC9bOmvMCOI/AAAAAAAAA8o/frk5H-1LjOE/s320/P1010561.JPG" /></a></div><div class="separator" style="clear: both; text-align: center;"><a href="http://1.bp.blogspot.com/_Y-VHRlKoRnE/TC9bZIZ35II/AAAAAAAAA8w/YZrJY0qNXb8/s1600/P1010563.JPG" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" src="http://1.bp.blogspot.com/_Y-VHRlKoRnE/TC9bZIZ35II/AAAAAAAAA8w/YZrJY0qNXb8/s320/P1010563.JPG" /></a></div><br />Видим, что 650 имеет самую простую конструкцию из 3х представленных моделей наушников, и самый лучший звук.&nbsp;Конечно, качество самих капсулей в 650 должно быть выше, чем в 555/595, но тем не менее&#8230;<br /><br />Напрашиваются выводы:<br />1) чем проще конструкция, тем лучше звук<br />2)&nbsp;в дешевых моделях производитель сознательно уродует звук, внося лишние элементы в конструкцию</div>
+<h2>Archived comments</h2>
+<div class='comments'>
+<div class='comment'>
+<div class='author'><em>Сулла Денис</em></div>
+<div class='content'>
+Спасибо за обзор. Рад что на тебя наткнулся.</div>
+</div>
+<div class='comment'>
+<div class='author'><em>alex</em></div>
+<div class='content'>
+Спасибо!<br /><br />Субъективно конечно же)<br />Объективно есть разница в уровне THD (коэф. гармонич. искажений) в пользу старших моделей:<br />0.05% (650) vs 0.1% (595) vs 0.2% (555)<br /><br />Пруфы во вкладке Technical Data:<br />http://www.sennheiserusa.com/private_headphones_audiophile-headphones_009969<br />http://www.sennheiserusa.com/private_headphones_audiophile-headphones_005343<br />http://www.sennheiserusa.com/private_headphones_audiophile-headphones_005342</div>
+</div>
+<div class='comment'>
+<div class='author'><em>Roman2311</em></div>
+<div class='content'>
+Очень интересное описание.<br />Даже не верится, что это не обзор из какого-нибудь журнала, а твой личный пост.<br /><br />Остается один холиварный вопрос: а как ты определил, что качество звука лучше?</div>
+</div>
+</div>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Переключение аудиоустройства в MacOS X]]></title>
+    <link href="http://abelozerov.github.com/blog/2010/06/01/macos-x/"/>
+    <updated>2010-06-01T21:04:00+07:00</updated>
+    <id>http://abelozerov.github.com/blog/2010/06/01/macos-x</id>
+    <content type="html"><![CDATA[<div class='post'>
+Работая с маковской ОС, иногда находишь совершенно гениальные фишки, о которых ты мог только мечтать в Windows.<br /><br />В MacOS X можно очень удобно и быстро переключить входное и выходное аудиоустройство: для этого нужно кликнуть по иконке со спикером на панели задач с зажатой клавишей Option. Вуаля:<br /><br /><div class="separator" style="clear: both; text-align: center;"><a href="http://1.bp.blogspot.com/_Y-VHRlKoRnE/TAUSYfpwEWI/AAAAAAAAA7c/piF49UEcSF4/s1600/audio+device+change.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" src="http://1.bp.blogspot.com/_Y-VHRlKoRnE/TAUSYfpwEWI/AAAAAAAAA7c/piF49UEcSF4/s320/audio+device+change.png" /></a></div><br />В винде начиная с Vista приходится лезть в панель управления, во вкладку &#8220;Звук&#8221; и далее&#8230;<br /><b>Update:</b> можно проще:&nbsp;кликаете правой кнопкой на значке в трее, выбираете из меню &#8220;Устройства воспроизведения&#8221;, и открывается окошко &#8220;Звук&#8221; со списком устройств. Но в MacOS всё равно лучше :-)</div>
+<!-- more --><h2>Archived comments</h2>
+<div class='comments'>
+<div class='comment'>
+<div class='author'><em>alex</em></div>
+<div class='content'>
+Ром, действительно, в винде всё можно сделать проще: кликаешь правой кнопкой на значке в трее, выбираешь из меню &quot;Устройства воспроизведения&quot;, и открывается окошко &quot;Звук&quot; со списком устройств.<br /><br />Но в МакОС всё равно лучше :-)</div>
+</div>
+<div class='comment'>
+<div class='author'><em>Roman2311</em></div>
+<div class='content'>
+Недавно подключал внешнюю звуковушку, вроде никуда лазить не надо. Если несколько устройств вывода, то они отобразатся здесь. Просто достаточно щелкнуть на них и выбрать нужное действие.<br /><br />Я не люблю винду, но я не люблю, когда ее недооценивают :)<br /><br />https://url.odesk.com/5y0uy</div>
+</div>
+</div>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Автоматическое сохранение паролей в Firefox]]></title>
+    <link href="http://abelozerov.github.com/blog/2010/05/16/firefox/"/>
+    <updated>2010-05-16T23:16:00+07:00</updated>
+    <id>http://abelozerov.github.com/blog/2010/05/16/firefox</id>
+    <content type="html"><![CDATA[<div class='post'>
+Все вы наверняка не раз видели как Firefox предлагает сохранить имя и пароль. Мне стало интересно, каким образом он находит на странице нужные элементы, когда происходит сохранение и как он потом определяет, куда вставить сохраненные значения на вновь открытой странице.<br /><br /><div class="separator" style="clear: both; text-align: center;"><a href="http://2.bp.blogspot.com/_Y-VHRlKoRnE/S_AZ93dM2OI/AAAAAAAAAjg/doiopVd2RCc/s1600/firefox-remember-never-for-this-site-not-now.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" src="http://2.bp.blogspot.com/_Y-VHRlKoRnE/S_AZ93dM2OI/AAAAAAAAAjg/doiopVd2RCc/s320/firefox-remember-never-for-this-site-not-now.png" /></a></div><br /><b><span class="Apple-style-span" style="font-weight: normal;"><b>Всё оказалось очень просто:</b></span></b><br />Когда происходит submit формы, запускается процесс, который ищет на форме непустой input с type=password, отсюда и берется пароль. Очень интересно обстоят дела с username: тупо начинается просмотр дерева элементов в обратном порядке от найденного input&#8217;а с паролем, и берется первый попавшийся input с type=text.<br /><br />Восстановление значений при загрузке происходит тем же способом, для поиска вызывается тот же самый метод.<br /><br />Так что веб-разработчику надо быть аккуратным с вставкой элементов между полем для ввода логина и полем для ввода пароля, даже невидимых, если он хочет, чтобы в браузерах нормально работало автосохранение.<br /><br />Если кто заинтересовался, исходники можно посмотреть в \Program Files\Mozilla Firefox\components\nsLoginManager.js. Метод называется&nbsp;_getFormFields.</div>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[UpdatePanel: что происходит за кулисами?]]></title>
+    <link href="http://abelozerov.github.com/blog/2010/04/01/updatepanel/"/>
+    <updated>2010-04-01T23:57:00+07:00</updated>
+    <id>http://abelozerov.github.com/blog/2010/04/01/updatepanel</id>
+    <content type="html"><![CDATA[<div class='post'>
+Данный пост является переводом статьи <a href="http://dotnetslackers.com/articles/ajax/The_UpdatePanel_opened_what_happens_behind_the_scenes.aspx">The UpdatePanel opened: what happens behind the scenes?</a> с сайта dotnetslackers.com.<br /><br />UpdatePanel - одна из самых главных и интересных фич ASP.NET AJAX. Она волшебным способом позволяет добавить на сайт прелести AJAX, при этом не требуя практически никаких дополнительных усилий от вас как от разработчика. Вы почувствуете лишь толику неудобства, перетащив UpdatePanel на вашу веб форму, и позволив ей делать всю работу. Как же она работает?<br /><br /><b>Введение</b><br /><br />В статье я шаг за шагом проведу вас через то, что происходит в браузере во время обновления UpdatePanel. Вы увидите какие events запускаются, в каких точках можно перехватывать обработку, и в общем почувствуете последовательность событий.<!-- more --><br /><br />Возьмем простейший пример. Я создал <b>UpdatePanel</b> с двумя контролами внутри: <b>Button</b> и <b>Label</b>.<br /><br /><div class="separator" style="clear: both; text-align: left;"><a href="http://1.bp.blogspot.com/_Y-VHRlKoRnE/Sz8GaxX8qGI/AAAAAAAAAUE/MwHugyQxxK4/s1600-h/picture01.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" src="http://1.bp.blogspot.com/_Y-VHRlKoRnE/Sz8GaxX8qGI/AAAAAAAAAUE/MwHugyQxxK4/s320/picture01.png" /></a></div><br />Пусть при нажатии на кнопку в label записывается текущее время:<br /><br /><pre class="c-sharp" name="code">using System;<br />public partial class _Default : System.Web.UI.Page <br />{<br />    protected void Button1_Click(object sender, EventArgs e)<br />    {<br />        Label1.Text = DateTime.Now.ToString();<br />    }<br />}<br /></pre><br />Существует 3 основных события, происходящих в браузере, и все три затрагивают объект PageRequestManager, центральный объект в архитектуре ASP.NET AJAX. Первое событие запускается потому что мы нажали кнопку. Второе - потому что происходит submit формы. Последнее событие запускается после того как получен ответ с сервера.<br /><br />Перед запуском событий PageRequestManger&#8217;а, происходит множество более низкоуровневых внутренних событий, которые запускают PageRequestManager. Эти &nbsp;низкоуровневые обработчики выполняют такие функции как оборачивание браузерного event object в Sys.UI.DomEvent. Но не будем вдаваться в детали в этом месте.<br /><br /><b>Обработчик&nbsp;<span class="Apple-style-span" style="font-weight: normal;"><b>PageRequestManager&nbsp;<span class="Apple-style-span" style="font-weight: normal;"><b>_onFormElementClick</b></span></b></span></b><br /><br />Этот обработчик вызывается когда вы нажимаете кнопку внутри <b>UpdatePanel</b>, и делает следующие вещи:<br /><br />Во-первых, устанавливает свойство _postBackSettings PageRequestManager&#8217;а:<br /><br /><pre class="js" name="code">this._postBackSettings = this._getPostBackSettings(element, element.name);<br /></pre><br /><b>postBackSettings</b> содержит 3 элемента:<br /><ul><li>Булевую переменную обозначающую должен ли запрос быть асинхронным</li><li>ID UpdatePanel&#8217;и и элемента, вызвавшего postback</li><li>Ссылку на элемент вызвавшего postback</li></ul><br />Метод _getPostBackSettings проходит по дереву контролов вверх начиная с элемента, вызвавшего событие (в данном случае button) в поисках UpdatePanel. Если он найдет UpdatePanel, что в нашем случае обязательно произойдет, то установит свойство postBackSettings таким образом, чтобы произошел асинхронный запрос:<br /><br /><pre class="js" name="code">var indexOfPanel = Array.indexOf(this._updatePanelClientIDs, element.id);<br />if (indexOfPanel !== -1) <br />{<br />  if (this._updatePanelHasChildrenAsTriggers[indexOfPanel]) <br />  {<br />    return this._createPostBackSettings(true, <br />           this._updatePanelIDs[indexOfPanel] + '|' + <br />           elementUniqueID, originalElement);<br />  }<br /></pre><br />Вторая вещь, которую делает обработчик onFormElementClick - записывает в свойство additionalInput имя (name) и значение (value) нажатой кнопки. Данная процедура выполняется потому, что процесс, который собирает данные с формы когда форма готовится к submit&#8217;у, игнорирует кнопки, а value нажатой кнопки должно быть отправлено на сервер.<br /><br /><pre class="js" name="code">else if ((element.tagName === 'BUTTON') &amp;&amp; <br />        (element.name.length !== 0) &amp;&amp; <br />        (element.type === 'submit')) <br />     {<br />          this._additionalInput = element.name + '=' + <br />          encodeURIComponent(element.value);<br />     }<br /></pre><br /><b>Обработчик&nbsp;<span class="Apple-style-span" style="font-weight: normal;"><b>PageRequestManager&nbsp;<span class="Apple-style-span" style="font-weight: normal;"><b>_onFormSubmit</b></span></b></span></b><br /><br />Этот метод вызывается после того как обработчик <b>_onFormElementClick </b>заканчивает свою работу, и выполняет упаковку данных формы и отправку асинхронного запроса на сервер. Но он делает это только если требуется асинхронный запрос, что определяется значением соответствующего булевого флага в свойстве <b>_postBackSettings</b>, которое было установлено в методе <b>onFormElementClick</b>.<br /><br />В нашем случае требуется асинхронный запрос. Метод проходит по детям формы, упаковывая их значения в переменную <b>formBody</b> типа <b>StringBuilder</b>, если они являются элементами типа INPUT (text, password, hidden, checkbox and radio types), SELECT или TEXTAREA.<br /><br />Отходя от темы, небольшая оптимизация может быть выполнена для обработки <b>SELECT&#8217;ов</b>, текущая реализация просматривает каждый элемент <b>OPTION</b> для определения выбран он или нет, тогда как если свойство <b>multiple</b> <b>SELECT&#8217;а</b> равно false, можно использовать свойство selectedIndex. Если у вас 1000 опций, необязательно просматривать все 1000 если <b>SELECT</b> не <b>multiple</b>:<br /><br /><pre class="js" name="code">else if (tagName === 'SELECT') <br />{<br />  var optionCount = element.options.length;<br />  for (var j = 0; j &lt; optionCount; j++) <br />  {<br />    var option = element.options[j];<br />    if (option.selected) <br />    {<br />      formBody.append(name);<br />      formBody.append('=');<br />      formBody.append(encodeURIComponent(option.value));<br />      formBody.append('&amp;');<br />    }<br />  }<br />}<br /></pre><br />Обратите внимания что значения скрытых полей также отправляются, что означает что содержимое скрытого элемента __VIEWSTATE отправляется на сервер каждый раз. То что вы используете <b>UpdatePanel</b> не означает что вы не передаете viewstate на сервер и обратно во время асинхронного апдейта.<br /><br />Далее для того чтобы отправить запрос метод создает объект&nbsp;<b>Sys.Net.WebRequest</b> и устанавливает в его поле URL значение form action URL, устанавливает значение заголовка&nbsp;<b>x-microsoft-ajax</b> в <b>delta=true</b>, что сигнализирует о том что это запрос для получения дельт/delta (изменений) документа. Также он отключает кэширование и устанавливает timeout в значение,&nbsp;определенное&nbsp;в ScriptManager серверной части.<br /><br /><pre class="js" name="code">var request = new Sys.Net.WebRequest();<br />request.set_url(form.action);<br />request.get_headers()['X-MicrosoftAjax'] = 'Delta=true';<br />request.get_headers()['Cache-Control'] = 'no-cache';<br />request.set_timeout(this._asyncPostBackTimeout);<br /></pre><br />Очевидно что&nbsp;<b>PageRequestManager </b>должен быть оповещен о пришествии ответа с сервера, и это осуществляется за счет создания делегата на его метод&nbsp;<b>_onFormSubmitCompleted </b>и добавления этого <b>делегата </b>к списку делегатов которые вызываются после завершения запроса:<br /><br /><pre class="js" name="code">request.add_completed(<br />    Function.createDelegate(this, <br />             this._onFormSubmitCompleted));<br /></pre><br />Можно подумать, что&nbsp;<b>PageRequestManager&nbsp;&nbsp;</b>уже готов отправить запрос, однако есть еще несколько вещей, которые он должен сделать.<br /><br />Одна из фич, которые мне нравятся больше всего в дизайне ASP.NET и ASP.NET AJAX - это то, что существует множество точек, где разработчик может перехватить выполнение стандартной обработки и добавить свою функциональность. И это здорово, потому что позволяет нам добавлять фичи о которых Microsoft не могла даже мечтать, и лично для меня показывает открытость, которую Microsoft не демонстрировала долгие годы.<br /><br />Итак, перед тем как запрос будет отправлен,&nbsp;<b>PageRequestManager &nbsp;</b>запускает событие&nbsp;<b>InitializeRequest</b>, для каждого, кто подписан на него, на этой стадии отправка формы может быть отменена подписчиками на событие путем установки флага cancel аргумента события:<br /><br /><pre class="js" name="code">var handler = this._get_eventHandlerList().getHandler("initializeRequest");<br />if (handler) {<br />    var eventArgs = new Sys.WebForms.InitializeRequestEventArgs(<br />       request, this._postBackSettings.sourceElement);<br />    handler(this, eventArgs);<br />    continueSubmit = !eventArgs.get_cancel();<br />}<br /></pre><br />Пример того, как код пользователя может подписаться на это событие:<br /><br /><pre class="js" name="code">var prm = Sys.WebForms.PageRequestManager.getInstance();<br />prm.add_initializeRequest(InitializeRequestHandler);<br /><br />function InitializeRequestHandler(sender, initializeRequestEventArgs) {<br />    var cancel = !confirm('Initialize request occurring.');<br />    initializeRequestEventArgs.set_cancel(cancel);<br />}<br /></pre><br />После того, как прошло событие&nbsp;<b>InitializeRequest,&nbsp;</b>и если отправка не была отменена,&nbsp;<b>PageRequestManager &nbsp;</b>запускает событие&nbsp;<b>BeginRequest </b>для каждого, кто на него подписан. Разница в том, что на этой стадии отправка уже не может быть отменена.<br /><br />В конце, записав текущую scroll position документа в свойство&nbsp;<b>_scrollPosition</b>, он просит&nbsp;<b>Sys.Net.WebRequest</b> отправить запрос, и отменяет обработку события кнопки по умолчанию, чтобы ничего более не произошло до того как вернется&nbsp;<b>WebRequest</b>:<br /><br /><pre class="js" name="code">request.invoke();<br /><br />if (evt) {<br />    evt.preventDefault();<br />}<br /></pre><br /><b>Обработчик&nbsp;<span class="Apple-style-span" style="font-weight: normal;"><b>PageRequestManager&nbsp;<span class="Apple-style-span" style="font-weight: normal;"><b>_onFormSubmitCompleted</b></span></b></span></b><br /><br />Этот метод вызывается после того как получен ответ с сервера, либо что-то пошло не так<br /><br />Первая вещь которую он делает - проверяет всё, что могло пойти не так, такие вещи как таймаут, был ли запрос прерван, или пришел ответ на какой-то другой (левый) запрос, произошла какая-то ошибка и т.д., ну вы поняли. В большинстве случаев он вызывает внутренний метод&nbsp;<b>_endPostBack</b>, который запускает событие <b>EndRequest&nbsp;</b>для каждого кто на него подписан.<br /><br />После того как выполнены проверки, метод пробегает по response buffer, полученному с сервера, извлекая <b>delta nodes</b>, каждая из которых содержит <b>type</b>, <b>id</b> и <b>content<span class="Apple-style-span" style="font-weight: normal;">.</span></b><br /><br />После получения массива <b>deltas</b>, метод пробегает по каждому из них. Существует около 20 различных типов delta nodes, некоторые из которых обрабатываются немедленно, например document title:<br /><br /><pre class="js" name="code">for (var i = 0; i &lt; delta.length; i++) {<br />    var deltaNode = delta[i];<br />    switch (deltaNode.type) {<br />        ...<br />        case "pageTitle":<br />            document.title = deltaNode.content;<br />            break;<br /></pre><br />Остальные сохраняются для дальнейшей обработки:  <br /><br /><pre class="js" name="code">case "updatePanel":<br />            Array.add(updatePanelNodes, deltaNode);<br />            break;<br />        case "hiddenField":<br />            Array.add(hiddenFieldNodes, deltaNode);<br />            break;<br /></pre><br />После группировки <b>delta nodes</b> по соответствующим типам, происходит обработка каждого типа&nbsp;<b>delta node</b>, но не перел тем как запустится событие <b>PageLoadingEvent </b>для каждого кто на него подписан.<br /><br />Обработка <b>updatePanelNodes</b> заключается в уничтожении существующего содержимого панели и заменой его содерджимым поля content delta node.<br /><br />В конце все скрипты которые должны&nbsp;загрузиться, загружаются, и в методе <b>_scriptsLoadComplete</b> запускаются события <b>PageLoadedEvent</b> и <b>EndRequestEvents</b>, окно документа прокручивается до соответствующей позиции, фокус устанавливается на соответствующий <b>контрол</b>, и на этом история завершается.<br /><br />Вы можете быть склонны думать, что всё это предельно просто и понятно, и для представленного элементарного случая это действительно так. Но если вы задумаетесь о сложности того, что можно сделать на сервере, тогда вы поймете что тут еще много всего. К примеру что если вы зарегистрируете новые script blocks на сервере, или установите фокус на другой контрол? Именно поэтому существует около 20 типов <b>delta node</b>, каждый для обработки своего специфического сценария.<br /><br /><b>Заключение</b><br /><br />В этой статье мы шаг за шагом разобрали что же происходит в браузере во время обновления UpdatePanel, никакой магии конечно, просто довольно много кода обрабатывающего специфические ситуации, и куча мест, где программист может перехватить стандартную обработку и добавить немного своей магии<br /><br /><b>Что дала мне эта статья (от переводчика):</b><br /><br />Теперь понятно почему перед отправкой асинхронного запроса на сервер невозможно понять какие именно UpdatePanelи будут обновляться, клиент такую информацию вообще не передает, сервер по желанию может в response прислать обновление для каждой UpdatePanel на странице. С одной стороны, удобно, с другой, не получится красиво реализовать Progress bar, закрывающий одну единственную панель при ее обновлении.<br /><br /><b>P.S.</b> Отправил статью на хабр в <a href="http://habrahabr.ru/sandbox/12113/">песочницу</a>. Буду рад получить приглашение, если статья вам понравилась и вы считаете что я его заслужил.</div>
+<h2>Archived comments</h2>
+<div class='comments'>
+<div class='comment'>
+<div class='author'><em>Даша Шулеко</em></div>
+<div class='content'>
+Спасибо большое! Очень пригодилось.</div>
+</div>
+</div>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Фигурные скобки внутри String.Format()]]></title>
+    <link href="http://abelozerov.github.com/blog/2009/12/19/stringformat/"/>
+    <updated>2009-12-19T16:52:00+07:00</updated>
+    <id>http://abelozerov.github.com/blog/2009/12/19/stringformat</id>
+    <content type="html"><![CDATA[<div class='post'>
+Метод String.Format() позволяет вставлять значения переменных внутрь строки в места, помеченные с помощью фигурных скобок и индекса, например:<br /><br /><pre class="c-sharp" name="code">string.Format("My name is {0}", name);</pre><br />Но если в строке есть фигурные скобки, не относящиеся к местам подстановки переменных, вы получите Exception при компиляции, т.к. компилятор думает что всё что стоит между открывающей и закрывающей скобками является индексом.<br /><br /><pre class="c-sharp" name="code">string.Format("{name}={0}", name); // Exception</pre><br />Существует простое решение, как вставить в строку фигурную скобку: нужно написать ее 2 раза: <br /><br /><pre class="c-sharp" name="code">string name = "Alex";<br />string formattedStr = string.Format("={0}", name); // no exception<br /></pre><br />В итоге в примере formattedStr будет равно &#8220;{name}=Alex&#8221;</div>
+<!-- more --><h2>Archived comments</h2>
+<div class='comments'>
+<div class='comment'>
+<div class='author'><em>alex</em></div>
+<div class='content'>
+Спасибо! Да, пожалуйста, с указанием источника</div>
+</div>
+<div class='comment'>
+<div class='author'><em>Anonymous</em></div>
+<div class='content'>
+Очень интересная статья. Скажите, а могу ли я ее повесить на один из своих сайтов? Соотвественно с гиперсылкой на вас.</div>
+</div>
+</div>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Купил iPhone]]></title>
+    <link href="http://abelozerov.github.com/blog/2009/10/20/iphone/"/>
+    <updated>2009-10-20T01:43:00+07:00</updated>
+    <id>http://abelozerov.github.com/blog/2009/10/20/iphone</id>
+    <content type="html"><![CDATA[<div class='post'>
+Купил Apple iPhone 3G на замену неожиданно скончавшемуся SonyEricsson T630.<br /><div>Первые впечатления - от телефона в полном восторге :-) но это именно что телефон, не стоит ждать от него возможностей полноценного коммуникатора&#8230;<!-- more --><br /><div><br /></div><div class="separator" style="clear: both; text-align: center;"><br /></div><div class="separator" style="clear: both; text-align: center;"><a href="http://images.apple.com/iphone/compare-iphones/images/iphone-3g-20090608.jpg" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" height="320" src="http://images.apple.com/iphone/compare-iphones/images/iphone-3g-20090608.jpg" width="152" /></a><br /></div><div><br /></div><div><b>Что особенно понравилось (привело в восторг):</b><br /></div><div><ul><li>Роскошный, притягательный внешний вид. Выглядит дорого и стильно, аналогия из мира бытовой техники - PlayStation 3, тот же роскошный черный глянец. Продуманность размеров и формы корпуса - в руке лежит как влитой. Идеальные размер и разрешение экрана.</li><li>Емкостной тачскрин отлично реагирует на малейшие прикосновения пальцев и совершенно не реагирует на прикосновения посторонних предметов. Лучший тачскрин из всех опробованных мной телефонов!</li><li>Удобство, красота (какая анимация!) и продуманность оболочки телефона и стандартных приложений: iPod, Mail, Safari, календарь, фотографии, погода, акции, заметки и др.</li><li>Safari в iPhone - единственный мобильный браузер, которым можно пользоваться. Выглядят сайты точно так же как на &#8220;большом&#8221; Safari, ничего не слетает и не уползает, в полной мере поддерживается CSS и JavaScript. Отличное управление посредством Multi-touch!</li><li>Работа с Wi-Fi. Телефон автоматически коннектится к известной Wi-Fi сети, если находится в радиусе ее действия. При переходе в режим ожидания происходит отключение от беспроводной сети, телефон экономит батарею :-) При &#8220;оживлении&#8221; опять коннектится.&nbsp;</li><li>Наушники и качество звука. iPhone выдает очень даже качественный звук, имеет хороший выход на наушники - достаточная громкость, нет завала на низких или высоких частотах (чем грешил мой Creative ZEN), приличная детализация и динамика. Просто поразили комплектные наушники - как по внешнему виду, так и по качеству звучания. Средние и высокие частоты воспроизводят, не побоюсь провести такое сравнение, не хуже моих домашних Sennheiser HD595! Низких частот мало (кто-то скажет что вообще нет), зато качественные.</li><li>Управление посредством гарнитуры. На комплектных наушниках имеется кнопка с вмонтированным микрофоном. Кнопка отвечает за прием (однократное нажатие) и отклонение (двойное нажатие) звонков, а также управляет плеером - можно поставить воспроизведение на паузу (однократное нажатие), перейти на следующий трек&nbsp;(двойное нажатие) или на предыдущий трек (тройное нажатие). ИМХО очень удобно, в 90% ситуаций телефон из кармана доставать не нужно.</li><li>Большой выбор программ в AppStore - от игр до специализированных медицинских приложений. Тут есть мой любимый Peggle!</li></ul><ol></ol><div><b>Чем несколько разочарован:</b><br /></div><div><ul><li>Закачка музыки через iTunes. Кто не знает, записать в iPhone музыку, и вообще любые данные можно лишь с помощью приложения iTunes, и вот запись музыки в нем организована очень неудобно. Я могу в лучшем случае пометить исполнителей, чьи песни я хотел бы видеть в памяти телефона. Т.е. я не могу записать 1 конкретный альбом какого-то исполнителя, только все альбомы сразу. Ну что за бред!<br /><br /><b>Update: </b>всё-таки можно, с помощью плейлистов, но это тоже извращение<br /><br /></li><li>Отсутствие мультизадачности для сторонних приложений. Данная особенность имеет как минусы, так и плюсы, однако для некоторых классов приложений мультизадачность всё же необходима, например для IM мессенджеров. Отчасти спасает поддержка Push notifications, но это всё же далеко не то же самое, что приложение, работающее в фоновом режиме. Стандартные приложения, в частности плеер, слава богу, могут работать в фоне.</li></ul><ol></ol><div><b>После 3х дней использования я сделал для себя следующие выводы:</b><br /></div><div>Замечательный телефон, которым удобно и приятно пользоваться. По совместительству отличный iPod и портативная игровая платформа.<br /></div><div>Как коммуникатор не очень хорош ввиду отсутствия мультизадачности.<br /></div><div><br /></div><div><b>Аппарат мне очень понравился, буду пользоваться с удовольствием!</b><br /></div><div><br /></div><div>А вы как относитесь к iPhone? Будет ли ваш следующий телефон телефоном от Apple?<br /></div><div><br /></div><div class="separator" style="clear: both; text-align: center;"><a href="http://images.apple.com/iphone/iphone-3g/images/intro-iphone-everything-20090909.jpg" imageanchor="1" style="clear: right; float: right; margin-bottom: 1em; margin-left: 1em;"><img border="0" height="166" src="http://images.apple.com/iphone/iphone-3g/images/intro-iphone-everything-20090909.jpg" width="400" /></a><br /></div><div><br /></div></div></div></div></div>
+<h2>Archived comments</h2>
+<div class='comments'>
+<div class='comment'>
+<div class='author'><em>Anonymous</em></div>
+<div class='content'>
+спасибо большое было очень интересно читать</div>
+</div>
+<div class='comment'>
+<div class='author'><em>Anonymous</em></div>
+<div class='content'>
+Хорошо! Все бы так писали :)</div>
+</div>
+<div class='comment'>
+<div class='author'><em>Anonymous</em></div>
+<div class='content'>
+Мне у него больше всего нравится погоду смотреть. =) там такие картиночки красивые. Ну и вайфайка тоже удобна, когда надо что-то быстро загуглить. Но я себе вряд ли куплю такой когда-нибудь. Люблю простые телефоны, чтобы не было ничего лишнего, чтобы маленький, ударопрочный и хорошенький, в руку удобно ложился.  /Маришка</div>
+</div>
+<div class='comment'>
+<div class='author'><em>Anonymous</em></div>
+<div class='content'>
+Хороший сайт. Так держать!!!</div>
+</div>
+<div class='comment'>
+<div class='author'><em>alex</em></div>
+<div class='content'>
+Очень рад что вам понравилось :-) Народ, есть желание чтобы я еще какие-нибудь гаджеты описал?</div>
+</div>
+<div class='comment'>
+<div class='author'><em>Anonymous</em></div>
+<div class='content'>
+А мне пост понрвился. Добавил в букмарки. (не спам)</div>
+</div>
+<div class='comment'>
+<div class='author'><em>Anonymous</em></div>
+<div class='content'>
+Привет! С удовольствием почитал Ваш блог. Хочу также поздравить Вас и всех читателей этого блога с новым 2010 годом. Удачи всем, новых жизненных побед и исполнения всех ваших замыслов. :)</div>
+</div>
+</div>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[ASP.NET: Redirect с параметром без QueryString]]></title>
+    <link href="http://abelozerov.github.com/blog/2009/09/26/aspnet-redirect-querystring/"/>
+    <updated>2009-09-26T17:38:00+07:00</updated>
+    <id>http://abelozerov.github.com/blog/2009/09/26/aspnet-redirect-querystring</id>
+    <content type="html"><![CDATA[<div class='post'>
+Столкнулся с ситуацией, когда необходимо сделать Redirect на другую страницу, передав при этом параметр, но так, чтобы не видел пользователь. То есть простая передача через QueryString - Response.Redirect(&#8220;~/NewPage.aspx?id=5&#8221;) - не подходит.<br /><div><br /></div><div>Я придумал решение, используя QueryString и Session<!-- more -->:<br /></div><div><br /></div><div><b>Пример:</b> <br /></div><div>надо передать параметр id на страницу NewPage.aspx<br /></div><div><br /></div><div>Сам редирект делаем как обычно, параметр передаем через QueryString.<br /></div><pre class="c-sharp" name="code">Response.Redirect("~/NewPage.aspx?id=5")<br /></pre><div><br /></div><div>Но принимающая страница по-особому обрабатывает запрос:<br /></div><pre class="c-sharp" name="code">public partial class NewPage : System.Web.UI.Page<br />{<br />    protected void Page_Init(object sender, EventArgs e)<br />    {<br />        if (Session["NewPage_id"] != null)<br />        {<br />            // Второй запрос приходит сюда<br />            int id = Int32.Parse(Session["NewPage_id"].ToString());<br />            // Используем id<br />            // ...<br /><br />            // Освобождаем память<br />            Session["NewPage_id"] = null;<br />        }<br />        else if (Request["id"] != null)<br />        {<br />            // Первый запрос приходит сюда<br />            Session["NewPage_id"] = Request["id"];<br />            // Редирект без QueryString<br />            Response.Redirect(GetUriWithoutQueryStr(Request.Url), true);<br />        }<br />    }<br /><br />    public string GetUriWithoutQueryStr(Uri url)<br />    {<br />        return url.GetLeftPart(UriPartial.Path);<br />    }<br />}<br /></pre><div>Мы сохраняем пришедший параметр в сессию, и редиректимся на эту же страницу без QueryString. При второй загрузке параметры спокойно извлекаются из сессии и используются. Пользователь, естественно, в строке запроса никаких параметров не видит.<br /></div><div>После извлечения параметра лучше сразу удалить его из сессии, чтобы он не повлиял на последующие запросы.<br /></div><div><br />А как вы решали подобную задачу? :-)<br /></div></div>
+<h2>Archived comments</h2>
+<div class='comments'>
+<div class='comment'>
+<div class='author'><em>alex</em></div>
+<div class='content'>
+Вы правы, в рамках одного веб-приложения хранение в Session и Server.Transfer покрывают все возможные ситуации<br /><br />Однако представьте, что нужно отправить форму удаленному серверу, и ответом должен быть редирект на другую страницу с необходимыми параметрами. И мы хотим, чтобы ползователь параметров не увидел. Вот тут-то и пригодится способ, описанный в этой статье.</div>
+</div>
+<div class='comment'>
+<div class='author'><em>Руслан</em></div>
+<div class='content'>
+А еще лучше Server.Transfer() использовать - так меньше ресурсов жрем. Но опять же в рамках одного приложения</div>
+</div>
+<div class='comment'>
+<div class='author'><em>Roman2311</em></div>
+<div class='content'>
+Понятно.<br /><br />Ну может тогда через твиттер передавать параметры :)</div>
+</div>
+<div class='comment'>
+<div class='author'><em>alex</em></div>
+<div class='content'>
+Важное замечание, Роман!<br /><br />Действительно, нет смысла так извращаться, если редирект происходит на страницу, находящуюся в том же web-приложении (т.е. обе страницы имеют доступ одной и той же Session).<br /><br />Мой способ может пригодиться, если редирект приходит с другого сервера</div>
+</div>
+<div class='comment'>
+<div class='author'><em>Roman2311</em></div>
+<div class='content'>
+Может я что-то не так понял, но почему бы просто не сделать:<br /><br /><i><br />Session[&quot;NewPage_id&quot;] = 5;<br />Response.Redirect(&quot;~/NewPage.aspx&quot;);<br /></i><br /><br />Я нутром чувствую, что все на так просто&#8230; но все же</div>
+</div>
+</div>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Привет]]></title>
+    <link href="http://abelozerov.github.com/blog/2009/05/30/blog-post/"/>
+    <updated>2009-05-30T16:45:00+07:00</updated>
+    <id>http://abelozerov.github.com/blog/2009/05/30/blog-post</id>
+    <content type="html"><![CDATA[<div class='post'>
+<strong>Всем привет!</strong> <br />Меня зовут Алексей, я программист-фрилансер из г. Омска.<br />В этот блог я буду писать свои мысли и наблюдения относительно жизни омских ИТшников, сообщать об интересных событиях, да просто писать о том что меня волнует и что мне интересно. Будет и программирование.&nbsp;В первую очередь блог адресован людям, варящимся в ИТ-кухне, моим друзьям, но постараюсь чтобы он был интересен и понятен более широкой аудитории ;-)</div>
+<!-- more --><h2>Archived comments</h2>
+<div class='comments'>
+<div class='comment'>
+<div class='author'><em>alex</em></div>
+<div class='content'>
+Спасибо за советы, Рома!</div>
+</div>
+<div class='comment'>
+<div class='author'><em>Roman2311</em></div>
+<div class='content'>
+Да, еще зарегайся на фидбернере и подруби его. Штука полезная. <br /><br />Еще я очень люблю, когда показывается, сколько комментариев к каждому посту. Прочитал пост в гугл ридере, если есть комментарии, то можно сразу и их почитать и описаться (IMHO)</div>
+</div>
+<div class='comment'>
+<div class='author'><em>Roman2311</em></div>
+<div class='content'>
+Привет, поздравляю тебя с открытием блога. Желаю хороших постов и постоянных читателей.<br /><br />Одно важное пожелание, если хочешь, чтобы писали больше комментов, то выруби нафиг капчу и сделай возможность писать анонимным пользователям. Спама на блогспоте почему-то нету.</div>
+</div>
+</div>
+]]></content>
+  </entry>
+  
+</feed>
