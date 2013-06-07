@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Citrix XenServer and XenCenter hints - Alex Belozerov Blog</title>
+  <title>Category: TransactionScope - Alex Belozerov Blog</title>
   <meta name="author" content="Alex Belozerov">
 
   
-  <meta name="description" content="Настраивал дома Citrix XenServer 6.1 через Citrix XenCenter и столкнулся с парой проблем. Пишу пост для того, чтобы самому второй раз долго не искать &hellip;">
+  <meta name="description" content="Category: TransactionScope">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://abelozerov.com/blog/2012/12/15/citrix-xenserver-hints/">
+  <link rel="canonical" href="http://abelozerov.comblog/categories/transactionscope/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -77,130 +77,36 @@
   <div id="main">
     <div id="content">
       <div>
-<article class="hentry" role="article">
+<article role="article">
   
   <header>
-    
-      <h1 class="entry-title">Citrix XenServer and XenCenter Hints</h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-12-15T19:44:00+07:00" pubdate data-updated="true">Dec 15<span>th</span>, 2012</time>
-        
-      </p>
+    <h1 class="entry-title">Category: TransactionScope</h1>
     
   </header>
-
-
-<div class="entry-content"><p>Настраивал дома Citrix XenServer 6.1 через Citrix XenCenter и столкнулся с парой проблем. Пишу пост для того, чтобы самому второй раз долго не искать решения, и может помогу еще кому-нибудь сэкономить время.</p>
-
-<!-- more -->
-
-
-<h3>Как настроить автозапуск виртуальных машин при старте сервера?</h3>
-
-<p>Рекомендую сначала объединить виртуальные машины в vApp, чтобы было проще потом рулить автозапуском путем простого добавления или удаления виртуальной машины из соответствующего vApp.</p>
-
-<p>После создания vApp необходимо узнать его UUID. Сделать это можно в консоли XenServer с помощью команды:</p>
-
-<pre><code>xe appliance-list
-</code></pre>
-
-<p>Потом редактируете файл <code>/etc/rc.local</code>, добавляете в конец:</p>
-
-<pre><code>sleep 30
-/opt/xensource/bin/xe appliance-start uuid=YOUR_UUID
-</code></pre>
-
-<p>Все. Теперь после запуска XenServer через 30 секунд стартуют виртуальные машины из вашего vApp.
-(величину sleep подобрать опытным путем, если сделаете слишком мало, vApp не будет стартовать)</p>
-
-<h3>Как приаттичить физический жесткий диск к виртуальной машине?</h3>
-
-<p>Из XenCenter очень легко присоединить к виртуальной машине removable накопители через меню Storage, к сожалению это не относится к внутренним жестким дискам. Но можно сделать так, чтобы внутренние HDD также оказались в списке removable накопителей :)</p>
-
-<p>Редактируем файл <code>/etc/udev/rules.d/50-udev.rules</code>, добавляем строки:</p>
-
-<pre><code>ACTION=="add", KERNEL=="sdb", SYMLINK+="xapi/block/%k", RUN+="/bin/sh -c '/opt/xensource/libexec/local-device-change %k 2&gt;&amp;1 &gt;/dev/null&amp;'"
-ACTION=="remove", KERNEL=="sdb", RUN+="/bin/sh -c '/opt/xensource/libexec/local-device-change %k 2&gt;&amp;1 &gt;/dev/null&amp;'"
-</code></pre>
-
-<p>Теперь внутренние HDD отображаются как removable SCSI диски, можно их присоединять к виртуальным машинам.</p>
-</div>
-
-
-  <footer>
-    <p class="meta">
-      
   
-
-<span class="byline author vcard">Posted by <span class="fn">Alex Belozerov</span></span>
-
-      
-
-
-
-
-
+  <div id="blog-archives" class="category">
 
 
 
   
+  <h2>2013</h2>
+
+<article>
+  
+<h1><a href="/blog/2013/06/08/ispolzovaniie-entity-framework-i-membership-provider-v-iedinoi-tranzaktsii/">Использование Entity Framework и Membership Provider в единой транзакции</a></h1>
+<time datetime="2013-06-08T01:41:00+07:00" pubdate><span class='month'>Jun</span> <span class='day'>08</span> <span class='year'>2013</span></time>
+
+<footer>
+  <span class="categories">posted in <a class='category' href='/blog/categories/-net/'>.NET</a>, <a class='category' href='/blog/categories/entityframework/'>EntityFramework</a>, <a class='category' href='/blog/categories/transactionscope/'>TransactionScope</a>, <a class='category' href='/blog/categories/Программирование/'>Программирование</a></span>
+</footer>
 
 
-<time datetime="2012-12-15T19:44:00+07:00" pubdate data-updated="true">Dec 15<span>th</span>, 2012</time>
-      
-
-<span class="categories">
-  
-    <a class='category' href='/blog/categories/citrix-xencenter/'>citrix xencenter</a>, <a class='category' href='/blog/categories/citrix-xenserver/'>citrix xenserver</a>, <a class='category' href='/blog/categories/xen/'>xen</a>, <a class='category' href='/blog/categories/системное-администрирование/'>системное администрирование</a>
-  
-</span>
-
-
-    </p>
-    
-      <div class="sharing">
-  
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://abelozerov.com/blog/2012/12/15/citrix-xenserver-hints/" data-via="abelozerov" data-counturl="http://abelozerov.com/blog/2012/12/15/citrix-xenserver-hints/" >Tweet</a>
-  
-  
-  <div class="g-plusone" data-size="medium"></div>
-  
-  
-    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
-  
-</div>
-
-    
-    <p class="meta">
-      
-        <a class="basic-alignment left" href="/blog/2012/09/08/biznies-plan-sdacha-kvartiry-v-ariendu/" title="Previous Post: Бизнес-план "Сдача квартиры в аренду"">&laquo; Бизнес-план "Сдача квартиры в аренду"</a>
-      
-      
-        <a class="basic-alignment right" href="/blog/2013/06/08/ispolzovaniie-entity-framework-i-membership-provider-v-iedinoi-tranzaktsii/" title="Next Post: Использование Entity Framework и Membership Provider в единой транзакции">Использование Entity Framework и Membership Provider в единой транзакции &raquo;</a>
-      
-    </p>
-  </footer>
 </article>
 
-  <section>
-    <h1>Comments</h1>
-    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 </div>
-  </section>
+
+  
+</article>
 
 </div>
 
@@ -282,10 +188,7 @@ ACTION=="remove", KERNEL=="sdb", RUN+="/bin/sh -c '/opt/xensource/libexec/local-
       var disqus_shortname = 'abelozerov';
       
         
-        // var disqus_developer = 1;
-        var disqus_identifier = 'http://abelozerov.com/blog/2012/12/15/citrix-xenserver-hints/';
-        var disqus_url = 'http://abelozerov.com/blog/2012/12/15/citrix-xenserver-hints/';
-        var disqus_script = 'embed.js';
+        var disqus_script = 'count.js';
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;

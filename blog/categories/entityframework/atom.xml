@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: EntityFramework | Alex Belozerov Blog]]></title>
+  <link href="http://abelozerov.com/blog/categories/entityframework/atom.xml" rel="self"/>
+  <link href="http://abelozerov.com/"/>
+  <updated>2013-06-08T01:55:51+07:00</updated>
+  <id>http://abelozerov.com/</id>
+  <author>
+    <name><![CDATA[Alex Belozerov]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Использование Entity Framework и Membership Provider в единой транзакции]]></title>
+    <link href="http://abelozerov.com/blog/2013/06/08/ispolzovaniie-entity-framework-i-membership-provider-v-iedinoi-tranzaktsii/"/>
+    <updated>2013-06-08T01:41:00+07:00</updated>
+    <id>http://abelozerov.com/blog/2013/06/08/ispolzovaniie-entity-framework-i-membership-provider-v-iedinoi-tranzaktsii</id>
+    <content type="html"><![CDATA[<p>На проекте используются стандартные ASP.NET Providers: Membership, Roles, плюс к этому есть таблица ProfileCore, в которой хранятся некоторые данные профиля. Доступ к базе осуществляется через Entity Framework 5. Весь этот коктейль абстагирован в едином классе User:</p>
+
+<pre><code>public class User
+{
+    // from Membership provider
+    public string UserName { get; set; }
+
+    // from ProfileCore table
+    public string FirstName { get; set; }
+    public string LastName { get; set; }
+
+    // from Roles provider
+    public List&lt;string&gt; Roles { get; set; }
+    ...
+}
+</code></pre>
+
+<h4>Задача</h4>
+
+<p>Сделать операции с User атомарными, т.е. сохранять данные объекта User в единой транзакции</p>
+
+<!-- more -->
+
+
+<h4>TransactionScope</h4>
+
+<p>В .NET существует класс System.Transactions.TransactionScope, представляющий собой высокоуровневую транзакцию. Работает на уровне соединения с базой данных, т.е. все операции с базой, проводимые в одном TransactionScope, вне зависимости от используемых инструментов, будь про Providers, LINQ to SQL, Entity Framework, ADO.NET и их смесь, выполняются в единой транзакции, <strong>при условии, что используется одно и то же соединение с базой данных</strong>:</p>
+
+<pre><code>using (TransactionScope trans = new TransactionScope())
+{
+    // Some stuff
+    ...
+    trans.Complete();
+}
+</code></pre>
+
+<p>К сожалению, Entity Framework использует свой тип Connection String, и для одновременной работы EF и Providers нужны 2 разных Connection String, даже если по сути они коннектятся к одной и той же базе. Обычно это выглядит так:</p>
+
+<pre><code>&lt;connectionStrings&gt;
+    &lt;add name="CSMembership" connectionString="…" providerName="System.Data.SqlClient" /&gt;
+    &lt;add name="CSContext" connectionString="metadata=res://*/….csdl|res://*/….ssdl|res://*/….msl;provider=System.Data.SqlClient;provider connection string=…" providerName="System.Data.EntityClient" /&gt;
+&lt;/connectionStrings&gt;
+</code></pre>
+
+<p>Поэтому, если внутри TransactionScope работать с EF объектами как обычно, <code>trans.Complete()</code> на большинстве машин выдаст вам следующие ошибки:</p>
+
+<pre><code>The underlying provider failed on Open
+
+MSDTC on server 'SERVER_NAME' is unavailable
+</code></pre>
+
+<h4>Решение</h4>
+
+<p>Выход из ситуации - перед открытием транзакции принудительно открыть новый Connection и сделать так, чтобы его использовали и Providers, и Entity Framework:</p>
+
+<pre><code>MetadataWorkspace workspace = new MetadataWorkspace(
+    new string[] { "res://*/" },
+    new Assembly[] { Assembly.GetAssembly(typeof(CSContext)) });
+
+var connectionString = ConfigurationManager.ConnectionStrings["CSMembership"].ToString();
+
+using (TransactionScope trans = new TransactionScope())
+{
+    using (SqlConnection sqlConnection = new SqlConnection(connectionString))
+    using (EntityConnection entityConnection = new EntityConnection(workspace, sqlConnection))
+    using (var context = new CSContext(entityConnection, false))
+    {
+        context.Database.Connection.ConnectionString = connectionString;
+
+        // Some stuff
+        ...
+        trans.Complete();
+    }
+}
+</code></pre>
+
+<p>Что происходит: мы собираем для Entity Framework новый EntityConnection на основе существующего и уже открытого SqlConnection, которым пользуются Providers, и создаем контекст на его основе. Теперь внутри TransactionScope единый Connection, и все работает как надо!</p>
+
+<p>Буду рад ответить на любые вопросы по теме в комментариях.</p>
+]]></content>
+  </entry>
+  
+</feed>
