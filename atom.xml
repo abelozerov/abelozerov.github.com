@@ -4,7 +4,7 @@
   <title><![CDATA[Alex Belozerov Blog]]></title>
   <link href="http://abelozerov.com/atom.xml" rel="self"/>
   <link href="http://abelozerov.com/"/>
-  <updated>2013-06-08T01:55:51+07:00</updated>
+  <updated>2013-06-29T01:56:57+07:00</updated>
   <id>http://abelozerov.com/</id>
   <author>
     <name><![CDATA[Alex Belozerov]]></name>
@@ -158,7 +158,7 @@ ACTION=="remove", KERNEL=="sdb", RUN+="/bin/sh -c '/opt/xensource/libexec/local-
 
 <p>Сделал в Google Docs Spreadsheet с нужными параметрами и вычислениями:</p>
 
-<iframe width='405' height='580' frameborder='0' src='https://docs.google.com/spreadsheet/pub?key=0Ao3qRR96-PXRdEFTY1Yxc1c5eEpmUmtZQzN4bEVOaXc&single=true&gid=0&range=A1%3AB29&output=html'></iframe>
+<iframe width='405' height='665' frameborder='0' src='https://docs.google.com/spreadsheet/pub?key=0Ao3qRR96-PXRdEFTY1Yxc1c5eEpmUmtZQzN4bEVOaXc&single=true&gid=0&range=A1%3AB34&output=html'></iframe>
 
 
 <p>Я добавил в документ амортизационные расходы. Что это? Мебель, бытовая техника и ремонт со временем приходят в негодность, поэтому хорошо бы также закладывать расходы на обновление этих компонентов, я исходил из расчета что все это придется купить заново через 100 месяцев пользования. Это и есть амортизационные расходы.</p>
@@ -166,6 +166,9 @@ ACTION=="remove", KERNEL=="sdb", RUN+="/bin/sh -c '/opt/xensource/libexec/local-
 <p>Из расчетов выходит, что все вполне реально, даже если не учитывать рост стоимости аренды. А с ростом стоимость аренды на 3 т.р. покроются и амортизационные расходы.</p>
 
 <p>Документ лежит в свободном доступе <a href="https://docs.google.com/spreadsheet/ccc?key=0Ao3qRR96-PXRdEFTY1Yxc1c5eEpmUmtZQzN4bEVOaXc">здесь</a>. Можете его копировать и использовать в своих целях. Буду очень рад любым отзывам, поправкам и замечаниям по цифрам и формулам, вашим бизнес-планам. Также интересно будет узнать, был ли у кого-нибудь из читателей подобный опыт инвестиций в недвижимость в прошлом, и что из этого вышло.</p>
+
+<p><strong>ОБНОВЛЕНИЕ 29.06.2013</strong><br/>
+Добавил сравнение с депозитом в банке</p>
 ]]></content>
   </entry>
   
