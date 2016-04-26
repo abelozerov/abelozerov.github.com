@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Программирование | Alex Belozerov Blog]]></title>
   <link href="http://abelozerov.com/blog/categories/Программирование/atom.xml" rel="self"/>
   <link href="http://abelozerov.com/"/>
-  <updated>2013-06-29T01:57:13+07:00</updated>
+  <updated>2016-04-26T23:30:21+06:00</updated>
   <id>http://abelozerov.com/</id>
   <author>
     <name><![CDATA[Alex Belozerov]]></name>
@@ -149,7 +149,7 @@ to Corba<br />1) Репозиторий не пишется, он генерит
     <updated>2009-12-19T15:52:00+06:00</updated>
     <id>http://abelozerov.com/blog/2009/12/19/stringformat</id>
     <content type="html"><![CDATA[<div class='post'>
-Метод String.Format() позволяет вставлять значения переменных внутрь строки в места, помеченные с помощью фигурных скобок и индекса, например:<br /><br /><pre class="c-sharp" name="code">string.Format("My name is {0}", name);</pre><br />Но если в строке есть фигурные скобки, не относящиеся к местам подстановки переменных, вы получите Exception при компиляции, т.к. компилятор думает что всё что стоит между открывающей и закрывающей скобками является индексом.<br /><br /><pre class="c-sharp" name="code">string.Format("{name}={0}", name); // Exception</pre><br />Существует простое решение, как вставить в строку фигурную скобку: нужно написать ее 2 раза: {{ или }}<br /><br /><pre class="c-sharp" name="code">string name = "Alex";<br />string formattedStr = string.Format("{{name}}={0}", name); // no exception<br /></pre><br />В итоге в примере formattedStr будет равно "{name}=Alex"</div>
+Метод String.Format() позволяет вставлять значения переменных внутрь строки в места, помеченные с помощью фигурных скобок и индекса, например:<br /><br /><pre class="c-sharp" name="code">string.Format("My name is {0}", name);</pre><br />Но если в строке есть фигурные скобки, не относящиеся к местам подстановки переменных, вы получите Exception при компиляции, т.к. компилятор думает что всё что стоит между открывающей и закрывающей скобками является индексом.<br /><br /><pre class="c-sharp" name="code">string.Format("{name}={0}", name); // Exception</pre><br />Существует простое решение, как вставить в строку фигурную скобку: нужно написать ее 2 раза: <br /><br /><pre class="c-sharp" name="code">string name = "Alex";<br />string formattedStr = string.Format("={0}", name); // no exception<br /></pre><br />В итоге в примере formattedStr будет равно "{name}=Alex"</div>
 
 
 <!-- more -->

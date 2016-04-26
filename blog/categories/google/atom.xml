@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Google | Alex Belozerov Blog]]></title>
   <link href="http://abelozerov.com/blog/categories/google/atom.xml" rel="self"/>
   <link href="http://abelozerov.com/"/>
-  <updated>2013-06-29T01:57:13+07:00</updated>
+  <updated>2016-04-26T23:30:21+06:00</updated>
   <id>http://abelozerov.com/</id>
   <author>
     <name><![CDATA[Alex Belozerov]]></name>
@@ -38,7 +38,7 @@
 </ol>
 
 
-<p>{% img /images/2012/09/08/dhcp.png Настройки роутера для победы над Ошибкой 126 ERR_SSL_BAD_RECORD_MAC_ALERT %}</p>
+<p><img src="/images/2012/09/08/dhcp.png" title="Настройки роутера для победы над Ошибкой 126 ERR_SSL_BAD_RECORD_MAC_ALERT" ></p>
 
 <p>Попробуйте, надеюсь вам тоже поможет!</p>
 ]]></content>
