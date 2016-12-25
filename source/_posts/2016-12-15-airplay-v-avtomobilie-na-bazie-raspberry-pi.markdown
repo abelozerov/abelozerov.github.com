@@ -201,4 +201,4 @@ categories:
 
 	amixer cset numid=3 1
 
-(0=auto, 1=headphones, 2=hdm)
+(0=auto, 1=headphones, 2=hdmi)
