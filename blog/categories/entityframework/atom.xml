@@ -4,7 +4,7 @@
   <title><![CDATA[Category: EntityFramework | Alex Belozerov Blog]]></title>
   <link href="http://abelozerov.com/blog/categories/entityframework/atom.xml" rel="self"/>
   <link href="http://abelozerov.com/"/>
-  <updated>2016-05-04T11:31:37+06:00</updated>
+  <updated>2016-12-25T14:49:46+03:00</updated>
   <id>http://abelozerov.com/</id>
   <author>
     <name><![CDATA[Alex Belozerov]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[Использование Entity Framework и Membership Provider в единой транзакции]]></title>
     <link href="http://abelozerov.com/blog/2013/06/08/ispolzovaniie-entity-framework-i-membership-provider-v-iedinoi-tranzaktsii/"/>
-    <updated>2013-06-08T01:41:00+07:00</updated>
+    <updated>2013-06-08T01:41:00+04:00</updated>
     <id>http://abelozerov.com/blog/2013/06/08/ispolzovaniie-entity-framework-i-membership-provider-v-iedinoi-tranzaktsii</id>
     <content type="html"><![CDATA[<p>На проекте используются стандартные ASP.NET Providers: Membership, Roles, плюс к этому есть таблица ProfileCore, в которой хранятся некоторые данные профиля. Доступ к базе осуществляется через Entity Framework 5. Весь этот коктейль абстагирован в едином классе User:</p>
 

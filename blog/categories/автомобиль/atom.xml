@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: автомобиль | Alex Belozerov Blog]]></title>
+  <link href="http://abelozerov.com/blog/categories/автомобиль/atom.xml" rel="self"/>
+  <link href="http://abelozerov.com/"/>
+  <updated>2016-12-25T14:49:46+03:00</updated>
+  <id>http://abelozerov.com/</id>
+  <author>
+    <name><![CDATA[Alex Belozerov]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[AirPlay в автомобиле на базе Raspberry Pi Model B]]></title>
+    <link href="http://abelozerov.com/blog/2016/12/25/airplay-v-avtomobilie-na-bazie-raspberry-pi/"/>
+    <updated>2016-12-25T14:49:00+03:00</updated>
+    <id>http://abelozerov.com/blog/2016/12/25/airplay-v-avtomobilie-na-bazie-raspberry-pi</id>
+    <content type="html"><![CDATA[<p>Возникло желание получить возможность слушать Apple Music с телефона на аудиосистеме автомобиля. Для реализации своего желания решил сделать AirPlay устройство на базе Raspberry Pi, которое будет выводить звук в порт AUX</p>
+
+<p><strong>Приборы и материалы:</strong></p>
+
+<ul>
+<li>Raspberry Pi Model B + SD карта</li>
+<li>USB WiFi карточка Edimax EW-7811UN</li>
+<li>Зарядка в прикуриватель Philips DLP2357V/51</li>
+<li>USB - micro USB кабель для зарядки</li>
+<li>3.5 minijack - 3.5 minijack кабель для звука</li>
+</ul>
+
+
+<p><img src="/images/2016/12/25/pi.jpg" title="Awesome!" ></p>
+
+<p><strong>Задача:</strong></p>
+
+<p>Для работы AirPlay, источник и приемник сигнала должны находиться в одной WiFi сети. Поэтому iPhone должен видеть Raspberry Pi как WiFi точку доступа, при подключении к которой в списке AirPlay устройств в телефоне должно появиться новое устройство. При этом WiFi сеть обязана использоваться исключительно для передачи данных на AirPlay, в интернет телефон должен по-прежнему ходить через мобильную сеть</p>
+
+<p><strong>Поехали:</strong></p>
+
+<!-- more -->
+
+
+<ul>
+<li>Скачиваем последний <a href="https://www.raspberrypi.org/downloads/raspbian/">Raspbian Jessie Lite</a>, заливаем на SD карту</li>
+<li><p>У меня нет монитора, мышки и клавиатуры, поэтому всю настройку Raspberry Pi я будут проводить через SSH. Для того, чтобы включить возможность SSH подключения, нужно создать пустой файл с названием <code>ssh</code> в корне SD карты. <a href="https://www.raspberrypi.org/documentation/remote-access/ssh/">Источник</a></p>
+
+<p>  Hint: первый раз включите Rabpberry Pi без WiFi карты и дождитесь полной загрузки. У меня при установленной WiFi карте перепутались имена сетевых интерфейсов eth0 и wlan0</p></li>
+</ul>
+
+
+<p>Подключаю Raspberry Pi через Ethernet провод к домашней сети, и захожу через SSH:</p>
+
+<pre><code>ssh pi@192.168.x.x
+</code></pre>
+
+<p>Стандартный пароль <code>raspberry</code></p>
+
+<ul>
+<li>AirPlay реализую с помощью <a href="https://github.com/mikebrady/shairport-sync">Shairport Sync</a>, это актуальный поддерживаемый форк оригинального Shairport</li>
+</ul>
+
+
+<p>У него достаточно сложная инструкция по установке, обязательно прочитайте, выложу команды, которые вводил я (включая команду, которой я определял, <code>systemd</code> или <code>System V</code> используется в моем дистрибутиве Linux):</p>
+
+<pre><code>sudo apt-get install git
+sudo apt-get install autoconf libtool libdaemon-dev libasound2-dev libpopt-dev libconfig-dev
+sudo apt-get install avahi-daemon libavahi-client-dev libssl-dev
+mkdir ~/airplay
+cd ~/airplay
+git clone https://github.com/mikebrady/shairport-sync.git
+cd shairport-sync
+autoreconf -i -f
+ps aux | grep systemd | grep -v grep
+./configure --sysconfdir=/etc --with-alsa --with-avahi --with-ssl=openssl --with-metadata --with-systemd
+make
+sudo getent group shairport-sync &amp;&gt;/dev/null || sudo groupadd -r shairport-sync &gt;/dev/null
+getent passwd shairport-sync &amp;&gt; /dev/null || sudo useradd -r -M -g shairport-sync -s /usr/bin/nologin -G audio shairport-sync &gt;/dev/null
+sudo make install
+sudo systemctl enable shairport-sync
+</code></pre>
+
+<p>Поменял настройки в <code>/etc/shairport-sync.conf</code> по рекомендации инструкции по установке, для получения лучших результатов от штатной звуковой карточки в Raspberry Pi:</p>
+
+<pre><code>general
+    volume_range_db=30
+    drift=352
+</code></pre>
+
+<ul>
+<li>Далее настраиваем WiFi карточку</li>
+</ul>
+
+
+<p>Устанавливаем ISC DHCP Server:</p>
+
+<pre><code>sudo apt-get install hostapd isc-dhcp-server
+</code></pre>
+
+<p>Также установим удобный iptables менеджер (во время установки на оба вопроса отвечаем Yes):</p>
+
+<pre><code>sudo apt-get install iptables-persistent
+</code></pre>
+
+<p>Далее отредактируем <code>/etc/dhcp/dhcpd.conf</code>:</p>
+
+<pre><code>sudo nano /etc/dhcp/dhcpd.conf
+</code></pre>
+
+<p>Найдем строчки:</p>
+
+<pre><code>option domain-name "example.org";
+option domain-name-servers ns1.example.org, ns2.example.org;
+</code></pre>
+
+<p>И закомментируем их:</p>
+
+<pre><code>#option domain-name "example.org";
+#option domain-name-servers ns1.example.org, ns2.example.org;
+</code></pre>
+
+<p>Найдем:</p>
+
+<pre><code># If this DHCP server is the official DHCP server for the local
+# network, the authoritative directive should be uncommented.
+#authoritative;
+</code></pre>
+
+<p>И раскомментируем:</p>
+
+<pre><code># If this DHCP server is the official DHCP server for the local
+# network, the authoritative directive should be uncommented.
+authoritative;
+</code></pre>
+
+<p>Добавляем в конец файла:</p>
+
+<pre><code>subnet 192.168.42.0 netmask 255.255.255.0 {
+    range 192.168.42.10 192.168.42.50;
+    option broadcast-address 192.168.42.255;
+    option routers 192.168.42.1;
+    default-lease-time 600;
+    max-lease-time 7200;
+}
+</code></pre>
+
+<p>Здесь краеугольный камень в том, что мы не добавляем адреса DNS-серверов (например <code>option domain-name-servers 8.8.8.8, 8.8.4.4</code>), в результате телефон не будет использовать эту WiFi сеть для доступа в интернет</p>
+
+<p>Редактируем <code>sudo nano /etc/default/isc-dhcp-server</code></p>
+
+<pre><code>sudo nano /etc/default/isc-dhcp-server
+</code></pre>
+
+<p>Находим <code>INTERFACES=""</code> и меняем на</p>
+
+<pre><code>INTERFACES="wlan0"
+</code></pre>
+
+<p>Далее на время редактирование выключаем <code>wlan0</code></p>
+
+<pre><code>sudo ifdown wlan0
+</code></pre>
+
+<p>Редактируем <code>/etc/network/interfaces</code></p>
+
+<pre><code>sudo nano /etc/network/interfaces
+</code></pre>
+
+<p>Комментируем все строки, относящиеся к <code>wlan0</code>, и добавляем свои:</p>
+
+<pre><code>allow-hotplug wlan0
+iface wlan0 inet static
+    address 192.168.42.1
+    netmask 255.255.255.0
+</code></pre>
+
+<p>Задаем WiFi адаптеру статический IP:</p>
+
+<pre><code>sudo ifconfig wlan0 192.168.42.1
+</code></pre>
+
+<ul>
+<li>Кофигурируем WiFi карточку как Access Point</li>
+</ul>
+
+
+<p>Редактируем <code>/etc/hostapd/hostapd.conf</code></p>
+
+<pre><code>sudo nano /etc/hostapd/hostapd.conf
+</code></pre>
+
+<p>Добавляем:</p>
+
+<pre><code>interface=wlan0
+ssid=Pi_AP
+country_code=US
+hw_mode=g
+channel=6
+macaddr_acl=0
+auth_algs=1
+ignore_broadcast_ssid=0
+wpa=2
+wpa_passphrase=Raspberry
+wpa_key_mgmt=WPA-PSK
+wpa_pairwise=CCMP
+wpa_group_rekey=86400
+ieee80211n=1
+wme_enabled=1
+</code></pre>
+
+<p>Редактируем <code>/etc/default/hostapd</code></p>
+
+<pre><code>sudo nano /etc/default/hostapd
+</code></pre>
+
+<p>Меняем строку <code>#DAEMON_CONF=""</code> на</p>
+
+<pre><code>DAEMON_CONF="/etc/hostapd/hostapd.conf"
+</code></pre>
+
+<p>Далее аналогично в <code>/etc/init.d/hostapd</code></p>
+
+<pre><code>sudo nano /etc/init.d/hostapd
+</code></pre>
+
+<p>Меняем <code>DAEMON_CONF=</code> на</p>
+
+<pre><code>DAEMON_CONF=/etc/hostapd/hostapd.conf
+</code></pre>
+
+<p>Готово! Проверяем:</p>
+
+<pre><code>sudo /usr/sbin/hostapd /etc/hostapd/hostapd.conf
+</code></pre>
+
+<p><strong>Итоги:</strong></p>
+
+<p>Работает как запланировано!
+Правда качеством звука встроенного в Pi аналогового выхода я не доволен - много шумов, заказал I2S звуковую карточку :)</p>
+
+<p><strong>FAQ</strong></p>
+
+<p><strong><em> Как проверить звук на аудиовыходе? </em></strong></p>
+
+<pre><code>speaker-test -t sine
+</code></pre>
+
+<p><strong><em> Как принудительно выбрать аналоговый выход для вывода звука? </em></strong></p>
+
+<pre><code>amixer cset numid=3 1
+</code></pre>
+
+<p>(0=auto, 1=headphones, 2=hdm)</p>
+]]></content>
+  </entry>
+  
+</feed>

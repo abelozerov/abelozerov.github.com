@@ -4,7 +4,7 @@
   <title><![CDATA[Category: blog | Alex Belozerov Blog]]></title>
   <link href="http://abelozerov.com/blog/categories/blog/atom.xml" rel="self"/>
   <link href="http://abelozerov.com/"/>
-  <updated>2016-05-04T11:31:37+06:00</updated>
+  <updated>2016-12-25T14:49:46+03:00</updated>
   <id>http://abelozerov.com/</id>
   <author>
     <name><![CDATA[Alex Belozerov]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[Octopress hello world!]]></title>
     <link href="http://abelozerov.com/blog/2012/08/26/octopress-hello-world/"/>
-    <updated>2012-08-26T15:21:00+07:00</updated>
+    <updated>2012-08-26T15:21:00+04:00</updated>
     <id>http://abelozerov.com/blog/2012/08/26/octopress-hello-world</id>
     <content type="html"><![CDATA[<p>Я перевел свой блог с Blogger'а на движок <a href="http://octopress.org/">Octopress</a>.</p>
 

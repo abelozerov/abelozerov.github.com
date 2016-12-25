@@ -2,92 +2,98 @@
 <urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>
     <url>
         <loc>http://abelozerov.com/blog/2009/05/30/blog-post/</loc>
-        <lastmod>2013-07-21T21:03:08+07:00</lastmod>
+        <lastmod>2013-07-21T18:03:08+04:00</lastmod>
     </url>
     <url>
         <loc>http://abelozerov.com/blog/2009/09/26/aspnet-redirect-querystring/</loc>
-        <lastmod>2013-07-21T21:03:08+07:00</lastmod>
+        <lastmod>2013-07-21T18:03:08+04:00</lastmod>
     </url>
     <url>
-        <loc>http://abelozerov.com/blog/2009/10/20/iphone/</loc>
-        <lastmod>2013-07-21T21:03:08+07:00</lastmod>
+        <loc>http://abelozerov.com/blog/2009/10/19/iphone/</loc>
+        <lastmod>2013-07-21T18:03:08+04:00</lastmod>
     </url>
     <url>
         <loc>http://abelozerov.com/blog/2009/12/19/stringformat/</loc>
-        <lastmod>2013-07-21T21:03:08+07:00</lastmod>
+        <lastmod>2013-07-21T18:03:08+04:00</lastmod>
     </url>
     <url>
         <loc>http://abelozerov.com/blog/2010/04/01/updatepanel/</loc>
-        <lastmod>2013-07-21T21:03:08+07:00</lastmod>
+        <lastmod>2013-07-21T18:03:08+04:00</lastmod>
     </url>
     <url>
         <loc>http://abelozerov.com/blog/2010/05/16/firefox/</loc>
-        <lastmod>2013-07-21T21:03:08+07:00</lastmod>
+        <lastmod>2013-07-21T18:03:08+04:00</lastmod>
     </url>
     <url>
         <loc>http://abelozerov.com/blog/2010/06/01/macos-x/</loc>
-        <lastmod>2013-07-21T21:03:08+07:00</lastmod>
+        <lastmod>2013-07-21T18:03:08+04:00</lastmod>
     </url>
     <url>
         <loc>http://abelozerov.com/blog/2010/07/03/sennheiser/</loc>
-        <lastmod>2013-07-21T21:03:08+07:00</lastmod>
+        <lastmod>2013-07-21T18:03:08+04:00</lastmod>
     </url>
     <url>
-        <loc>http://abelozerov.com/blog/2011/01/08/nhibernate-fluent-nhibernate/</loc>
-        <lastmod>2013-07-21T21:03:09+07:00</lastmod>
+        <loc>http://abelozerov.com/blog/2011/01/07/nhibernate-fluent-nhibernate/</loc>
+        <lastmod>2013-07-21T18:03:09+04:00</lastmod>
     </url>
     <url>
         <loc>http://abelozerov.com/blog/2011/04/18/ufo-two-sides/</loc>
-        <lastmod>2013-07-21T21:03:09+07:00</lastmod>
+        <lastmod>2013-07-21T18:03:09+04:00</lastmod>
     </url>
     <url>
         <loc>http://abelozerov.com/blog/2011/08/15/google-developer-day-challenge-2011/</loc>
-        <lastmod>2013-07-21T21:03:09+07:00</lastmod>
+        <lastmod>2013-07-21T18:03:09+04:00</lastmod>
     </url>
     <url>
-        <loc>http://abelozerov.com/blog/2011/10/21/gdd-2011-gtugs-day-2011/</loc>
-        <lastmod>2013-07-21T21:03:09+07:00</lastmod>
+        <loc>http://abelozerov.com/blog/2011/10/20/gdd-2011-gtugs-day-2011/</loc>
+        <lastmod>2013-07-21T18:03:09+04:00</lastmod>
     </url>
     <url>
         <loc>http://abelozerov.com/blog/2012/08/26/octopress-hello-world/</loc>
-        <lastmod>2013-07-21T21:03:09+07:00</lastmod>
+        <lastmod>2013-07-21T18:03:09+04:00</lastmod>
     </url>
     <url>
         <loc>
             http://abelozerov.com/blog/2012/08/26/kak-ia-pieriekhodil-s-blogger-na-octopress/
         </loc>
-        <lastmod>2013-07-21T21:03:09+07:00</lastmod>
+        <lastmod>2013-07-21T18:03:09+04:00</lastmod>
     </url>
     <url>
         <loc>
             http://abelozerov.com/blog/2012/09/08/rieshieniie-probliemy-s-google-i-dom-dot-ru/
         </loc>
-        <lastmod>2013-07-21T21:03:09+07:00</lastmod>
+        <lastmod>2013-07-21T18:03:09+04:00</lastmod>
     </url>
     <url>
         <loc>http://abelozerov.com/blog/2012/09/08/biznies-plan-sdacha-kvartiry-v-ariendu/</loc>
-        <lastmod>2014-06-25T17:40:24+07:00</lastmod>
+        <lastmod>2014-06-25T14:40:24+04:00</lastmod>
     </url>
     <url>
         <loc>http://abelozerov.com/blog/2012/12/15/citrix-xenserver-hints/</loc>
-        <lastmod>2013-07-21T21:03:09+07:00</lastmod>
+        <lastmod>2013-07-21T18:03:09+04:00</lastmod>
     </url>
     <url>
         <loc>
             http://abelozerov.com/blog/2013/06/08/ispolzovaniie-entity-framework-i-membership-provider-v-iedinoi-tranzaktsii/
         </loc>
-        <lastmod>2013-07-21T21:03:09+07:00</lastmod>
+        <lastmod>2013-07-21T18:03:09+04:00</lastmod>
     </url>
     <url>
         <loc>http://abelozerov.com/blog/2016/04/26/sheregesh/</loc>
-        <lastmod>2016-05-04T11:30:31+06:00</lastmod>
+        <lastmod>2016-05-04T08:30:31+03:00</lastmod>
+    </url>
+    <url>
+        <loc>
+            http://abelozerov.com/blog/2016/12/25/airplay-v-avtomobilie-na-bazie-raspberry-pi/
+        </loc>
+        <lastmod>2016-12-25T14:49:30+03:00</lastmod>
     </url>
     <url>
         <loc>http://abelozerov.com/blog/archives/</loc>
-        <lastmod>2016-05-04T11:30:31+06:00</lastmod>
+        <lastmod>2016-12-25T14:49:30+03:00</lastmod>
     </url>
     <url>
         <loc>http://abelozerov.com/</loc>
-        <lastmod>2016-05-04T11:30:31+06:00</lastmod>
+        <lastmod>2016-12-25T14:49:30+03:00</lastmod>
     </url>
 </urlset>

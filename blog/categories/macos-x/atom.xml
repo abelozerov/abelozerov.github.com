@@ -4,7 +4,7 @@
   <title><![CDATA[Category: MacOS X | Alex Belozerov Blog]]></title>
   <link href="http://abelozerov.com/blog/categories/macos-x/atom.xml" rel="self"/>
   <link href="http://abelozerov.com/"/>
-  <updated>2016-05-04T11:31:37+06:00</updated>
+  <updated>2016-12-25T14:49:46+03:00</updated>
   <id>http://abelozerov.com/</id>
   <author>
     <name><![CDATA[Alex Belozerov]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[Переключение аудиоустройства в MacOS X]]></title>
     <link href="http://abelozerov.com/blog/2010/06/01/macos-x/"/>
-    <updated>2010-06-01T21:04:00+07:00</updated>
+    <updated>2010-06-01T18:04:00+04:00</updated>
     <id>http://abelozerov.com/blog/2010/06/01/macos-x</id>
     <content type="html"><![CDATA[<div class='post'>
 Работая с маковской ОС, иногда находишь совершенно гениальные фишки, о которых ты мог только мечтать в Windows.<br /><br />В MacOS X можно очень удобно и быстро переключить входное и выходное аудиоустройство: для этого нужно кликнуть по иконке со спикером на панели задач с зажатой клавишей Option. Вуаля:<br /><br /><div class="separator" style="clear: both; text-align: center;"><a href="http://1.bp.blogspot.com/_Y-VHRlKoRnE/TAUSYfpwEWI/AAAAAAAAA7c/piF49UEcSF4/s1600/audio+device+change.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" src="http://1.bp.blogspot.com/_Y-VHRlKoRnE/TAUSYfpwEWI/AAAAAAAAA7c/piF49UEcSF4/s320/audio+device+change.png" /></a></div><br />В винде начиная с Vista приходится лезть в панель управления, во вкладку "Звук" и далее...<br /><b>Update:</b> можно проще:&nbsp;кликаете правой кнопкой на значке в трее, выбираете из меню "Устройства воспроизведения", и открывается окошко "Звук" со списком устройств. Но в MacOS всё равно лучше :-)</div>
